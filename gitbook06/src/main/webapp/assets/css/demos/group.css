@@ -1,0 +1,306 @@
+.group-req {
+    max-height: 500px;
+    background-color: #fff;
+    margin: 20px 0px;
+    padding: 20px;
+    box-shadow: 5px 5px 5px rgb(231, 230, 230);
+    min-height: 20px;
+}
+.group-search-area {
+    width: 100%;
+}
+
+.group-search-area .group-input-field {
+    background: #f4f4f4;
+    margin: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 0 20px;
+    position: relative;
+    display: inline-block;
+    width: 70%;
+    vertical-align: middle;
+}
+.group-search-area .group-input-field input {
+    font-family: 'Abhaya Libre', serif;
+    margin: 0;
+    border: 0;
+    background: #f4f4f4;
+    color: #848484 !important;
+    padding: 10px 0px;
+}
+.group-search-area .group-input-field i {
+    font-size: 18px;
+    color: #848484 !important;
+    float: right;
+    position: relative;
+    top: 10px;
+    cursor: pointer;
+}
+.group-input-field {
+    margin: 0;
+    outline: none;
+    resize: none;
+    border: 0;
+    box-shadow: none;
+    color: #beced7;
+}
+.group-add-btn {
+    float: right;
+    vertical-align: middle;
+    margin: 10px;
+}
+.a {
+    color: #b2b2b2;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.notifications {
+    background-color: #fff;
+}
+.notifications ul li .media {
+    border-bottom: 1px solid #e0e9ed;
+    padding: 21px;
+    background: #fff;
+    width: 100%;
+}
+.media_body {
+    flex: 1;
+}
+.group-list {
+    list-style: none outside;
+    padding: 0;
+    overflow: auto;
+    height: 300px;
+}
+.notifications ul li .media .media_body .btn_group {
+    float: right;
+    line-height: 1;
+    padding-top: 5px;
+}
+.notifications ul li .media .media_body .btn_group a.kafe-btn-mint {
+    text-align: center;
+    min-width: 70px;
+    padding: 7px 15px;
+    display: inline-block;
+}
+.notifications ul li .media .media_body .btn_group a:hover {
+    color: #fff !important;
+}
+.notifications ul li .media .media_body p span.emp{
+    color: #0fc19e !important;
+}
+.btn-danger {
+    background: #FA5050; 
+    margin-left: 5px;
+}
+.btn-danger:hover {
+    color: #fff !important;
+    background: #ba3434; 
+    text-decoration: none;
+}
+.group-req-title {
+    margin-bottom: 20px;
+}
+.media_body h4:hover {
+    color: #0fc19e;
+}
+.media_body h4 {
+    font-Family: 'Varela Round', 'sans-serif'
+}
+.img {
+    background: url('../../img/bg/10.jpg') no-repeat;
+    background-size: cover;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    color: #fff;
+    height: 300px;
+    width: 100%;
+    position: relative;
+    margin-bottom: 20px;
+}
+.img-cover{
+    position: absolute;
+    height: 100%;
+    width: 20%;
+    background-color: rgba(0, 0, 0, 0.411);                                                                 
+    z-index:1;
+ }
+ .img .content{
+    position: absolute;
+    top:40%;
+    left:10%;
+    transform: translate(-50%, -50%);                                                                   
+    font-size:5rem;
+    color: white;
+    z-index: 2;
+    text-align: center;
+}
+.group-master-area {
+    display: inline;
+}
+.group-master-area .img-fluid {
+    width: 20%;
+    margin: 10px;
+    float: left;  
+}
+.group-master-area .img-circle {
+    width: 20%;
+    margin: 10px;
+    float: left;  
+    vertical-align: middle;
+}
+.group-master-area h4 {
+    color: #3b3b3b;
+    word-break: break-all;
+    vertical-align: middle;
+    margin-top: 5%;
+    margin-left: 25%;
+    line-height: 1.5em;
+}
+.group-icon {
+    color: #0fc19e;
+}
+.group-noti {
+    width: 90%;
+    margin: 20px auto;
+    height: 250px;
+}
+.group-noti .repo {
+    margin-top: 10px;
+    float: left;
+    width: 30%;
+    text-align: center;
+}
+.group-noti .num {
+    float: left;
+    width: 30%;
+    margin-left: 5%;
+    margin-top: 10px;
+    text-align: center;
+}
+.group-noti .date {
+    float: right;
+    width: 30%;
+    margin-top: 10px;
+    text-align: center;
+}
+.group-btn {
+    margin: 30px 0px;
+    width: 20%;
+    float: right;
+}
+.group-box {
+    width: 100%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: inline-block;
+}
+.group-box .suggestions-list {
+    float: left;
+    width: 100%;
+    list-style: none outside;
+    padding: 0;
+    overflow: auto;
+    height: 430px;
+}
+.group-box .suggestion-body {
+    float: left;
+    width: 100%;
+    padding: 5px 20px;
+}
+.group-box .suggestion-body img {
+    width: 37px;
+    height: 37px;
+    float: left; 
+    padding: 2px;  
+    border: 2px solid #f4f4f4;
+}
+.group-box .name-box {
+    float: left;
+    padding-left: 10px;
+    position: relative;
+    top: -12px;
+    padding-top: 0px !important;
+}
+.group-box .name-box h4 {
+   font-family: 'Abhaya Libre', serif;	
+   color: #88898a;
+   font-size: 14px;
+   font-weight: 700;
+   margin-bottom: 4px;
+}
+.group-box .name-box span {
+   font-family: 'Abhaya Libre', serif;
+   font-size: 14px;
+   color: #aaa;
+}
+.group-box .suggestion-body> span {
+    float: right;
+    margin-top: 4px;
+    position: relative;
+    top: -12px;
+}
+.group-box .suggestion-body > span i {
+    color: #b2b2b2;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.group-box .suggestion-body > .invite > i:hover {
+    background-color: #0fc19e;
+    color: #fff;
+    border: none;
+}
+.group-req-setting {
+    max-height: 800px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+    min-height: 20px;
+}
+.group-invite {
+    margin-top: 10px;
+}
+.group-input-field input {
+    width: 90%;
+}
+.group-input-field input:focus {
+    outline: none;
+}
+
+.btn-floating {
+    float: right;
+    color: #fff;
+    padding: 0;
+    width: 45px; height: 45px;
+    outline: 0;
+    border: none;
+    text-decoration: none;
+    background: #0fc19e;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    margin-top: 235px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.btn-floating:hover {
+    background: #fff;
+}
+.btn-floating div {
+    font-size: 1.8em;
+    padding: 0;
+    margin: .22em 0 0 0;
+}
