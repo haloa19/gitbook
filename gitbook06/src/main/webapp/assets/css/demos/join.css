@@ -1,0 +1,53 @@
+/*회원가입*/
+.form-group-join {
+    margin: 10px;
+    color: #333333;
+}
+.form-group-join-btn {
+    margin-left: 15px;
+    margin-bottom: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width:29%;
+   
+}
+.birth_info {
+   height:30px;
+    width: 50px;
+}
+ .birth_label {
+     margin-left: 5px;
+     margin-right: 15px;
+     color: #ffffff;
+ }
+ .chk_info{
+    position: relative;
+  }
+ .chk_info input[type="radio"] + label { 
+   display: inline-block;
+   position: relative;
+   padding-left: 10px; 
+   margin-right: 20px;
+   color: #ffffff;
+   cursor: pointer;
+   -webkit-user-select: none; 
+   -moz-user-select: none;
+   -ms-user-select: none;
+ }
+
+/*아이디, 비밀번호 찾기*/
+.find-id-head {
+  margin-right:50px; 
+  font-size:20px
+}
+.find-pwd-head {
+  color:#0fc19e; 
+  font-size:20px
+}
+.find-act-hr {
+  width:300px;
+  margin-bottom:10px
+}
+.find-pwd-cmt {
+  margin-top:20px
+}
