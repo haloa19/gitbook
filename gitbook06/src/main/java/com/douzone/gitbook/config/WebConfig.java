@@ -26,6 +26,7 @@ import com.douzone.security.AuthInterceptor;
 import com.douzone.security.AuthUserHandlerMethodArgumentResolver;
 import com.douzone.security.LoginInterceptor;
 import com.douzone.security.LogoutInterceptor;
+import com.douzone.security.gitbookInterceptor;
 
 @Configuration
 @PropertySource("classpath:com/douzone/gitbook/config/config.properties")
@@ -64,6 +65,7 @@ public class WebConfig implements WebMvcConfigurer {
 		return new LogoutInterceptor();
 	}
 
+
 	@Bean
 	public HandlerInterceptor authInterceptor() {
 		return new AuthInterceptor();
@@ -74,9 +76,14 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addInterceptor(loginInterceptor()).addPathPatterns(env.getProperty("security.auth-url"));
 
 		registry.addInterceptor(logoutInterceptor()).addPathPatterns(env.getProperty("security.logout-url"));
+		
 
-		registry.addInterceptor(authInterceptor()).addPathPatterns("/**").excludePathPatterns(env.getProperty("security.auth-url"))
-				.excludePathPatterns(env.getProperty("security.logout-url")).excludePathPatterns("/assets/**");
+		registry.addInterceptor(authInterceptor())
+				.addPathPatterns("/**")
+				.excludePathPatterns(env.getProperty("security.auth-url"))
+				.excludePathPatterns(env.getProperty("security.logout-url"))
+				
+				.excludePathPatterns("/assets/**") ;
 	}
 	
 	//Message Converter
