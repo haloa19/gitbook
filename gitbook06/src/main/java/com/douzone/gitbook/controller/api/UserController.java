@@ -13,17 +13,16 @@ import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.UserService;
 
 @Controller("UserApiController")
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
 	@ResponseBody
-	@RequestMapping(value="/checkemail",method=RequestMethod.GET)
+	@RequestMapping(value="/auth",method=RequestMethod.GET)
 	public JsonResult checkEmail(@RequestParam(value="email",required=true, defaultValue="")String email) {
-		//boolean exist = userService.existUser(email);
-		//System.out.println(exist);
+		
 		
 		return JsonResult.success(null);
 	}

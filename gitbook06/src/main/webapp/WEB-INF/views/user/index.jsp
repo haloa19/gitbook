@@ -65,7 +65,7 @@
                     <h1><a href="${pageContext.request.contextPath}">GitBook</a></h1>
      
      
-      <form method="post" class="form-signin" action="${ pageContext.request.contextPath }/user/auth">
+      <form method="post" class="form-signin" action="${ pageContext.request.contextPath }/main">
 		   <h3 class="form-signin-heading"></h3>
 		   <div class="form-group" >
 		    <input name="id" type="text" class="form-control" placeholder="Email"></input>
