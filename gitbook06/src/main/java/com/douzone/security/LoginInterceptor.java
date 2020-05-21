@@ -19,6 +19,13 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
+		HttpSession httpSession = request.getSession(false);
+		UserVo uservo =(UserVo)httpSession.getAttribute("authUser");
+		if(uservo != null) {
+			request.getRequestDispatcher("/WEB-INF/views/main/main.jsp").forward(request, response);
+			return false ;
+		}
+				
 		String id =request.getParameter("id");
 		String password =request.getParameter("password");
 		
@@ -36,17 +43,18 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			request
 			.getRequestDispatcher("/WEB-INF/views/user/index.jsp")
 			.forward(request, response);
+			System.out.println("----------------> authUser:"+authUser);
 			
 			return false;
 		}
+		
 		System.out.println("----------------> authUser:"+authUser);
 
-		
 		// session 처리 
 		HttpSession session = request.getSession(true);
 		session.setAttribute("authUser", authUser);
-		//response.sendRedirect(request.getContextPath());
 		request.getRequestDispatcher("/WEB-INF/views/main/main.jsp").forward(request, response);
+		
 		
 		return false;
 	}
