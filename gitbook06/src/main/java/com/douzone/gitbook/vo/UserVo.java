@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class UserVo {
 	private Long no;
-	
+
 	@Length(min=2, max=8)
 	private String id;
 	

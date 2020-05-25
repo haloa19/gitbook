@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.gitbook.dto.JsonResult;
-import com.douzone.gitbook.service.UserService;
+import com.douzone.gitbook.service.GitService;
 import com.douzone.gitbook.vo.UserVo;
 import com.douzone.security.AuthUser;
 
@@ -26,7 +26,7 @@ import com.douzone.security.AuthUser;
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private GitService userService;
 	
 	@ResponseBody
 	@RequestMapping(value="/auth",method=RequestMethod.GET)
