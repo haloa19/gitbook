@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.UserService;
-import com.douzone.gitbook.vo.FriendVo;
 import com.douzone.gitbook.vo.UserVo;
 import com.douzone.security.AuthUser;
 
