@@ -3,6 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.douzone.gitbook.vo.UserVo"/>
+		<typeAlias alias="friendvo" type="com.douzone.gitbook.vo.FriendVo"/>
 	
 	</typeAliases>
 	<mappers>
