@@ -7,13 +7,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.douzone.gitbook.service.UserService;
+import com.douzone.gitbook.service.GitService;
 import com.douzone.gitbook.vo.UserVo;
 
 public class gitbookInterceptor extends HandlerInterceptorAdapter {
 	
 	@Autowired
-	UserService userService;
+	GitService userService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
