@@ -3,10 +3,12 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.douzone.gitbook.vo.UserVo"/>
+		<typeAlias alias="gitvo" type="com.douzone.gitbook.vo.GitVo"/>
 	
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/mappers/user.xml" />
+		<mapper resource="mybatis/mappers/git.xml" />
 		
 	
 	</mappers>

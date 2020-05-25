@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="git">
+	<select id="findList" parameterType="string" resultType="gitvo">
+		<![CDATA[
+		select a.no,a.user_no as userNo,a.group_no as groupNo,
+			   a.description, a.visible,a.git_name as gitName,
+			   a.reg_date as regDate
+		from git a, user b 
+		where a.user_no = b.no
+		and b.id = #{id}
+		order by reg_date desc;
+		]]>
+	</select>
+
+	<insert id="insertGit" parameterType="gitvo">
+		<![CDATA[
+			insert into git 
+			values(null,#{userNo},null,#{description},#{visible},#{gitName},now())
+		]]>
+	</insert>
+
+	<update id="updateVisible" parameterType="gitvo">
+		<choose>
+			<when test=' visible=="public" '>
+		<![CDATA[
+			update  
+			git set visible='private' 
+			where no=#{no};	
+		]]>
+			</when>
+			<otherwise>
+		<![CDATA[
+			update  git 
+			set visible='public'
+			where no=#{no};	
+		]]>
+			</otherwise>
+		</choose>
+	</update>
+
+</mapper>
