@@ -6,10 +6,34 @@
 		resultType="uservo">
 		<![CDATA[
 		select *
-			from user 
+			from user a join profile b on a.no = b.user_no 
 			where id = #{id}
 			and password = #{password}
 		]]>
 	</select>
+	
+	<select id="friendList" parameterType="uservo"
+		resultType="uservo">
+		<![CDATA[
+		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date, b.no, b.image, b.nickname, b.profile_contents
+			from user a join profile b on a.no = b.user_no
+			where a.no in (
+				select d.friend_no
+				from user c join friends d on c.no = d.user_no
+				where id = #{id}
+			);
+		]]>
+	</select>
+	
+	<select id="friendInfo" parameterType="string"
+		resultType="uservo">
+		<![CDATA[
+		select *
+		from user a left join profile b on a.no = b.user_no
+		where a.id = #{userId};
+		]]>
+	</select>
+	
+	
 
 </mapper>
