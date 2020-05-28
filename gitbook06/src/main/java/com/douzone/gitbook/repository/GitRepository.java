@@ -1,7 +1,9 @@
 package com.douzone.gitbook.repository;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,20 @@ public class GitRepository {
 
 	public void updateVisible(GitVo vo) {
 		 sqlSession.update("git.updateVisible",vo);
+	}
+
+	public GitVo getGitItem(String id, String repoName) {
+		Map<String,Object> map = new HashMap<String,Object>(); 
+		map.put("id",id);
+		map.put("repoName",repoName);
+		
+			
+		return sqlSession.selectOne("git.getGitItem",map);
+	}
+
+	public void deleteRepository(GitVo vo) {
+		sqlSession.delete("git.deleteRepository",vo);
+		
 	}
 	
 
