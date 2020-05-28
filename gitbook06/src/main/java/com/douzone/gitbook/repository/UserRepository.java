@@ -2,6 +2,7 @@ package com.douzone.gitbook.repository;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,30 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByIdAndPassword", vo);
 	}
 	
-	public List<UserVo> friendList(UserVo vo) {
+	public List<UserVo> friendList(Map<String, Object> param) {
 		
-		return sqlSession.selectList("user.friendList", vo);
+		return sqlSession.selectList("user.friendList", param);
 	}
 
 	public UserVo friendInfo(String userId) {
 
 		return sqlSession.selectOne("user.friendInfo", userId);
+	}
+
+	public boolean addFriend(Map<String, Object> param) {
+		int count = sqlSession.update("user.friendAdd", param);
+		return count == 1;
+		
+	}
+
+	public boolean deleteFriend(Map<String, Object> param) {
+		int count = sqlSession.delete("user.friendDelete", param);
+		return count == 1;
+	}
+
+	public List<FriendVo> searchList(Map<String, Object> param) {
+		
+		return sqlSession.selectList("user.searchList", param);
 	}
 	
 

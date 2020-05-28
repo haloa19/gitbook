@@ -11,29 +11,75 @@
          and password = password(#{password})
 		]]>
 	</select>
+	
 
-	<select id="friendList" parameterType="uservo"
+
+	<select id="friendList" parameterType="map"
+
 		resultType="uservo">
 		<![CDATA[
-		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date, b.no, b.image, b.nickname, b.profile_contents
-			from user a join profile b on a.no = b.user_no
-			where a.no in (
-				select d.friend_no
-				from user c join friends d on c.no = d.user_no
-				where id = #{id}
-			);
+		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
+		from user a join profile b on a.no = b.user_no
+		where a.no in (
+			select d.friend_no
+			from user c join friends d on c.no = d.user_no
+			where id = #{id} and status = #{kind}
+		)
 		]]>
 	</select>
 
 	<select id="friendInfo" parameterType="string"
 		resultType="uservo">
 		<![CDATA[
-		 select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no, b.image, b.nickname, b.profile_contents as profileContents
-      	from user a left join profile b on a.no = b.user_no
-      	where a.id = #{userId};
+
+		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no, b.image, b.nickname, b.profile_contents as profileContents
+		from user a left join profile b on a.no = b.user_no
+		where a.id = #{userId};
 		]]>
 	</select>
-
-
+  
+	<select id="friendAdd" parameterType="map">
+		<![CDATA[
+		update friends 
+			set status = "친구" 
+		where (user_no = #{userno} and friend_no = #{friendno}) or (user_no = #{friendno} and friend_no = #{userno})
+		]]>
+	</select>
+	
+	<select id="friendDelete" parameterType="map">
+		<![CDATA[
+		delete from friends 
+			where (user_no = #{userno} and friend_no = #{friendno}) or 
+				  (user_no = #{friendno} and friend_no = #{userno})
+		]]>
+	</select>
+	
+	<select id="searchList" parameterType="map" resultType="friendvo">
+		<![CDATA[
+		(select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '친구' as 'status' 
+			from user a join profile b on a.no = b.user_no
+			where a.no in (
+				select b.friend_no
+				from user a join friends b on a.no = b.user_no
+				where a.id = #{userid} and b.status = '친구') 
+			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%'))
+		union
+		(select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '요청중' as 'status'  
+			from user a join profile b on a.no = b.user_no
+			where a.no in (
+				select b.friend_no
+				from user a join friends b on a.no = b.user_no
+				where a.id = #{userid} and b.status = '요청') 
+			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%'))
+		union
+		(select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '팔로우' as 'status'  
+			from user a join profile b on a.no = b.user_no
+			where a.no not in (
+				select b.friend_no
+				from user a join friends b on a.no = b.user_no
+				where a.id = #{userid}) 
+			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%'))
+		]]>
+	</select>
 
 </mapper>
