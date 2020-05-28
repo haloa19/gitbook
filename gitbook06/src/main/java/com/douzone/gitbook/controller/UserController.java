@@ -20,10 +20,16 @@ import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.util.LinuxServer;
 import com.douzone.gitbook.vo.UserVo;
 
+import com.douzone.gitbook.dto.JsonResult;
+import com.douzone.gitbook.service.MailService;
+import com.douzone.gitbook.service.UserService;
+import com.douzone.gitbook.util.LinuxServer;
+import com.douzone.gitbook.vo.UserVo;
+
 @Controller("UserController")
 @RequestMapping("/user")
 public class UserController {
-
+	
 	@Autowired
 	UserService userService;
 

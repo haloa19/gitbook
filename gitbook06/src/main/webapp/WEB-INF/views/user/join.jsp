@@ -161,9 +161,14 @@ $(function() {
 					console.log(response);
 					if (response.message == "not available email") {
 						alert("사용할 수 없는 이메일입니다.");
+						$("#emailAuth_confirmed").hide();
+						$("#emailAuth_form").hide();
 					}
 					if (response.message == "failed for sending email") {
 						alert("사용자에게 이메일을 보내지 못했습니다.");
+						$("#emailAuth_confirmed").hide();
+						$("#emailAuth_form").hide();
+
 					}
 					return;
 				}

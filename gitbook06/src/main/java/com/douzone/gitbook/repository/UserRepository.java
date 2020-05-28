@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.douzone.gitbook.vo.FriendVo;
 import com.douzone.gitbook.vo.UserVo;
 
 @Repository
@@ -33,5 +34,13 @@ public class UserRepository {
 	public Boolean addUser(UserVo vo) {
 		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
 	}
+	
+	public Boolean findEmailAvailable(String email) {
+		return (Integer) sqlSession.selectOne("user.countEmail", email) == 0;
+	}
 
+	public Boolean addUser(UserVo vo) {
+		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
+	}
+  
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.douzone.gitbook.repository.UserRepository;
+import com.douzone.gitbook.vo.FriendVo;
+
 import com.douzone.gitbook.vo.UserVo;
 
 @Service
@@ -37,4 +39,13 @@ public class UserService {
 		
 	}
 
+	public Boolean getEmailStatus(String email) {
+		return userRepository.findEmailAvailable(email);
+	}
+
+	public Boolean addUser(UserVo vo) {
+		return userRepository.addUser(vo);
+		
+	}
+r
 }
