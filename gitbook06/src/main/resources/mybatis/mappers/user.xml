@@ -81,5 +81,23 @@
 			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%'))
 		]]>
 	</select>
+	
+	<select id="countEmail" parameterType="string" resultType="int">
+		<![CDATA[
+			select count(*) as counted from user where id = #{email}
+		]]>
+	</select>
+
+	<insert id="addUser" parameterType="uservo">
+		<![CDATA[
+			insert into user values(null, #{id}, password(#{password}), #{phone}, #{name}, #{birthday}, #{gender}, now());
+		]]>
+	</insert>
+	
+	<insert id="addProfile" parameterType="uservo">
+		<![CDATA[
+			insert into profile values(null, '/gitbook/assets/img/users/1.jpg', #{name}, 'No profile introduction', (select no from user U where U.id = #{id} and U.password = password(#{password})))
+		]]>
+	</insert>
 
 </mapper>
