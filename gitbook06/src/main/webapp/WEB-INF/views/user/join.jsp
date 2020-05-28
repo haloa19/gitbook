@@ -168,6 +168,7 @@ $(function() {
 						alert("사용자에게 이메일을 보내지 못했습니다.");
 						$("#emailAuth_confirmed").hide();
 						$("#emailAuth_form").hide();
+
 					}
 					return;
 				}

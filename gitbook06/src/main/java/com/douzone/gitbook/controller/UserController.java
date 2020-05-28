@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,13 @@ import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.util.LinuxServer;
 import com.douzone.gitbook.vo.UserVo;
 
-@Controller
+import com.douzone.gitbook.dto.JsonResult;
+import com.douzone.gitbook.service.MailService;
+import com.douzone.gitbook.service.UserService;
+import com.douzone.gitbook.util.LinuxServer;
+import com.douzone.gitbook.vo.UserVo;
+
+@Controller("UserController")
 @RequestMapping("/user")
 public class UserController {
 	
@@ -119,35 +126,35 @@ public class UserController {
 		
 		return "redirect:/";
 	}
-	
+
 	@RequestMapping("/findID")
 	public String findID() {
-		
+
 		return "user/findID";
 	}
-	
+
 	@RequestMapping("/findPW")
 	public String findPW() {
-		
+
 		return "user/findPW";
 	}
-	
+
 	@RequestMapping("/findIDSuccess")
 	public String findIDSuccess() {
-		
+
 		return "user/findIDSuccess";
 	}
+
 	@RequestMapping("/findPWAuth")
 	public String findPWAuth() {
-		
+
 		return "user/findPWAuth";
 	}
-	
+
 	@RequestMapping("/findPWChange")
 	public String findPWChange() {
-		
+
 		return "user/findPWChange";
 	}
-	
-	
+
 }
