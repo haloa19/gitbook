@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -60,14 +61,162 @@
 
 
 <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
-<script src="https://kit.fontawesome.com/81c2c05f29.js"
-	crossorigin="anonymous"></script>
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
+<!-- 따로 작성한 코드 -->
+<script type="text/javascript">
+//이메일 형식 check를 위한 함수
+function checkEmail(str) {
+	var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+	if (!reg_email.test(str)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+// jQuery 구문 영역
+$(function() {
+	$("#join-form").submit(function(event) {
+		event.preventDefault();
+		
+		if($("#input_email").val() == ''){
+			alert('이메일을 입력 후 인증해 주세요!');
+			$("#input_email").focus();
+			return;
+		}
+		
+		if($("#emailAuth_confirmed").is(":hidden")){
+			alert('이메일이 인증되지 않았습니다!');
+			return;
+		}
+		
+		if($("#input_password").val() == ''){
+			alert('비밀번호를 입력해 주세요!');
+			$("#input_password").focus();
+			return;
+		}
+		
+		if($("#input_password_again").val() != $("#input_password").val()){
+			alert('비밀번호 확인을 잘못 입력하였습니다!');
+			$("#input_password_again").focus();
+			return;
+		}
+		
+		if($("#input_phone").val() == '' || $.isNumeric($("#input_phone").val()) == false){
+			alert('전화번호를 입력해 주세요!');
+			$("#input_phone").focus();
+			return;
+		}
+		
+		if($("#input_username").val() == ''){
+			alert('이름을 입력해 주세요!');
+			$("#input_username").focus();
+			return;
+		}
+		
+		this.submit();
+	});
+
+	// 이메일을 입력하는 순간부터...
+	$("#input_email").change(function() {
+		$("#input_authCode").val('');
+		$("#emailAuth_confirmed").hide();
+		$("#emailAuth_form").hide();
+	});
+
+	// 이메일 확인 버튼을 눌렀을 경우
+	$(document).on("click", "#emailBtn", function() {
+		var email = $("#input_email").val();
+		var random = $("#random").val();
+		if (!random) {
+			alert("error with auth configuration...(random is null)");
+			return;
+		}
+		if (!email) {
+			alert("이메일 주소를 입력해주세요!");
+			$("#input_email").focus();
+			return;
+		}
+		if (!checkEmail(email)) {
+			alert("이메일 형식에 맞추어 다시 입력해주세요!");
+			$("#input_email").focus();
+			return;
+		}
+		
+		$("#emailAuth_form").show();
+		alert("이메일 인증을 시작합니다. 1분 이내로 인증메일을 못 받은 경우 다른 이메일로 시도해주세요.");
+
+		// 이메일 인증을 위한 임시 번호 생성 및 이메일 전송
+		$.ajax({
+			type : "post",
+			url : '${pageContext.request.contextPath}/user/checkEmail',
+			async : true,
+			data : "email=" + email + "&random=" + random,
+			success : function(response) {
+				if (response.result == "fail") {
+					console.log(response);
+					if (response.message == "not available email") {
+						alert("사용할 수 없는 이메일입니다.");
+						$("#emailAuth_confirmed").hide();
+						$("#emailAuth_form").hide();
+					}
+					if (response.message == "failed for sending email") {
+						alert("사용자에게 이메일을 보내지 못했습니다.");
+						$("#emailAuth_confirmed").hide();
+						$("#emailAuth_form").hide();
+
+					}
+					return;
+				}
+			},
+			error : function(xhr, status, error) {
+				alert("에러발생");
+			}
+		});
+	});
+
+	// 이메일 인증번호를 확인하는 경우
+	$(document).on("click", "#emailAuthBtn", function() {
+		var authCodeInput = $("#input_authCode").val();
+		var random = $("#random").val();
+		if (!authCodeInput) {
+			alert("인증 번호를 입력해주세요!");
+			$("#input_authCode").focus();
+			return;
+		}
+
+		// 이메일 인증 과정 거치기
+		$.ajax({
+			type : "post",
+			url : "${pageContext.request.contextPath}/user/checkAuth",
+			async : true,
+			data : "random=" + random + "&authCode=" + authCodeInput,
+			success : function(response) {
+				if (response.result == "fail") {
+					console.log(response);
+					if (response.message == "authentication not matched") {
+						alert("인증 번호가 다릅니다");
+					}
+				}
+				else if(response.result == "success"){
+					alert("인증이 완료되었습니다!");
+					// jquery 실행
+					$("#emailAuth_form").hide();
+					$("#emailAuth_confirmed").show();
+				}
+				
+			},
+			error : function(xhr, status, error) {
+				alert("에러발생");
+			}
+		});
+	})
+});
+</script>
 
 
 <title>GitBook</title>
@@ -83,72 +232,91 @@
 					</h1>
 
 					<div>
-                <form method="post" class="form-signin">                 
-                  <div class="form-group-join">
-                    <input name="email" type="text" class="form-control-join-email" placeholder="이메일"/>
-                    <button class="kafe-btn kafe-btn-mint form-group-join-btn">인증</button>
-                  </div>
-                  <div class="form-group-join">
-                    <input name="confirm" type="text" class="form-control-join-email" placeholder="인증번호"/>
-                    <button class="kafe-btn kafe-btn-mint form-group-join-btn">확인</button>
-                  </div>
-                  <div class="form-group-join">
-                    <input name="password" type="password" class="form-control-join" placeholder="비밀번호"/>
-                  </div>
-                  <div class="form-group-join">
-                    <input name="password" type="password" class="form-control-join" placeholder="비밀번호 확인"/>
-                  </div>
-                  <div class="form-group-join">
-                    <input name="phone" type="tel" class="form-control-join" placeholder="휴대폰번호"/>
-                  </div>
-                  <div class="form-group-join">
-                    <input name="username" type="text" class="form-control-join" placeholder="이름"/>
-                  </div>
-                  <div class="form-group-join">
-                                      
-                    <select class="birth_info" name="year" type="checkbox" style="width:100px">
-                    <c:forEach begin="${1900}" end="${2020}" var='k'>
-                    <option value="${k}">${k}</option>'
-                    </c:forEach>
-                    </select>
-                  
-                    <label class="birth_label" for="year">년</label>
-                  
-                    <select class="birth_info" name="month" type="checkbox">
-                      <c:forEach begin="${1}" end="${12}" var='k'>
-                    <option value="${k}">${k}</option>'
-                    </c:forEach>
-                    </select>
-                  
-                    <label class="birth_label" for="month">월</label>
-                  
-                    <select class="birth_info" name="day" type="checkbox">
-                    <c:forEach begin="${1}" end="${31}" var='k'>
-                    <option value="${k}">${k}</option>'
-                    </c:forEach>
-                   </select>
-                   
-                    <label class="birth_label" for="day">일</label>
-                     
-                  </div>               
-                  <div class="form-group-join">
-                    <div class="chk_info">
-                      <input type="radio" name="gender" value="남자" checked="checked"/>
-                      <label for="gender">남자</label>
-                      <input type="radio" name="gender" value="여자"/>
-                      <label for="gender">여자</label>
-                    </div>
-                  </div>
-             
-             
-                  <a href="/find/join/success"><button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">가입하기</button></a>
-                  <br/>
-                  <a href="${pageContext.request.contextPath}/" class="btn btn-dark " role="button" style="margin-top:10px">이미 GitBook회원이신가요? 지금 로그인 하기</a><br/>
-                
-                </form>
-              </div>
-					
-				
+						<form method="post" class="form-signin" id="join-form" action="${pageContext.request.contextPath }/user/joinProcess">
+							<div class="form-group-join">
+								<input name="email" type="text" class="form-control-join-email"
+									id="input_email" placeholder="이메일" />
+								<input type="button" class="kafe-btn kafe-btn-mint form-group-join-btn"
+									id="emailBtn" value="인증" />
+								<input type="hidden" id="random" value="${random }" />
+							</div>
+							
+							<!-- 인증 완료시 $('#emailAuth_confirmed') 띄우기-->
+							<div class="form-group-join" id="emailAuth_form" style="display: none">
+								<input name="confirm" type="text"
+									class="form-control-join-email" id="input_authCode"
+									placeholder="인증번호" />
+								<input type="button" class="kafe-btn kafe-btn-mint form-group-join-btn"
+									id="emailAuthBtn" value="확인" />
+							</div>
+							<div class="form-group-join" id="emailAuth_confirmed" style="display: none">
+								<label style="color: white">인증이 완료되었습니다!</label>
+							</div>
+							
+							<div class="form-group-join">
+								<input name="password" type="password" class="form-control-join" id="input_password"
+									placeholder="비밀번호" />
+							</div>
+							<div class="form-group-join">
+								<input name="password_confirm" type="password" class="form-control-join" id="input_password_again"
+									placeholder="비밀번호 확인" />
+							</div>
+							<div class="form-group-join">
+								<input name="phone" type="tel" class="form-control-join" id="input_phone"
+									placeholder="휴대폰번호" />
+							</div>
+							<div class="form-group-join">
+								<input name="name" type="text" class="form-control-join" id="input_username"
+									placeholder="이름" />
+							</div>
+							<div class="form-group-join">
+
+								<select class="birth_info" name="year" type="checkbox" style="width: 100px">
+									<c:forEach begin="${0}" end="${120}" var='k'>
+										<option value="${2020-k}">${2020-k}</option>'
+                    				</c:forEach>
+								</select>
+								<label class="birth_label" for="year">년</label>
+								
+								<select class="birth_info" name="month" type="checkbox">
+									<c:forEach begin="${1}" end="${12}" var='k'>
+										<option value="${k}">${k}</option>'
+                    				</c:forEach>
+								</select>
+								<label class="birth_label" for="month">월</label>
+								
+								<select class="birth_info" name="day" type="checkbox">
+									<c:forEach begin="${1}" end="${31}" var='k'>
+										<option value="${k}">${k}</option>'
+                    				</c:forEach>
+								</select>
+								<label class="birth_label" for="day">일</label>
+
+							</div>
+							<div class="form-group-join">
+								<div class="chk_info">
+									<input type="radio" name="gender" value="male" checked="checked" />
+									<label for="gender">남자</label>
+									<input type="radio" name="gender" value="female" />
+									<label for="gender">여자</label>
+								</div>
+							</div>
+
+
+							<a href="/find/join/success">
+								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">가입하기</button>
+							</a>
+							<br />
+							<a
+								href="${pageContext.request.contextPath}/" class="btn btn-dark "
+								role="button" style="margin-top: 10px">이미 GitBook회원이신가요? 지금
+								로그인 하기</a>
+							<br />
+
+						</form>
+					</div>
+
+
 				</div>
 			</div>
 		</div>

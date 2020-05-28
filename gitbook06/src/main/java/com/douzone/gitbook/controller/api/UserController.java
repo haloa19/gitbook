@@ -13,11 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.gitbook.dto.JsonResult;
+import com.douzone.gitbook.service.GitService;
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.vo.UserVo;
+import com.douzone.security.AuthUser;
 
 @Controller("UserApiController")
 @RequestMapping("/user")

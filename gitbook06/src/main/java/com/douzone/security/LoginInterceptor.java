@@ -35,7 +35,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		vo.setPassword(password);
 		
 		UserVo authUser =  userService.getUser(vo);
-	
+		System.out.println(authUser);
 
 		if(authUser == null) {
 			request.setAttribute("userVo", vo);

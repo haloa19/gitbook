@@ -1,7 +1,5 @@
 package com.douzone.gitbook.controller.api;
 
-
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -33,22 +31,21 @@ public class GitApiContoller {
 	private final static String user = "gitbook";
 	private final static String password = "gitbook";
 	private final static String charset = "utf-8";
-	private final static String dir = "/var/www/git/gitbook/" ;
-	
-	
+
+	private final static String dir = "/var/www/git/gitbook/";
+
+
 	@Autowired
 	private GitService gitService;
-	
+
 	@ResponseBody
-	@RequestMapping(value="/list",method=RequestMethod.GET)
-	public JsonResult RepositoryList(
-		@PathVariable String id	
-			) {
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public JsonResult RepositoryList(@PathVariable String id) {
 		List<GitVo> list = gitService.getRepositoryList(id);
 		return JsonResult.success(list);
 	}
-	
-	
+
+
 	@ResponseBody
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	public JsonResult RepositoryDelete(
@@ -56,30 +53,27 @@ public class GitApiContoller {
 		@RequestBody GitVo vo
 			) {
 		
-		
-		
 		gitService.deleteRepository(id,vo);
 		List<GitVo> list = gitService.getRepositoryList(id);
 		return JsonResult.success(list);
 	}
-	
+
 
 	@PostMapping("/add")
 	public void add(@RequestBody GitVo vo,@PathVariable String id) {
 		vo.setGitName(vo.getGitName().trim());
-		
+
 		try {
 			SSHExecutor.just(host, port, user, password, charset,
 					"cd " + dir + id + " && sudo git-create-repo " + id + " " + vo.getGitName());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		gitService.insertGit(vo);
-		
-		
+
 	}
+
 	@ResponseBody
 	@RequestMapping("/update")
 	public JsonResult updateVisible(
@@ -154,4 +148,5 @@ public class GitApiContoller {
 	
 	
 	
+
 }
