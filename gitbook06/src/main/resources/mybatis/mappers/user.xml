@@ -5,13 +5,13 @@
 	<select id="findByIdAndPassword" parameterType="uservo"
 		resultType="uservo">
 		<![CDATA[
-		select *
-			from user a join profile b on a.no = b.user_no 
-			where id = #{id}
-			and password = #{password}
+	  	 select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
+         from user a join profile b on a.no = b.user_no 
+         where id = #{id}
+         and password = password(#{password})
 		]]>
 	</select>
-	
+
 	<select id="friendList" parameterType="uservo"
 		resultType="uservo">
 		<![CDATA[
@@ -24,16 +24,16 @@
 			);
 		]]>
 	</select>
-	
+
 	<select id="friendInfo" parameterType="string"
 		resultType="uservo">
 		<![CDATA[
-		select *
-		from user a left join profile b on a.no = b.user_no
-		where a.id = #{userId};
+		 select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no, b.image, b.nickname, b.profile_contents as profileContents
+      	from user a left join profile b on a.no = b.user_no
+      	where a.id = #{userId};
 		]]>
 	</select>
-	
-	
+
+
 
 </mapper>

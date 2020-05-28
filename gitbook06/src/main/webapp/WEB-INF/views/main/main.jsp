@@ -9,19 +9,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
       content="Web site created using create-react-app"
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
- 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-   
-    
-      <meta charset="utf-8"/>
+  	  <meta charset="utf-8"/>
       <meta http-equiv="X-UA-Compatible" content="IE=edge"/>  
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <meta name="description" content="" />
@@ -30,10 +25,7 @@
       <meta property="og:url" content="" />
       <meta property="og:description" content="" />
 
-      <link rel="icon" href="${pageContext.request.contextPath}/assets/img/logo.jpg"/>
-      <link rel="apple-touch-icon" href="img/favicons/apple-touch-icon.png"/>
-      <link rel="apple-touch-icon" sizes="72x72" href="img/favicons/apple-touch-icon-72x72.png"/>
-      <link rel="apple-touch-icon" sizes="114x114" href="img/favicons/apple-touch-icon-114x114.png"></link>
+  
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
      
