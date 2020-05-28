@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.douzone.gitbook.vo.FriendVo;
+
 import com.douzone.gitbook.vo.UserVo;
 
 @Repository

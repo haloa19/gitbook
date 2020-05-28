@@ -13,6 +13,20 @@
 		order by reg_date desc;
 		]]>
 	</select>
+	
+	<select id="getGitItem" parameterType="map" resultType="gitvo">
+		<![CDATA[
+		select a.no, a.user_no as userNo , a.group_no as groupNo, 
+			   a.description, a.visible, a.git_name as gitName, 
+		       a.reg_date as regDate
+		from git a, user b  
+		where a.user_no = b.no 
+		and a.git_name=#{repoName} 
+		and b.id=#{id}
+		]]>
+	</select>
+	
+	
 
 	<insert id="insertGit" parameterType="gitvo">
 		<![CDATA[
@@ -20,6 +34,13 @@
 			values(null,#{userNo},null,#{description},#{visible},#{gitName},now())
 		]]>
 	</insert>
+	
+	<delete id="deleteRepository" parameterType="gitvo">
+		<![CDATA[
+			delete from git where no=#{no} 
+		]]>
+	</delete>
+	
 
 	<update id="updateVisible" parameterType="gitvo">
 		<choose>
