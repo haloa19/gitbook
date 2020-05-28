@@ -1,16 +1,18 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.douzone.bigbossdc</groupId>
-    <artifactId>gitbook</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>gitbook06</artifactId>
-  <packaging>war</packaging>
-  
-  
-  
-  
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.douzone.bigbossdc</groupId>
+		<artifactId>gitbook</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>gitbook06</artifactId>
+	<packaging>war</packaging>
+
+
+
+
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -54,6 +56,19 @@
 			<artifactId>spring-boot-starter-aop</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>2.2.6.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -80,38 +95,39 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-		
+
 		<!-- jackson -->
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-databind</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		
+
 		<dependency>
-         <groupId>me.saro</groupId>
-         <artifactId>commons</artifactId>
-         <version>3.0.2</version>
-      </dependency>
+			<groupId>me.saro</groupId>
+			<artifactId>commons</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+    
 		<!-- tomcat jasper -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
-		
+
 		<!-- common fileupload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-		
+
 
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
-	
+
 		<!-- test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -156,7 +172,7 @@
 					<password>manager</password>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 </project>

@@ -92,22 +92,20 @@
 						
 						<form method="post" class="form-signin">
 							<div class="form-group-join">
-								<input name="username" type="text" class="form-control-join"
-									placeholder="이름" />
+								<input name="username" type="text" class="form-control-join" placeholder="이름" />
 							</div>
+							
 							<div class="form-group-join">
-								<input name="phone" type="tel" class="form-control-join"
-									placeholder="휴대폰번호" />
+								<input name="phone" type="tel" class="form-control-join" placeholder="휴대폰번호" />
 							</div>
 						
 							<div class="form-group-join">
-							
-								<input name="email" type="text" class="form-control-join-email"
-									placeholder="이메일" />
+								<input name="email" type="text" class="form-control-join-email" placeholder="이메일" />
 								<button class="kafe-btn kafe-btn-mint form-group-join-btn">인증</button>
-								
 							</div>
-							<br /> <a href="${pageContext.request.contextPath}/" class="btn btn-dark " role="button"
+							<br />
+							
+							<a href="${pageContext.request.contextPath}/" class="btn btn-dark " role="button"
 								style="margin-top:10px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a><br />
 						</form>
 						

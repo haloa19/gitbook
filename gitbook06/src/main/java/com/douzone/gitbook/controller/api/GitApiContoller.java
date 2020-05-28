@@ -1,7 +1,5 @@
 package com.douzone.gitbook.controller.api;
 
-
-
 import java.io.IOException;
 import java.util.List;
 
@@ -30,49 +28,39 @@ public class GitApiContoller {
 	private final static String user = "gitbook";
 	private final static String password = "gitbook";
 	private final static String charset = "utf-8";
-	private final static String dir = "/var/www/git/" ;
-	
-	
+	private final static String dir = "/var/www/git/gitbook/";
+
 	@Autowired
 	private GitService gitService;
-	
+
 	@ResponseBody
-	@RequestMapping(value="/list",method=RequestMethod.GET)
-	public JsonResult RepositoryList(
-		@PathVariable String id	
-			) {
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public JsonResult RepositoryList(@PathVariable String id) {
 		List<GitVo> list = gitService.getRepositoryList(id);
 		return JsonResult.success(list);
 	}
-	
-	
+
 	@PostMapping("/add")
 	public void add(@RequestBody GitVo vo) {
 		vo.setGitName(vo.getGitName().trim());
-		
+
 		try {
 			SSHExecutor.just(host, port, user, password, charset,
 					"cd " + dir + "user05" + " && sudo git-create-repo " + "user05" + " " + vo.getGitName());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		gitService.insertGit(vo);
-		
-		
+
 	}
-	
+
 	@PostMapping("/update")
-	public void updateVisible(
-			@PathVariable String id,
-			@RequestBody GitVo vo
-			) {
-		
-		System.out.println("add:"+vo);
+	public void updateVisible(@PathVariable String id, @RequestBody GitVo vo) {
+
+		System.out.println("add:" + vo);
 		gitService.updateVisible(vo);
-		
+
 	}
-	
-	
+
 }

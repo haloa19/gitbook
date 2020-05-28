@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.gitbook.dto.JsonResult;
+
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.vo.FriendVo;
+import com.douzone.gitbook.service.GitService;
+
 import com.douzone.gitbook.vo.UserVo;
 
 @Controller("UserApiController")
