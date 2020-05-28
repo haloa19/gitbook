@@ -4,12 +4,11 @@
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.douzone.gitbook.vo.UserVo"/>
 		<typeAlias alias="gitvo" type="com.douzone.gitbook.vo.GitVo"/>
-
+		<typeAlias alias="friendvo" type="com.douzone.gitbook.vo.FriendVo"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/git.xml" />
-		
 	
 	</mappers>
 </configuration>

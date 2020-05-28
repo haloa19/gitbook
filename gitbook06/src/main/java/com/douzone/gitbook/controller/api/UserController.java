@@ -3,6 +3,7 @@ package com.douzone.gitbook.controller.api;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,14 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.gitbook.dto.JsonResult;
-import com.douzone.gitbook.service.GitService;
+
 import com.douzone.gitbook.service.UserService;
+import com.douzone.gitbook.vo.FriendVo;
+import com.douzone.gitbook.service.GitService;
+
 import com.douzone.gitbook.vo.UserVo;
-import com.douzone.security.AuthUser;
 
 @Controller("UserApiController")
 @RequestMapping("/user")
@@ -44,22 +46,8 @@ public class UserController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/friend",method=RequestMethod.GET)
-	public JsonResult findFriend(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession httpSession = request.getSession(false);
-		UserVo uservo =(UserVo)httpSession.getAttribute("authUser");
-		
-		if(uservo==null) {
-			return JsonResult.success(null);
-		}
-
-		List<UserVo> friendList = userService.getFriend(uservo);
-		return JsonResult.success(friendList);	
-	}
-	
-	@ResponseBody
 	@RequestMapping(value="/friend",method=RequestMethod.POST)
-	public JsonResult friendInfo(@RequestBody String userId) {
+	public JsonResult friendInfo(@RequestBody String userId) {	// 클릭한 친구의 정보 가져오기
 
 		UserVo friendvo = userService.getUserFriend(userId);
 		return JsonResult.success(friendvo);
@@ -67,12 +55,48 @@ public class UserController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/friend/list",method=RequestMethod.POST)
-	public JsonResult friendList(@RequestBody String userId) {
-		UserVo uservo = new UserVo();
-		uservo.setId(userId);
+	@RequestMapping(value="/friend/req",method=RequestMethod.POST)
+	public JsonResult friendRequest(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
 	
-		List<UserVo> friendList = userService.getFriend(uservo);
+		List<UserVo> friendList = userService.getFriend(param);
 		return JsonResult.success(friendList);	
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/friend/list",method=RequestMethod.POST)
+	public JsonResult friendList(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
+	
+		List<UserVo> friendList = userService.getFriend(param);
+		return JsonResult.success(friendList);	
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/friend/add",method=RequestMethod.POST)
+	public JsonResult friendAdd(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
+		System.out.println("추가확인 " + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("id") + ":" + param.get("kind"));
+		userService.addFriend(param);
+		List<UserVo> friendList = userService.getFriend(param);
+		
+		return JsonResult.success(friendList);	
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/friend/delete",method=RequestMethod.POST)
+	public JsonResult friendDelete(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
+		System.out.println("추가확인 " + param.get("userno") + ":" + param.get("friendno"));
+		
+		return JsonResult.success(userService.deleteFriend(param));	
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/friend/search",method=RequestMethod.POST)
+	public JsonResult search(@RequestBody Map<String, Object> param) {
+		
+		System.out.println("추가확인 " + param.get("userid") + ":" + param.get("keyword"));
+		
+		List<FriendVo> searchList = userService.getSearchList(param);
+		
+		return JsonResult.success(searchList);
+	}
+	
 }
