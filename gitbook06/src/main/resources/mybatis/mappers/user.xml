@@ -5,10 +5,12 @@
 	<select id="findByIdAndPassword" parameterType="uservo"
 		resultType="uservo">
 		<![CDATA[
+
 		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
 			from user a join profile b on a.no = b.user_no 
 			where a.id = #{id}
 			and a.password = password(#{password})
+
 		]]>
 	</select>
 
@@ -29,11 +31,14 @@
 	<select id="friendInfo" parameterType="string"
 		resultType="uservo">
 		<![CDATA[
+
 		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no, b.image, b.nickname, b.profile_contents as profileContents
 		from user a left join profile b on a.no = b.user_no
 		where a.id = #{userId};
+
 		]]>
 	</select>
+
 
 
 	<select id="countEmail" parameterType="string" resultType="int">
