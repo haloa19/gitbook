@@ -94,8 +94,8 @@ $(function() {
 			return;
 		}
 		
-		if($("#input_password").val() == ''){
-			alert('비밀번호를 입력해 주세요!');
+		if($("#input_password").val() == '' || $("#input_password").val().length < 8){
+			alert('비밀번호를 8자 이상 입력해 주세요!');
 			$("#input_password").focus();
 			return;
 		}
@@ -106,8 +106,8 @@ $(function() {
 			return;
 		}
 		
-		if($("#input_phone").val() == '' || $.isNumeric($("#input_phone").val()) == false){
-			alert('전화번호를 입력해 주세요!');
+		if($("#input_phone").val() == '' || $.isNumeric($("#input_phone").val()) == false || $("#input_phone").val().length < 10){
+			alert('전화번호를 10자 이상 숫자로만 입력해 주세요!');
 			$("#input_phone").focus();
 			return;
 		}
@@ -163,11 +163,13 @@ $(function() {
 						alert("사용할 수 없는 이메일입니다.");
 						$("#emailAuth_confirmed").hide();
 						$("#emailAuth_form").hide();
+						$("#input_email").focus();
 					}
 					if (response.message == "failed for sending email") {
 						alert("사용자에게 이메일을 보내지 못했습니다.");
 						$("#emailAuth_confirmed").hide();
 						$("#emailAuth_form").hide();
+						$("#input_email").focus();
 
 					}
 					return;
@@ -175,6 +177,9 @@ $(function() {
 			},
 			error : function(xhr, status, error) {
 				alert("에러발생");
+				$("#emailAuth_confirmed").hide();
+				$("#emailAuth_form").hide();
+				$("#input_email").focus();
 			}
 		});
 	});
@@ -200,6 +205,7 @@ $(function() {
 					console.log(response);
 					if (response.message == "authentication not matched") {
 						alert("인증 번호가 다릅니다");
+						$("#input_authCode").focus();
 					}
 				}
 				else if(response.result == "success"){
@@ -212,9 +218,11 @@ $(function() {
 			},
 			error : function(xhr, status, error) {
 				alert("에러발생");
+				$("#input_authCode").focus();
 			}
 		});
-	})
+	});
+	
 });
 </script>
 
@@ -303,7 +311,7 @@ $(function() {
 							</div>
 
 
-							<a href="/find/join/success">
+							<a>
 								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">가입하기</button>
 							</a>
 							<br />

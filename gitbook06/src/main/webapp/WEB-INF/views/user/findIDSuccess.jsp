@@ -81,14 +81,17 @@
 						<a href="${pageContext.request.contextPath}/">GitBook</a>
 					</h1>
 
-				<form method="post" class="form-signin" action="${pageContext.request.contextPath}/" style="margin-top:50px">   
-                <h3 class="find-success">아이디찾기 성공</h3>  
-                <p class="find-success-info" >정혜진님의 아이디는 jhjin1106@naver.com입니다.</p>
-                <a href=" ${pageContext.request.contextPath}/ " ><button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm" style="margin-top:10px;width:300px">로그인</button></a>
-             </form>
-
-
-
+					<form method="get" class="form-signin" action="${pageContext.request.contextPath}/" style="margin-top: 50px">
+						<h3 class="find-success">아이디찾기 성공</h3>
+						<p class="find-success-info">
+							찾으신 아이디는<br/>"${email }"<br/>입니다.
+						</p>
+						<a href=" ${pageContext.request.contextPath}/ ">
+							<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm" style="margin-top: 10px; width: 300px">
+								로그인
+							</button>
+						</a>
+					</form>
 
 				</div>
 			</div>

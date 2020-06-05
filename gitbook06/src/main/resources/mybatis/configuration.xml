@@ -10,11 +10,15 @@
 		<typeAlias alias="timelinevo" type="com.douzone.gitbook.vo.TimelineVo"/>
 		<typeAlias alias="commentvo" type="com.douzone.gitbook.vo.CommentVo"/>
 		<typeAlias alias="likevo" type="com.douzone.gitbook.vo.LikeVo"/>
+		<typeAlias alias="groupvo" type="com.douzone.gitbook.vo.GroupVo"/>
+		<typeAlias alias="schedulevo" type="com.douzone.gitbook.vo.ScheduleVo"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/git.xml" />
 		<mapper resource="mybatis/mappers/timeline.xml" />
-	
+		<mapper resource="mybatis/mappers/friend.xml" />
+		<mapper resource="mybatis/mappers/group.xml" />
+		<mapper resource="mybatis/mappers/schedule.xml" />
 	</mappers>
 </configuration>

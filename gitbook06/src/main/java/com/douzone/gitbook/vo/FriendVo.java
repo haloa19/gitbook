@@ -1,8 +1,6 @@
 package com.douzone.gitbook.vo;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class FriendVo {
 	private Long no;
@@ -26,6 +24,9 @@ public class FriendVo {
 	
 	//Friend 상태
 	private String status;
+	
+	//GroupNo
+	private Long groupNo;
 	
 
 	public Long getNo() {
@@ -108,15 +109,13 @@ public class FriendVo {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
-	@Override
-	public String toString() {
-		return "UserVo [no=" + no + ", id=" + id + ", password=" + password + ", phone=" + phone + ", name=" + name
-				+ ", gender=" + gender + ", birthday=" + birthday + ", joinDate=" + joinDate + ", ProfileNo="
-				+ ProfileNo + ", image=" + image + ", nickname=" + nickname + ", profileContents=" + profileContents
-				+ "]";
+
+	public Long getGroupNo() {
+		return groupNo;
 	}
-	
+
+	public void setGroupNo(Long groupNo) {
+		this.groupNo = groupNo;
+	}	
 	
 }
