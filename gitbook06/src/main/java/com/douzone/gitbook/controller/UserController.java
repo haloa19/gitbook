@@ -23,6 +23,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	MailService mailService;
 
 
 	@RequestMapping("/join")
