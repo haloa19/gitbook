@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="timeline">
+	<insert id="insertTimeline" parameterType="timelinevo">
+		<![CDATA[		
+			insert into timeline values(null,#{contents},now(),#{visible},null,#{userNo});
+		]]>
+		<selectKey keyProperty = "no" resultType="long" order="AFTER">
+         		select last_insert_id()
+      	</selectKey>
+	</insert>
+	
+	
+	<insert id="insertTimelineFile" parameterType="map">
+		<![CDATA[		
+			insert into file values(null,#{no},#{url})
+		]]>
+		
+	</insert>
+	
+	<insert id="insertTag" parameterType="tagvo">
+		<![CDATA[		
+			insert into tag values(null,#{tagContents})
+		]]>
+		<selectKey keyProperty = "no" resultType="long" order="AFTER">
+         		select last_insert_id()
+      	</selectKey>
+	</insert>
+	
+	<insert id="insertTagList" parameterType="map">
+		<![CDATA[		
+			insert into tag_list values(#{timelineNo},#{tagNo});
+		]]>
+	</insert>
+	
+	<select id="getMyTimelineList" parameterType="string"
+		resultType="timelinevo">
+		<![CDATA[
+		select b.no,b.timeline_contents as contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, b.visible,b.group_no as groupNo, b.user_no as userNo
+		from user a, timeline b 
+		where a.no = b.user_no
+		and a.id=#{id}
+		and b.group_no is NULL
+		order by b.reg_date desc
+		]]>
+	</select>
+	
+	<select id="getUserInfo" parameterType="long"
+		resultType="uservo">
+		<![CDATA[
+		select c.image,c.nickname,a.id
+		from user a, timeline b ,profile c
+		where a.no=b.user_no
+		and a.no=c.user_no
+		and b.user_no=#{userNo}
+		group by a.no
+		]]>
+	</select>
+	
+	<select id="getFileList" parameterType="long"
+		resultType="filevo">
+		<![CDATA[
+		select no,
+			   timeline_no as timelineNo, 
+			   file_contents as fileContents 
+		from file 
+		where timeline_no=#{timelineNo}
+		]]>
+	</select>
+	
+	<select id="getTagList" parameterType="long"
+		resultType="tagvo">
+		<![CDATA[
+			select a.no,a.tag_contents as  tagContents
+			from tag a, tag_list b, timeline c 
+			where c.no = b.timeline_no
+			and b.tag_no =a.no 
+			and c.no=#{timelineNo}
+		]]>
+	</select>
+	
+	<select id="getCommentList" parameterType="long"
+		resultType="commentvo">
+		<![CDATA[
+			select c.no,c.contents,DATE_FORMAT(c.reg_date,'%Y-%m-%d %H:%i')as regDate,c.user_no,c.timeline_no,
+			a.id as userId,
+			b.image as userProfile
+			,b.nickname as uesrNickname
+			from user a, profile b, comment c 
+			where  a.no = b.user_no
+			and b.user_no=c.user_no
+			and c.timeline_no=#{timelineNo}
+			order by c.reg_date desc
+		]]>
+	</select>
+	
+	<select id="getLikeList" parameterType="long"
+		resultType="likevo">
+		<![CDATA[
+			select user_no as userNo,timeline_no as timelineNo from gitbook.like
+			where timeline_no =#{timelineNo}
+		]]>
+	</select>
+	
+	<insert id="addlike" parameterType="likevo">
+		<![CDATA[		
+			insert into gitbook.like values(#{userNo},#{timelineNo})
+		]]>
+	
+	</insert>
+	
+	<insert id="deletelike" parameterType="likevo">
+		<![CDATA[		
+			delete from gitbook.like where user_no=#{userNo}
+			and timeline_no=#{timelineNo}
+		]]>
+	
+	</insert>
+	
+	<insert id="insertComment" parameterType="commentvo">
+		<![CDATA[		
+			insert into comment values(null,#{contents},now(),#{userNo},#{timelineNo})
+		]]>
+	
+	</insert>
+	<delete id="deleteComment" parameterType="long">
+	<![CDATA[		
+			delete from comment where no=#{commentNo}
+		]]>
+	</delete>
+	
+	<select id="getMainTimelineList" parameterType="string"
+		resultType="timelinevo">
+		<![CDATA[
+		select b.no,b.timeline_contents as contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, b.visible,b.group_no as groupNo, b.user_no as userNo
+		from user a, timeline b 
+		where a.no = b.user_no
+		and a.id=#{id}
+		and b.group_no is NULL
+		order by b.reg_date desc
+		]]>
+	</select>
+	
+	<update id="updateTimeline" parameterType="timelinevo">
+	<![CDATA[		
+			
+			update timeline set timeline_contents=#{contents}, visible=#{visible} where no=#{no};
+		]]>
+	</update>
+	
+	<delete id="deleteTag" parameterType="long">
+	<![CDATA[		
+			delete from tag_list where timeline_no=#{timelineNo}
+		]]>
+	</delete>
+	
+	<delete id="deleteFile" parameterType="long">
+	<![CDATA[		
+			delete from file where timeline_no=#{timelineNo}
+		]]>
+	</delete>
+	
+	<delete id="deleteTimeline" parameterType="long">
+	<![CDATA[		
+			delete from timeline where no=#{timelineNo}
+		]]>
+	</delete>
+	
+	
+</mapper>

@@ -5,7 +5,7 @@
 	<select id="findByIdAndPassword" parameterType="uservo"
 		resultType="uservo">
 		<![CDATA[
-
+		
 		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
 			from user a join profile b on a.no = b.user_no 
 			where a.id = #{id}
@@ -133,6 +133,19 @@
     
 	</insert>
 	
+
+	<select id="findPassword" parameterType="map"
+		resultType="uservo">
+		<![CDATA[
+		select no,name,id,password
+			from user 
+			where id = #{id}
+			and password=password(#{password})
+			
+		]]>
+	</select>
+
+
 	<select id="findEmail" parameterType="uservo" resultType="string">
 		<![CDATA[
 			select id from user where phone = #{phone} and name = #{name} and birthday = #{birthday}
@@ -171,5 +184,6 @@
 			</otherwise>
 		</choose>
 	</update>
+
 
 </mapper>

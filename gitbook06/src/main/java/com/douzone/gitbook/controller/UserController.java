@@ -11,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import com.douzone.gitbook.service.MailService;
-
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.util.LinuxServer;
 import com.douzone.gitbook.vo.UserVo;
@@ -175,6 +175,7 @@ public class UserController {
 		return "user/findPWChange";
 	}
 	
+
 	@RequestMapping(value = "/PWChangeProcess", method = RequestMethod.POST)
 	public String PWChangeProcess(
 			@RequestParam(value = "id", required = true, defaultValue = "") String email,
@@ -201,5 +202,6 @@ public class UserController {
 		
 		return "redirect:/";
 	}
+
 
 }

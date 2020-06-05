@@ -22,8 +22,10 @@ import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.MailService;
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.vo.FriendVo;
+
 import com.douzone.gitbook.service.FileUploadService;
 import com.douzone.gitbook.service.MailService;
+
 import com.douzone.gitbook.vo.UserVo;
 import com.douzone.security.Auth;
 import com.douzone.security.AuthUser;
@@ -40,11 +42,9 @@ public class UserController {
 	
 	@Autowired
 	FileUploadService fileUploadService;
+
   
-	@Autowired
-	MailService mailService;
-  
-  
+ 
 	@ResponseBody
 	@RequestMapping(value = "/checkEmail", method = RequestMethod.POST)
 	public JsonResult checkEmail(@RequestParam(value = "email", required = true, defaultValue = "") String email, @RequestParam(value = "random", required = true, defaultValue = "0") String random,
@@ -110,7 +110,7 @@ public class UserController {
 
 		return JsonResult.success(uservo);
 	}
-
+  
 	@ResponseBody
 	@RequestMapping(value = "/friend", method = RequestMethod.POST)
 	public JsonResult friendInfo(@RequestBody String userId) { // 클릭한 친구의 정보 가져오기

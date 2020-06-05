@@ -52,6 +52,8 @@ public class UserService {
 		return userRepository.searchList(param);
 	}
 
+
+
 	public Boolean getEmailStatus(String email) {
 		return userRepository.findEmailAvailable(email);
 	}
@@ -68,12 +70,19 @@ public class UserService {
 		return userRepository.findEmailExistance(email);
 	}
 
+
+	public boolean existUser(String password, String id) {
+		
+		return userRepository.findPassword(password,id) != null;
+  }
+  
 	public Boolean updatePassword(UserVo vo) {
 		return userRepository.changePasswordResult(vo);
 	}
 
 	public UserVo getProfile(String id) {
 		return userRepository.getProfileInfo(id);
+
 	}
 
 	public Boolean updateProfile(UserVo vo) {
