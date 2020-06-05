@@ -17,56 +17,59 @@ public class UserService {
 	private UserRepository userRepository;
 
 	public UserVo getUser(UserVo vo) {
-
 		return userRepository.findByIdAndPassword(vo);
 	}
 
-	
 	public List<UserVo> getFriend(Map<String, Object> param) {
-		
-		
 		return userRepository.friendList(param);
-
 	}
 
 	public UserVo getUserFriend(String userId) {
-
 		return userRepository.friendInfo(userId);
 	}
 
-
 	public boolean addFriend(Map<String, Object> param) {
-		
-		return userRepository.addFriend(param);		
+		return userRepository.addFriend(param);
 	}
 
 	public boolean deleteFriend(Map<String, Object> param) {
 		return userRepository.deleteFriend(param);
-		
 	}
 
 	public List<FriendVo> getSearchList(Map<String, Object> param) {
-		
 		return userRepository.searchList(param);
 	}
 
-
 	public Boolean getEmailStatus(String email) {
 		return userRepository.findEmailAvailable(email);
 	}
 
 	public Boolean addUser(UserVo vo) {
 		return userRepository.addUser(vo);
-		
 	}
 
-	public Boolean getEmailStatus(String email) {
-		return userRepository.findEmailAvailable(email);
+	public String getEmail(UserVo vo) {
+		return userRepository.findEmail(vo);
 	}
 
-	public Boolean addUser(UserVo vo) {
-		return userRepository.addUser(vo);
-		
+	public Boolean getEmailExistance(String email) {
+		return userRepository.findEmailExistance(email);
+	}
+
+	public Boolean updatePassword(UserVo vo) {
+		return userRepository.changePasswordResult(vo);
+	}
+
+	public UserVo getProfile(String id) {
+		return userRepository.getProfileInfo(id);
+	}
+
+	public Boolean updateProfile(UserVo vo) {
+		return userRepository.updateProfileInfo(vo);
+	}
+
+	public Boolean updateUserInfo(UserVo vo) {
+		return userRepository.updateUserInfo(vo);
 	}
 
 }

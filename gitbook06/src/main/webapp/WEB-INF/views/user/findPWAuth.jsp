@@ -81,27 +81,29 @@
 						<a href="${pageContext.request.contextPath}/">GitBook</a>
 					</h1>
 
-					 <div>
-                <div class="row" style="margin-top:40px">
-                    <a href="${pageContext.request.contextPath}/user/findID" class="find-id-head">아이디 찾기</a>
-                    <a href="${pageContext.request.contextPath}/user/findPW" class="find-pwd-head">비밀번호 찾기</a>
-                </div>
-                <hr class="find-act-hr"></hr>
-                <p class="find-pwd-cmt">본인확인 인증을 위해 이메일 주소를 입력해 주세요</p>
-                <form method="post" class="form-signin" style="padding:0px">                 
-                  <div class="form-group-join">
-                    <input name="username" type="text" class="form-control-join" placeholder="이름"/>
-                  </div>
-                  <div class="form-group-join">
-                    <input name="email" type="text" class="form-control-join-email" placeholder="이메일"/>
-                    <button class="kafe-btn kafe-btn-mint form-group-join-btn">인증</button>
-                  </div>
-                  <br/>
-                  <a class="btn btn-dark " href="${pageContext.request.contextPath}/" role="button" style="margin-top:10px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a><br/>
-                </form>
-              </div>
+					<div>
+						<div class="row" style="margin-top: 40px">
+							<a href="${pageContext.request.contextPath}/user/findID"
+								class="find-id-head">아이디 찾기</a> <a
+								href="${pageContext.request.contextPath}/user/findPW"
+								class="find-pwd-head">비밀번호 찾기</a>
+						</div>
+						<hr class="find-act-hr"></hr>
+						<p class="find-pwd-cmt">본인 인증을 위해 웹 링크를 보내드렸습니다.</p>
+						<p class="find-pwd-cmt">이메일 주소 : ${email }</p>
+						<a href="${webpage }" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
+							naver.com 으로 이동하기
+						</a>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
+							GitBook계정이 생각나셨나요? 지금 로그인 하기
+						</a>
+					</div>
 
-
+			
 
 
 				</div>
