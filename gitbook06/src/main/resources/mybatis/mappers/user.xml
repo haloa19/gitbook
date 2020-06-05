@@ -27,6 +27,19 @@
 		)
 		]]>
 	</select>
+	
+	<select id="friendListReq" parameterType="map"
+		resultType="uservo">
+		<![CDATA[
+		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
+		from user a join profile b on a.no = b.user_no
+		where a.no in (
+			select c.no
+			from user c join friends d on c.no = d.user_no
+			where d.friend_no = #{no} and status = #{kind}
+		)
+		]]>
+	</select>
 
 	<select id="friendInfo" parameterType="string"
 		resultType="uservo">
@@ -39,33 +52,20 @@
 		]]>
 	</select>
 
-
-
-	<select id="countEmail" parameterType="string" resultType="int">
-		<![CDATA[
-			select count(*) as counted from user where id = #{email}
-		]]>
-	</select>
-
-	<insert id="addUser" parameterType="uservo">
-		<![CDATA[
-			insert into user values(null, #{id}, password(#{password}), #{phone}, #{name}, #{birthday}, #{gender}, now());
-		]]>
-	</insert>
-	
-	<insert id="addProfile" parameterType="uservo">
-		<![CDATA[
-			insert into profile values(null, '/gitbook/assets/img/users/1.jpg', #{name}, 'No profile introduction', (select no from user where id = #{id} and and password = password(#{password})))
-		]]>
-	</select>
 	
 	<select id="friendAdd" parameterType="map">
 		<![CDATA[
 		update friends 
 			set status = "친구" 
-		where (user_no = #{userno} and friend_no = #{friendno}) or (user_no = #{friendno} and friend_no = #{userno})
+		where user_no = #{friendno} and friend_no = #{userno}
 		]]>
 	</select>
+	
+	<insert id="friendAdd2" parameterType="map">
+		<![CDATA[
+		insert into friends values('친구',  #{userno}, #{friendno})
+		]]>
+	</insert>
 	
 	<select id="friendDelete" parameterType="map">
 		<![CDATA[
@@ -83,7 +83,7 @@
 				select b.friend_no
 				from user a join friends b on a.no = b.user_no
 				where a.id = #{userid} and b.status = '친구') 
-			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%'))
+			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%') and a.id != #{userid})
 		union
 		(select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '요청중' as 'status'  
 			from user a join profile b on a.no = b.user_no
@@ -91,15 +91,27 @@
 				select b.friend_no
 				from user a join friends b on a.no = b.user_no
 				where a.id = #{userid} and b.status = '요청') 
-			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%'))
+			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%') and a.id != #{userid})
+		union
+		(select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '요청중' as 'status'  
+			from user a join profile b on a.no = b.user_no
+			where a.no in (
+				select b.user_no
+			    from user a join friends b on a.no = b.friend_no
+			    where b.friend_no = #{userno} and b.status = '요청')
+			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%') and a.id != #{userid})
 		union
 		(select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '팔로우' as 'status'  
 			from user a join profile b on a.no = b.user_no
-			where a.no not in (
+			where (a.no not in (
 				select b.friend_no
 				from user a join friends b on a.no = b.user_no
-				where a.id = #{userid}) 
-			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%'))
+				where a.id = #{userid})) and
+				(a.no not in (
+				select b.user_no
+				from user a join friends b on a.no = b.friend_no
+				where a.id = #{userid}))
+			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%') and a.id != #{userid})
 		]]>
 	</select>
 

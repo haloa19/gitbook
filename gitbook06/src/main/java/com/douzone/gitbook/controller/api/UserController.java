@@ -58,7 +58,7 @@ public class UserController {
 	@RequestMapping(value="/friend/req",method=RequestMethod.POST)
 	public JsonResult friendRequest(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
 	
-		List<UserVo> friendList = userService.getFriend(param);
+		List<UserVo> friendList = userService.getFriendReq(param);
 		return JsonResult.success(friendList);	
 	}
 	
@@ -73,8 +73,9 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value="/friend/add",method=RequestMethod.POST)
 	public JsonResult friendAdd(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
-		System.out.println("추가확인 " + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("id") + ":" + param.get("kind"));
+		System.out.println("추가확인 더하기" + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("id") + ":" + param.get("kind"));
 		userService.addFriend(param);
+		userService.addFriend2(param);
 		List<UserVo> friendList = userService.getFriend(param);
 		
 		return JsonResult.success(friendList);	
@@ -83,18 +84,24 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value="/friend/delete",method=RequestMethod.POST)
 	public JsonResult friendDelete(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
-		System.out.println("추가확인 " + param.get("userno") + ":" + param.get("friendno"));
-		
-		return JsonResult.success(userService.deleteFriend(param));	
+		System.out.println("추가확인 삭제" + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("kind"));
+		userService.deleteFriend(param);
+		List<UserVo> friendList = userService.getFriend(param);
+		System.out.println(friendList.get(0));
+		return JsonResult.success(friendList);	
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/friend/search",method=RequestMethod.POST)
 	public JsonResult search(@RequestBody Map<String, Object> param) {
 		
-		System.out.println("추가확인 " + param.get("userid") + ":" + param.get("keyword"));
+		System.out.println("추가확인요청 " + param.get("userno") + ":" + param.get("userid") + ":" + param.get("keyword"));
+		List<FriendVo> searchList = null;
 		
-		List<FriendVo> searchList = userService.getSearchList(param);
+		if(param.get("keyword") != "") {
+	
+			searchList = userService.getSearchList(param);
+		}
 		
 		return JsonResult.success(searchList);
 	}

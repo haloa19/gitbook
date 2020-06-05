@@ -26,6 +26,12 @@ public class UserRepository {
 		return sqlSession.selectList("user.friendList", param);
 	}
 
+	public List<UserVo> friendListReq(Map<String, Object> param) {
+		
+		return sqlSession.selectList("user.friendListReq", param);
+	}
+
+	
 	public UserVo friendInfo(String userId) {
 		return sqlSession.selectOne("user.friendInfo", userId);
 	}
@@ -35,6 +41,11 @@ public class UserRepository {
 		int count = sqlSession.update("user.friendAdd", param);
 		return count == 1;
 		
+	}
+
+	public boolean addFriend2(Map<String, Object> param) {
+		int count = sqlSession.insert("user.friendAdd2", param);
+		return count == 1;
 	}
 
 	public boolean deleteFriend(Map<String, Object> param) {
@@ -54,14 +65,6 @@ public class UserRepository {
 	public Boolean addUser(UserVo vo) {
 		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
 
-	}
-	
-	public Boolean findEmailAvailable(String email) {
-		return (Integer) sqlSession.selectOne("user.countEmail", email) == 0;
-	}
-
-	public Boolean addUser(UserVo vo) {
-		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
 	}
   
 }

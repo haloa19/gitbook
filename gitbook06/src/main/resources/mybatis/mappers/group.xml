@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="group">
+	
+	<select id="groupList" parameterType="uservo" resultType="groupvo">
+		<![CDATA[
+		select g2.no, g2.image, g2.groupTitle as groupTitle, g2.groupIntro, g2.regDate, g2.grant, g1.no as masterNo, g1.image as masterImage
+		from(
+			select a.no, c.image, b.group_no
+			from user a join group_list b on a.no = b.user_no join profile c on a.no = c.user_no
+			where b.group_no in ( 
+				select group_no
+				from group_list
+				where user_no = #{no}) and b.grant = 'admin') g1 
+		    join (
+				select a.no, a.image, a.group_title as groupTitle, a.group_intro as groupIntro, a.reg_date as regDate, b.grant
+				from gitbook.group a join group_list b on a.no = b.group_no
+				where b.user_no = #{no} and (b.grant = 'user' or b.grant = 'admin')
+				) g2 on g1.group_no = g2.no;
+		]]>
+	</select>
+	
+	<insert id="groupRegist" parameterType="groupvo" keyProperty="no" useGeneratedKeys="true">
+		<![CDATA[
+		insert into gitbook.group values(null, #{image}, #{groupTitle}, #{groupIntro}, now())
+		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id="groupGrant" parameterType="map">
+		<![CDATA[
+		insert into group_list values(#{groupno}, #{userno}, #{grant})
+		]]>
+	</insert>
+	
+	<select id="groupInfo" parameterType="map" resultType="groupvo">
+		<![CDATA[
+		select g1.no, g1.image, g1.groupTitle, g1.groupIntro, g1.regDate, g1.grant, g2.masterNo, g2.masterImage, g3.repoNum, g4.memberNum
+		from(
+			select b.no, b.image, b.group_title as groupTitle, b.group_intro as groupIntro, b.reg_date as regDate, a.grant
+			from group_list a join gitbook.group b on a.group_no = b.no 
+			where group_no = #{groupno} and user_no = #{userno}) g1 
+		join (
+			select a.no as masterNo, c.image as masterImage
+			from user a join group_list b on a.no = b.user_no join profile c on a.no = c.user_no
+			where b.group_no in ( 
+				select group_no
+				from group_list
+				where user_no = #{userno}
+			) and b.grant = 'admin' and b.group_no = #{groupno}) g2
+		join (
+			select count(*) as repoNum
+			from git
+			where group_no = #{groupno}
+			) g3
+		join (
+			select count(*) as memberNum
+			from group_list
+			where group_no = #{groupno} and group_list.grant != 'user_req'
+		    ) g4;
+		]]>
+	</select>
+
+	<select id="reqGroupList" parameterType="map" resultType="friendvo">
+		<![CDATA[
+		select *
+		from(
+			(select a.no, a.id, a.password, a.phone, a.name, a.gender, a.birthday, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '일반' as 'status', #{groupno} as 'groupNo'
+			from user a join profile b on a.no = b.user_no
+			where a.no not in (
+					select user_no
+					from group_list
+					where group_no = #{groupno}) and 
+			    a.no in (select friend_no
+						from friends
+						where user_no = #{userno} and status = '친구'))
+			union
+			(select a.no, a.id, a.password, a.phone, a.name, a.gender, a.birthday, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '요청' as 'status', #{groupno} as 'groupNo'
+			from user a join profile b on a.no = b.user_no
+			where a.no in (
+					select user_no
+					from group_list
+					where group_no = #{groupno} and group_list.grant='user_req') and 
+			    a.no in (select friend_no
+						from friends
+						where user_no = #{userno} and status = '친구'))
+		) a
+		order by nickname;
+		]]>
+	</select>
+	
+	<select id="joinGroupList" parameterType="map" resultType="friendvo">
+		<![CDATA[
+		select a.no, a.id, a.password, a.phone, a.name, a.gender, a.birthday, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, #{groupno} as 'groupNo'
+		from user a join profile b on a.no = b.user_no
+		where user_no in (
+			select user_no
+			from group_list
+			where group_no = #{groupno} and group_list.grant = 'user'
+		    )
+		order by b.nickname;
+		]]>
+	</select>
+	
+	<insert id="addMember" parameterType="map">
+		<![CDATA[
+		insert into group_list values(#{groupno}, #{userno}, 'user_req')
+		]]>
+	</insert>
+	
+	<select id="myreqList" parameterType="uservo" resultType="groupvo">
+		<![CDATA[
+		select g2.no, g2.image, g2.groupTitle as groupTitle, g2.groupIntro, g2.regDate, g2.grant, g1.no as masterNo, g1.image as masterImage
+		from(
+			select a.no, c.image, b.group_no
+			from user a join group_list b on a.no = b.user_no join profile c on a.no = c.user_no
+			where b.group_no in ( 
+				select group_no
+				from group_list
+				where user_no = #{no}) and b.grant = 'admin') g1 
+		    join (
+				select a.no, a.image, a.group_title as groupTitle, a.group_intro as groupIntro, a.reg_date as regDate, b.grant
+				from gitbook.group a join group_list b on a.no = b.group_no
+				where b.user_no = #{no} and b.grant = 'user_req'
+				) g2 on g1.group_no = g2.no;
+		]]>
+	</select>
+	
+	<update id="addGroup" parameterType="map">
+		<![CDATA[
+		update group_list set group_list.grant = 'user' where group_no = #{groupno} and user_no = #{userno};
+		]]>
+	</update>
+	
+	<delete id="rejectGroup" parameterType="map">
+		<![CDATA[
+		delete from group_list where group_no = #{groupno} and user_no = #{userno};
+		]]>
+	</delete>
+	
+	<update id="update" parameterType="map">
+		<![CDATA[
+		 update gitbook.group set group_title = #{groupTitle}, group_intro = #{groupIntro}, image = #{imgurl}  where no = #{groupno};
+		]]>
+	</update>
+
+</mapper>

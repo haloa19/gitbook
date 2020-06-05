@@ -23,10 +23,14 @@ public class UserService {
 
 	
 	public List<UserVo> getFriend(Map<String, Object> param) {
-		
-		
+	
 		return userRepository.friendList(param);
+	}
+	
 
+	public List<UserVo> getFriendReq(Map<String, Object> param) {
+		
+		return userRepository.friendListReq(param);
 	}
 
 	public UserVo getUserFriend(String userId) {
@@ -38,6 +42,11 @@ public class UserService {
 	public boolean addFriend(Map<String, Object> param) {
 		
 		return userRepository.addFriend(param);		
+	}
+	
+	public boolean addFriend2(Map<String, Object> param) {
+		
+		return userRepository.addFriend2(param);		
 	}
 
 	public boolean deleteFriend(Map<String, Object> param) {
@@ -60,13 +69,5 @@ public class UserService {
 		
 	}
 
-	public Boolean getEmailStatus(String email) {
-		return userRepository.findEmailAvailable(email);
-	}
-
-	public Boolean addUser(UserVo vo) {
-		return userRepository.addUser(vo);
-		
-	}
 
 }
