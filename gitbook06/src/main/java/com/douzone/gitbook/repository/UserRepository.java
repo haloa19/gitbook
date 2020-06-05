@@ -56,12 +56,5 @@ public class UserRepository {
 
 	}
 	
-	public Boolean findEmailAvailable(String email) {
-		return (Integer) sqlSession.selectOne("user.countEmail", email) == 0;
-	}
-
-	public Boolean addUser(UserVo vo) {
-		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
-	}
   
 }
