@@ -60,7 +60,7 @@ public class UserRepository {
 	public String findEmail(UserVo vo) {
 		return sqlSession.selectOne("user.findEmail", vo);
 	}
-
+  
 	public Boolean changePasswordResult(UserVo vo) {
 		return sqlSession.update("user.updatePassword", vo) == 1;
 	}
@@ -76,5 +76,5 @@ public class UserRepository {
 	public Boolean updateUserInfo(UserVo vo) {
 		return sqlSession.update("user.updateUserInfo", vo) == 1;
 	}
-
+  
 }

@@ -11,8 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.douzone.gitbook.service.MailService;
+
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.util.LinuxServer;
 import com.douzone.gitbook.vo.UserVo;
@@ -24,8 +24,6 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@Autowired
-	MailService mailService;
 
 	@RequestMapping("/join")
 	public String join(Model model) {

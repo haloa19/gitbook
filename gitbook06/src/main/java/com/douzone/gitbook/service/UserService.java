@@ -13,6 +13,7 @@ import com.douzone.gitbook.vo.UserVo;
 
 @Service
 public class UserService {
+	
 	@Autowired
 	private UserRepository userRepository;
 
@@ -47,7 +48,7 @@ public class UserService {
 	public Boolean addUser(UserVo vo) {
 		return userRepository.addUser(vo);
 	}
-
+  
 	public String getEmail(UserVo vo) {
 		return userRepository.findEmail(vo);
 	}
@@ -71,5 +72,5 @@ public class UserService {
 	public Boolean updateUserInfo(UserVo vo) {
 		return userRepository.updateUserInfo(vo);
 	}
-
+  
 }
