@@ -59,15 +59,49 @@
 
 
 <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
-<script src="https://kit.fontawesome.com/81c2c05f29.js"
-	crossorigin="anonymous"></script>
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
+<!-- form 확인 후 submit 진행 -->
+<script type="text/javascript">
+function checkEmail(str) {
+	var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+	if (!reg_email.test(str)) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
+// jQuery구문 영역
+$(function() {
+	$("#findPW-form").submit(function(event) {
+		event.preventDefault();
+		
+		var email = $("#input_email").val();
+		var random = $("#random").val();
+		
+		if (!random) {
+			alert("error with auth configuration...(random is null)");
+			return;
+		}
+		if (!email) {
+			alert("이메일 주소를 입력해주세요!");
+			$("#input_email").focus();
+			return;
+		}
+		if (!checkEmail(email)) {
+			alert("이메일 형식에 맞추어 다시 입력해주세요!");
+			$("#input_email").focus();
+			return;
+		}
+		
+		this.submit();
+	});
+});
+</script>
 
 <title>GitBook</title>
 </head>
@@ -81,28 +115,36 @@
 						<a href="${pageContext.request.contextPath}/">GitBook</a>
 					</h1>
 
-					 <div>
-                <div class="row" style="margin-top:40px">
-                  <a href="${pageContext.request.contextPath}/user/findID" class="find-id-head">아이디 찾기</a>
-                  <a  class="find-pwd-head">비밀번호 찾기</a>
-                </div>
-                <hr class="find-act-hr"></hr>
-                <p class="find-pwd-cmt">찾고자 하는 비밀번호의 아이디를 입력해 주세요</p>
-                <form method="post" class="form-signin" style="padding:0px">                 
-                  <div class="form-group-join">
-                    <input name="email" type="text" class="form-control-join-email" placeholder="이메일"/>
-                  
-                    <a href="/find/pw/auth" ><button class="kafe-btn kafe-btn-mint form-group-join-btn">확인</button></a>
-                  </div>
-                  <br/>
-                  <a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style=margin-top:10px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a><br/>
-                </form>
-              </div>
-
-
-
-
-
+					<div>
+						<div class="row" style="margin-top: 40px">
+							<a href="${pageContext.request.contextPath}/user/findID" class="find-id-head">아이디 찾기</a>
+							<a class="find-pwd-head">비밀번호 찾기</a>
+						</div>
+						<hr class="find-act-hr"></hr>
+						<p class="find-pwd-cmt">아이디를 입력해 주세요</p>
+						
+						<form method="post" class="form-signin" id="findPW-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/findPWAuth">
+							<div class="form-group-join">
+								<input id="input_email" name="email" type="text" class="form-control-join-email" placeholder="이메일" />
+								<input type="hidden" id="random" name="random" value="${random }" />
+							</div>
+							
+							<c:if test="${not empty vo}">
+								<p style="color:red">존재하지 않는 이메일입니다.</p>
+							</c:if>
+							
+							<br/>
+							<button class="kafe-btn kafe-btn-mint btn-block" type="submit">이메일 인증하기</button>
+		   					<br/>
+		   					
+							<a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
+								GitBook계정이 생각나셨나요? 지금 로그인 하기
+							</a>
+							<br />
+						</form>
+						
+					</div>
+					
 				</div>
 			</div>
 		</div>

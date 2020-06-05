@@ -20,9 +20,8 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findByIdAndPassword", vo);
 	}
 
-	
 	public List<UserVo> friendList(Map<String, Object> param) {
-		
+
 		return sqlSession.selectList("user.friendList", param);
 	}
 
@@ -30,11 +29,10 @@ public class UserRepository {
 		return sqlSession.selectOne("user.friendInfo", userId);
 	}
 
-
 	public boolean addFriend(Map<String, Object> param) {
 		int count = sqlSession.update("user.friendAdd", param);
 		return count == 1;
-		
+
 	}
 
 	public boolean deleteFriend(Map<String, Object> param) {
@@ -43,18 +41,40 @@ public class UserRepository {
 	}
 
 	public List<FriendVo> searchList(Map<String, Object> param) {
-		
+
 		return sqlSession.selectList("user.searchList", param);
-  }
+	}
 
 	public Boolean findEmailAvailable(String email) {
 		return (Integer) sqlSession.selectOne("user.countEmail", email) == 0;
 	}
+	
+	public Boolean findEmailExistance(String email) {
+		return (Integer) sqlSession.selectOne("user.countEmail", email) == 1;
+	}
 
 	public Boolean addUser(UserVo vo) {
-		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
-
+		return sqlSession.insert("user.addUser", vo) == 1 && sqlSession.insert("user.addProfile", vo) == 1;
 	}
-	
+
+	public String findEmail(UserVo vo) {
+		return sqlSession.selectOne("user.findEmail", vo);
+	}
+  
+	public Boolean changePasswordResult(UserVo vo) {
+		return sqlSession.update("user.updatePassword", vo) == 1;
+	}
+
+	public UserVo getProfileInfo(String id) {
+		return sqlSession.selectOne("user.getProfile", id);
+	}
+
+	public Boolean updateProfileInfo(UserVo vo) {
+		return sqlSession.update("user.updateProfile", vo) == 1;
+	}
+
+	public Boolean updateUserInfo(UserVo vo) {
+		return sqlSession.update("user.updateUserInfo", vo) == 1;
+	}
   
 }

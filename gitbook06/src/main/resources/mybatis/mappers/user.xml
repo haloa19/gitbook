@@ -97,10 +97,48 @@
 	
 	<insert id="addProfile" parameterType="uservo">
 		<![CDATA[
-			insert into profile values(null, '/gitbook/assets/img/users/1.jpg', #{name}, 'No profile introduction', (select no from user U where U.id = #{id} and U.password = password(#{password})))
+			insert into profile values(null, '/gitbook/assets/img/users/default.jpg', #{name}, 'No profile introduction', (select no from user U where U.id = #{id} and U.password = password(#{password})))
 		]]>
     
 	</insert>
-
+	
+	<select id="findEmail" parameterType="uservo" resultType="string">
+		<![CDATA[
+			select id from user where phone = #{phone} and name = #{name} and birthday = #{birthday}
+		]]>
+	</select>
+	
+	<update id="updatePassword" parameterType="uservo">
+		<![CDATA[
+			update user set password = password(#{password}) where id=#{id}
+		]]>
+	</update>
+	
+	<select id="getProfile" parameterType="string" resultType="uservo">
+		<![CDATA[
+			select no as ProfileNo, image, nickname, profile_contents as profileContents from profile where user_no = (select no from user where id = #{id})
+		]]>
+	</select>
+	
+	<update id="updateProfile" parameterType="uservo">
+		<![CDATA[
+			update profile set image = #{image}, nickname = #{nickname}, profile_contents = #{profileContents} where no = #{ProfileNo} and user_no = (select no from user where id = #{id})
+		]]>
+	</update>
+	
+	<update id="updateUserInfo" parameterType="uservo">
+		<choose>
+			<when test='password != null and password != ""'>
+				<![CDATA[
+					update user set password = password(#{password}), name = #{name}, phone = #{phone}, birthday = #{birthday}, gender = #{gender} where id = #{id}
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					update user set name = #{name}, phone = #{phone}, birthday = #{birthday}, gender = #{gender} where id = #{id}
+				]]>
+			</otherwise>
+		</choose>
+	</update>
 
 </mapper>

@@ -18,6 +18,9 @@ public class MailService implements MailServiceInterface {
 	// org.springframework.mail.javamail.JavaMailSender
 	@Autowired
 	private JavaMailSender javaMailSender;
+	
+	@Autowired
+	private AsyncService asyncService;
 
 	@Override
 	public boolean send(String subject, String text, String from, String to, String filePath) {
@@ -37,6 +40,29 @@ public class MailService implements MailServiceInterface {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public void sendAsync(String subject, String text, String from, String to, String filePath) {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		
+		try {
+			// org.springframework.mail.javamail.MimeMessageHelper
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+			helper.setSubject(subject);
+			helper.setText(text, true);
+			helper.setFrom(from);
+			helper.setTo(to);
+ 
+			javaMailSender.send(message);
+			System.out.println("[MailService.java] Succeed in sending mail with sendAsync(...) !!");
+		} catch (MessagingException e) {
+			System.out.println("[MailService.java] Failed process with sendAsync(...). Check out below message.");
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendAsyncMethodCall(String subject, String text, String from, String to, String filePath) {
+		asyncService.run(() -> sendAsync(subject, text, from, to, filePath));
 	}
 
 }

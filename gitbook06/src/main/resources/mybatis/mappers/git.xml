@@ -60,5 +60,23 @@
 			</otherwise>
 		</choose>
 	</update>
+	
+	<select id="findUserNo" parameterType="map" resultType="long">
+		<![CDATA[
+			select no from user where id = #{id}
+		]]>
+	</select>
+	
+	<insert id="insertSchedule" parameterType="map">
+		<![CDATA[
+			insert into schedule values(null, #{commitDate}, #{contents_short}, 'commit', #{userNo}, (select group_no from group_list where user_no = #{userNo}))
+		]]>
+	</insert>
+	
+	<insert id="insertTimeline" parameterType="map">
+		<![CDATA[
+			insert into timeline values(null, #{contents}, now(), 'public', (select group_no from group_list where user_no = #{userNo}), #{userNo})
+		]]>
+	</insert>
 
 </mapper>
