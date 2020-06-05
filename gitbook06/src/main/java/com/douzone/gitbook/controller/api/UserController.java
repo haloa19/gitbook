@@ -140,18 +140,23 @@ public class UserController {
 	@RequestMapping(value = "/friend/add", method = RequestMethod.POST)
 	public JsonResult friendAdd(@RequestBody Map<String, Object> param) { // auth가 클릭한 친구의 친구들 목록 가져오기
 		System.out.println("추가확인 " + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("id") + ":" + param.get("kind"));
+
 		userService.addFriend(param);
+		userService.addFriend2(param);
 		List<UserVo> friendList = userService.getFriend(param);
 
 		return JsonResult.success(friendList);
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/friend/delete", method = RequestMethod.POST)
-	public JsonResult friendDelete(@RequestBody Map<String, Object> param) { // auth가 클릭한 친구의 친구들 목록 가져오기
-		System.out.println("추가확인 " + param.get("userno") + ":" + param.get("friendno"));
+	@RequestMapping(value="/friend/delete",method=RequestMethod.POST)
+	public JsonResult friendDelete(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
+		System.out.println("추가확인 삭제" + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("kind"));
+		userService.deleteFriend(param);
+		List<UserVo> friendList = userService.getFriend(param);
+		System.out.println(friendList.get(0));
+		return JsonResult.success(friendList);	
 
-		return JsonResult.success(userService.deleteFriend(param));
 	}
 
 	@ResponseBody
@@ -236,7 +241,7 @@ public class UserController {
 	public JsonResult updateProfile(@PathVariable("id") String id, @RequestBody UserVo vo) {
 		vo.setId(id);
 		System.out.println("[updateProfile] " + vo.getId() + " >>> profile no : " + vo.getProfileNo() + "  //  nickname : " + vo.getNickname() + "  //  contents : " + vo.getProfileContents() + "  //  image : " + vo.getImage());
-		
+    
 		// 프로파일 업데이트 진행
 		Boolean result = userService.updateProfile(vo);
 		if(!result) {

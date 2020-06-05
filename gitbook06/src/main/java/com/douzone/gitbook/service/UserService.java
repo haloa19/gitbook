@@ -22,7 +22,13 @@ public class UserService {
 	}
 
 	public List<UserVo> getFriend(Map<String, Object> param) {
-		return userRepository.friendList(param);
+    return userRepository.friendList(param);
+	}
+	
+	public List<UserVo> getFriendReq(Map<String, Object> param) {
+		
+		return userRepository.friendListReq(param);
+
 	}
 
 	public UserVo getUserFriend(String userId) {
@@ -31,6 +37,11 @@ public class UserService {
 
 	public boolean addFriend(Map<String, Object> param) {
 		return userRepository.addFriend(param);
+	}
+	
+	public boolean addFriend2(Map<String, Object> param) {
+		
+		return userRepository.addFriend2(param);		
 	}
 
 	public boolean deleteFriend(Map<String, Object> param) {
@@ -52,7 +63,7 @@ public class UserService {
 	public String getEmail(UserVo vo) {
 		return userRepository.findEmail(vo);
 	}
-
+  
 	public Boolean getEmailExistance(String email) {
 		return userRepository.findEmailExistance(email);
 	}
@@ -68,7 +79,7 @@ public class UserService {
 	public Boolean updateProfile(UserVo vo) {
 		return userRepository.updateProfileInfo(vo);
 	}
-
+  
 	public Boolean updateUserInfo(UserVo vo) {
 		return userRepository.updateUserInfo(vo);
 	}
