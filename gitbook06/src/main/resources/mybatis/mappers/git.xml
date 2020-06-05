@@ -6,7 +6,7 @@
 		<![CDATA[
 		select a.no,a.user_no as userNo,a.group_no as groupNo,
 			   a.description, a.visible,a.git_name as gitName,
-			   a.reg_date as regDate
+			    DATE_FORMAT(a.reg_date,'%Y-%m-%d %H:%i') as regDate
 		from git a, user b 
 		where a.user_no = b.no
 		and b.id = #{id}
@@ -18,7 +18,7 @@
 		<![CDATA[
 		select a.no, a.user_no as userNo , a.group_no as groupNo, 
 			   a.description, a.visible, a.git_name as gitName, 
-		       a.reg_date as regDate
+		      DATE_FORMAT(a.reg_date,'%Y-%m-%d %H:%i') as regDate
 		from git a, user b  
 		where a.user_no = b.no 
 		and a.git_name=#{repoName} 

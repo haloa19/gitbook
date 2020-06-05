@@ -4,11 +4,17 @@
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.douzone.gitbook.vo.UserVo"/>
 		<typeAlias alias="gitvo" type="com.douzone.gitbook.vo.GitVo"/>
+		<typeAlias alias="filevo" type="com.douzone.gitbook.vo.FileVo"/>
 		<typeAlias alias="friendvo" type="com.douzone.gitbook.vo.FriendVo"/>
+		<typeAlias alias="tagvo" type="com.douzone.gitbook.vo.TagVo"/>
+		<typeAlias alias="timelinevo" type="com.douzone.gitbook.vo.TimelineVo"/>
+		<typeAlias alias="commentvo" type="com.douzone.gitbook.vo.CommentVo"/>
+		<typeAlias alias="likevo" type="com.douzone.gitbook.vo.LikeVo"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/git.xml" />
+		<mapper resource="mybatis/mappers/timeline.xml" />
 	
 	</mappers>
 </configuration>

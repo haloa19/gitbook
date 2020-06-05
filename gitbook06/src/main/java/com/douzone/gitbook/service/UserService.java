@@ -51,14 +51,7 @@ public class UserService {
 	}
 
 
-	public Boolean getEmailStatus(String email) {
-		return userRepository.findEmailAvailable(email);
-	}
-
-	public Boolean addUser(UserVo vo) {
-		return userRepository.addUser(vo);
-		
-	}
+	
 
 	public Boolean getEmailStatus(String email) {
 		return userRepository.findEmailAvailable(email);
@@ -67,6 +60,12 @@ public class UserService {
 	public Boolean addUser(UserVo vo) {
 		return userRepository.addUser(vo);
 		
+	}
+
+
+	public boolean existUser(String password, String id) {
+		
+		return userRepository.findPassword(password,id) != null;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.douzone.gitbook.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,9 +48,7 @@ public class UserRepository {
 		return sqlSession.selectList("user.searchList", param);
   }
 
-	public Boolean findEmailAvailable(String email) {
-		return (Integer) sqlSession.selectOne("user.countEmail", email) == 0;
-	}
+	
 
 	public Boolean addUser(UserVo vo) {
 		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
@@ -60,8 +59,17 @@ public class UserRepository {
 		return (Integer) sqlSession.selectOne("user.countEmail", email) == 0;
 	}
 
-	public Boolean addUser(UserVo vo) {
-		return sqlSession.update("user.addUser", vo) == 1 && sqlSession.update("user.addProfile", vo) == 1;
+
+	public UserVo findPassword(String password,String id) {
+		
+		Map<String,Object> map = new HashMap<String,Object>(); 
+		map.put("id",id);
+		map.put("password",password);
+		
+	
+		return sqlSession.selectOne("user.findPassword",map);
 	}
+
+
   
 }

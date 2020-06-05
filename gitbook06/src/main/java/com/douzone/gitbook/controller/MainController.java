@@ -25,7 +25,7 @@ public class MainController {
 		return "user/index";
 	}
 	
-	@RequestMapping({"/main/**", "/my/**", "/group/**", "/mygroup/**", "/myfriend/**"})
+	@RequestMapping({"/main/**", "/my/**", "/group/**", "/mygroup/**", "/myfriend/**","/upload**"})
 	   public String react(@AuthUser UserVo vo) {
 		if(vo == null) {
 			return "redirect:/";

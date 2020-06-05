@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.GitService;
+import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.vo.GitVo;
 
 import me.saro.commons.ssh.SSHExecutor;
@@ -37,6 +39,9 @@ public class GitApiContoller {
 
 	@Autowired
 	private GitService gitService;
+	
+	@Autowired
+	private UserService userService;
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -146,7 +151,15 @@ public class GitApiContoller {
 			return JsonResult.success(data);
 		}
 	
-	
+		@ResponseBody
+		@RequestMapping(value="/checkPW")
+		public JsonResult checkEmail(@PathVariable String id,
+				@RequestBody String password) {
+			boolean exist = userService.existUser(password,id);
+		
+			
+			return JsonResult.success(exist);
+		}
 	
 
 }
