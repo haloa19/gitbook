@@ -1,8 +1,6 @@
 package com.douzone.gitbook.vo;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class FriendVo {
 	private Long no;

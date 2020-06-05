@@ -60,15 +60,44 @@
 
 
 <script src="${pageContext.request.contextPath}/assets/js/jquery.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
-<script src="https://kit.fontawesome.com/81c2c05f29.js"
-	crossorigin="anonymous"></script>
-<script
-	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
+<!-- 따로 작성한 코드 -->
+<script type="text/javascript">
+function checkEmail(str) {
+	var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+	if (!reg_email.test(str)) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
+// jQuery 구문 영역
+$(function() {
+	$("#findID-form").submit(function(event) {
+		event.preventDefault();
+		
+		if($("#input_username").val() == ''){
+			alert('이름을 입력해 주세요!');
+			$("#input_username").focus();
+			return;
+		}
+		
+		if($("#input_phone").val() == '' || $.isNumeric($("#input_phone").val()) == false || $("#input_phone").val().length < 10){
+			alert('전화번호를 입력해 주세요!');
+			$("#input_phone").focus();
+			return;
+		}
+		
+		this.submit();
+	});
+		
+});
+</script>
 
 <title>GitBook</title>
 </head>
@@ -90,19 +119,48 @@
 						
 						<hr class="find-act-hr"></hr>
 						
-						<form method="post" class="form-signin">
+						<form method="post" class="form-signin" id="findID-form" action="${pageContext.request.contextPath }/user/findIDProcess">
 							<div class="form-group-join">
-								<input name="username" type="text" class="form-control-join" placeholder="이름" />
+								<input name="name" type="text" class="form-control-join" id="input_username" placeholder="이름" />
 							</div>
 							
 							<div class="form-group-join">
-								<input name="phone" type="tel" class="form-control-join" placeholder="휴대폰번호" />
+								<input name="phone" type="tel" class="form-control-join" id="input_phone" placeholder="휴대폰번호" />
 							</div>
-						
+							
 							<div class="form-group-join">
-								<input name="email" type="text" class="form-control-join-email" placeholder="이메일" />
-								<button class="kafe-btn kafe-btn-mint form-group-join-btn">인증</button>
+
+								<select class="birth_info" name="year" type="checkbox" style="width: 100px">
+									<c:forEach begin="${0}" end="${120}" var='k'>
+										<option value="${2020-k}">${2020-k}</option>'
+                    				</c:forEach>
+								</select>
+								<label class="birth_label" for="year">년</label>
+								
+								<select class="birth_info" name="month" type="checkbox">
+									<c:forEach begin="${1}" end="${12}" var='k'>
+										<option value="${k}">${k}</option>'
+                    				</c:forEach>
+								</select>
+								<label class="birth_label" for="month">월</label>
+								
+								<select class="birth_info" name="day" type="checkbox">
+									<c:forEach begin="${1}" end="${31}" var='k'>
+										<option value="${k}">${k}</option>'
+                    				</c:forEach>
+								</select>
+								<label class="birth_label" for="day">일</label>
+
 							</div>
+							<br />
+							
+							<a>
+								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">ID 찾기</button>
+							</a>
+							
+							<c:if test="${not empty vo}">
+								<p style="color:red">사용자를 찾을 수 없습니다.</p>
+							</c:if>
 							<br />
 							
 							<a href="${pageContext.request.contextPath}/" class="btn btn-dark " role="button"
@@ -110,10 +168,7 @@
 						</form>
 						
 					</div>
-
-
-
-
+					
 				</div>
 			</div>
 		</div>

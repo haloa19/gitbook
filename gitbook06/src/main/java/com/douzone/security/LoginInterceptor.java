@@ -20,6 +20,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		
 		HttpSession httpSession = request.getSession(false);
+		if(httpSession == null ) {
+			return false;
+		}
 		UserVo uservo =(UserVo)httpSession.getAttribute("authUser");
 		if(uservo != null) {
 			request.getRequestDispatcher("/WEB-INF/views/main/main.jsp").forward(request, response);
