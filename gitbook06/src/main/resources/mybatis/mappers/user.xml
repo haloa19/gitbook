@@ -28,6 +28,21 @@
 		]]>
 	</select>
 	
+	<select id="friendNaviList" parameterType="map"
+		resultType="uservo">
+		<![CDATA[
+		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
+		from user a join profile b on a.no = b.user_no
+		where a.no in (
+			select d.friend_no
+			from user c join friends d on c.no = d.user_no
+			where id = #{id} and status = #{kind}
+		)
+		order by b.nickname
+		limit 9
+		]]>
+	</select>
+	
 	<select id="friendListReq" parameterType="map"
 		resultType="uservo">
 		<![CDATA[
@@ -40,14 +55,29 @@
 		)
 		]]>
 	</select>
+	
+	<select id="frinedNo" parameterType="map" resultType="string">
+		<![CDATA[
+		select no
+		from user
+		where id=#{friendid}
+		]]>
+	</select>
+	
+	<select id="friendstatus" parameterType="map" resultType="string">
+		<![CDATA[
+		select distinct(status)
+		from friends
+		where (user_no=#{userno} and friend_no=#{friendno}) or (user_no=#{friendid} and friend_no=#{userid})
+		]]>
+	</select>
 
 	<select id="friendInfo" parameterType="string"
-		resultType="uservo">
+		resultType="friendvo">
 		<![CDATA[
-
 		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no, b.image, b.nickname, b.profile_contents as profileContents
 		from user a left join profile b on a.no = b.user_no
-		where a.id = #{userId};
+		where a.id = #{friendid};
 
 		]]>
 	</select>
@@ -76,6 +106,8 @@
 	
 	<select id="searchList" parameterType="map" resultType="friendvo">
 		<![CDATA[
+		select *
+		from(
 		(select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents, '친구' as 'status' 
 			from user a join profile b on a.no = b.user_no
 			where a.no in (
@@ -111,6 +143,7 @@
 				from user a join friends b on a.no = b.friend_no
 				where a.id = #{userid}))
 			and (a.id like '%${keyword }%' or a.name like '%${keyword }%' or b.nickname like '%${keyword }%') and a.id != #{userid})
+		) a order by nickname
 		]]>
 	</select>
 

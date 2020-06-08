@@ -95,14 +95,13 @@ public class GitApiContoller {
 	@GetMapping("/item/{repoName}")
 	public JsonResult gitListItem(@PathVariable String id, @PathVariable("repoName") String repoName) {
 		GitVo vo = gitService.getGitItem(id, repoName);
-
 		return JsonResult.success(vo);
 	}
 
 	@ResponseBody
 	@GetMapping("/repolist/{repoName}")
 	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName) throws NoSuchAlgorithmException {
-		System.out.println("레포지토리 함수 실행");
+
 		// 잘못된 URL 입력
 		if (gitService.checkUserAndRepo(id, repoName) == false) {
 			return JsonResult.fail("repo not found");

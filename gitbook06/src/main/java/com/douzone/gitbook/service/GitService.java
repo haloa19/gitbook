@@ -41,6 +41,7 @@ public class GitService {
 		gitRepository.updateVisible(vo);
 	}
 
+
 	   // 사용자 폴더 & 깃 레포지토리 폴더 여부 확인하기 (input 에서 레포지토리 명 뒤에 ".git" 붙이지 않는다)
 	   // ex) checkUserAndRepo("user03", "test09") <-- .../user03/test09.git/ 여부 확인
 	   public Boolean checkUserAndRepo(String userName, String repoName) throws NoSuchAlgorithmException {
