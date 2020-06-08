@@ -1,6 +1,8 @@
 package com.douzone.gitbook.service;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +43,11 @@ public class GitService {
 
 	// 사용자 폴더 & 깃 레포지토리 폴더 여부 확인하기 (input 에서 레포지토리 명 뒤에 ".git" 붙이지 않는다)
 	// ex) checkUserAndRepo("user03", "test09") <-- .../user03/test09.git/ 여부 확인
-	public static Boolean checkUserAndRepo(String userName, String repoName) {
+	public Boolean checkUserAndRepo(String userName, String repoName) throws NoSuchAlgorithmException {
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		java.security.KeyPairGenerator.getInstance("DH");
+		javax.crypto.KeyAgreement.getInstance("DH");
+
 		return GitService.getResult("ls " + dir + userName + "/" + repoName + ".git").contains("ls: cannot access") == false;
 	}
 
