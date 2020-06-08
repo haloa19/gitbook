@@ -1,6 +1,7 @@
 package com.douzone.gitbook.controller.api;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,7 +89,6 @@ public class GitApiContoller {
 		System.out.println("list:" + list);
 
 		return JsonResult.success(list);
-
 	}
 
 	@ResponseBody
@@ -101,10 +101,10 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@GetMapping("/repolist/{repoName}")
-	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName) {
-
+	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName) throws NoSuchAlgorithmException {
+		System.out.println("레포지토리 함수 실행");
 		// 잘못된 URL 입력
-		if (GitService.checkUserAndRepo(id, repoName) == false) {
+		if (gitService.checkUserAndRepo(id, repoName) == false) {
 			return JsonResult.fail("repo not found");
 		}
 
@@ -112,7 +112,7 @@ public class GitApiContoller {
 		if (GitService.checkNewRepo(id, repoName).contains("fatal: Not a valid object name master")) {
 			return JsonResult.fail("newRepo");
 		}
-
+		System.out.println("레포지토리 생성 실행");
 		return JsonResult.success(GitService.getFileListOnTop(id, repoName));
 	}
 
