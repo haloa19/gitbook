@@ -106,7 +106,14 @@
 			<artifactId>commons</artifactId>
 			<version>3.0.2</version>
 		</dependency>
-    
+
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.60</version>
+		</dependency>
+
 		<!-- tomcat jasper -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
