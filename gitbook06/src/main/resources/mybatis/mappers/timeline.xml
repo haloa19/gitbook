@@ -130,15 +130,21 @@
 		]]>
 	</delete>
 	
-	<select id="getMainTimelineList" parameterType="string"
+	<select id="getMainTimelineList" parameterType="uservo"
 		resultType="timelinevo">
 		<![CDATA[
-		select b.no,b.timeline_contents as contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, b.visible,b.group_no as groupNo, b.user_no as userNo
-		from user a, timeline b 
+		select b.no,b.timeline_contents as 
+		contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, 
+		b.visible,b.group_no as groupNo, b.user_no as userNo
+        from user a, timeline b,friends c 
 		where a.no = b.user_no
-		and a.id=#{id}
+        and a.no=c.user_no
+        and b.user_no=c.user_no
 		and b.group_no is NULL
+        and c.status='친구'
+        and c.friend_no=#{no}
 		order by b.reg_date desc
+		
 		]]>
 	</select>
 	
@@ -167,5 +173,22 @@
 		]]>
 	</delete>
 	
+	<select id="getTagTimelineList" parameterType="map"
+		resultType="timelinevo">
+		<![CDATA[
+		select b.no,b.timeline_contents as 
+		contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, 
+		b.visible,b.group_no as groupNo, b.user_no as userNo
+        from user a, timeline b,tag_list c,tag d 
+		where a.no = b.user_no
+        and b.no=c.timeline_no
+        and c.tag_no=d.no
+		and b.group_no is NULL
+		and d.tag_contents like '%${tagid}%' 
+		group by b.no
+		order by b.reg_date desc
+		
+		]]>
+	</select>
 	
 </mapper>

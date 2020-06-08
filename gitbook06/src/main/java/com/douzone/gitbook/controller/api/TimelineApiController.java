@@ -25,6 +25,7 @@ import com.douzone.gitbook.vo.LikeVo;
 import com.douzone.gitbook.vo.TagVo;
 import com.douzone.gitbook.vo.TimelineVo;
 import com.douzone.gitbook.vo.UserVo;
+import com.douzone.security.AuthUser;
 
 
 @RestController
@@ -111,16 +112,31 @@ public class TimelineApiController {
 	public JsonResult myTimelineList(
 			@PathVariable String id
 			) {
-		List<GitVo> list = timelineService.getMyTimelineList(id);
+		List<TimelineVo> list = timelineService.getMyTimelineList(id);
 		return JsonResult.success(list);
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/mainlist")
 	public JsonResult mainTimelineList(
+			@AuthUser UserVo userVo,
 			@PathVariable String id
 			) {
-		List<GitVo> list = timelineService.getMainTimelineList(id);
+	
+		List<TimelineVo> list = timelineService.getMainTimelineList(userVo);
+		return JsonResult.success(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/taglist/{tagid}")
+	public JsonResult tagTimelineList(
+			@AuthUser UserVo userVo,
+			@PathVariable String id,
+			@PathVariable String tagid
+			) {
+		System.out.println(tagid);
+		List<TimelineVo> list = timelineService.getTagTimelineList(tagid);
+		System.out.println(list);
 		return JsonResult.success(list);
 	}
 	

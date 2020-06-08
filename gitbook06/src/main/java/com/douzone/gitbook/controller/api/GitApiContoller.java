@@ -89,7 +89,6 @@ public class GitApiContoller {
 		System.out.println("list:" + list);
 
 		return JsonResult.success(list);
-
 	}
 
 	@ResponseBody
@@ -112,7 +111,7 @@ public class GitApiContoller {
 		if (GitService.checkNewRepo(id, repoName).contains("fatal: Not a valid object name master")) {
 			return JsonResult.fail("newRepo");
 		}
-
+		System.out.println("레포지토리 생성 실행");
 		return JsonResult.success(GitService.getFileListOnTop(id, repoName));
 	}
 

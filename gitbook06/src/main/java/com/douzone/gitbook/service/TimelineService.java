@@ -90,7 +90,7 @@ public class TimelineService {
 	public void insertTagList(Long timelineNo, Long tagNo) {
 		timelineRepositroy.insertTagList(timelineNo,tagNo);
 	}
-	public List<GitVo> getMyTimelineList(String id) {
+	public List<TimelineVo> getMyTimelineList(String id) {
 		
 		return timelineRepositroy.getMyTimelineList(id);
 	}
@@ -127,9 +127,9 @@ public class TimelineService {
 		timelineRepositroy.deleteComment(commentNo);
 		
 	}
-	public List<GitVo> getMainTimelineList(String id) {
+	public List<TimelineVo> getMainTimelineList(UserVo vo) {
 		
-		return timelineRepositroy.getMainTimelineList(id);
+		return timelineRepositroy.getMainTimelineList(vo);
 	}
 	public void updateTimeline(TimelineVo vo) {
 		timelineRepositroy.updateTimeline(vo);
@@ -145,5 +145,8 @@ public class TimelineService {
 	}
 	public void deleteTimeline(Long timelineNo) {
 		timelineRepositroy.deleteTimeline(timelineNo);
+	}
+	public List<TimelineVo> getTagTimelineList(String tagid) {
+		return timelineRepositroy.getTagTimelineList(tagid);
 	}
 }

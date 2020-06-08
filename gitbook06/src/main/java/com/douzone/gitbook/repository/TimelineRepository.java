@@ -45,7 +45,7 @@ public class TimelineRepository {
 		sqlSession.insert("timeline.insertTagList",map);
 	}
 
-	public List<GitVo> getMyTimelineList(String id) {
+	public List<TimelineVo> getMyTimelineList(String id) {
 		return sqlSession.selectList("timeline.getMyTimelineList", id);
 	}
 
@@ -89,9 +89,9 @@ public class TimelineRepository {
 		
 	}
 
-	public List<GitVo> getMainTimelineList(String id) {
+	public List<TimelineVo> getMainTimelineList(UserVo vo) {
 		
-		return sqlSession.selectList("timeline.getMainTimelineList", id);
+		return sqlSession.selectList("timeline.getMainTimelineList", vo);
 	}
 
 	public void updateTimeline(TimelineVo vo) {
@@ -113,5 +113,11 @@ public class TimelineRepository {
 	public void deleteTimeline(Long timelineNo) {
 		sqlSession.delete("timeline.deleteTimeline",timelineNo);
 		
+	}
+
+	public List<TimelineVo> getTagTimelineList(String tagid) {
+		Map<String,Object> map =new HashMap<>();
+		map.put("tagid",tagid)	;	
+		return sqlSession.selectList("timeline.getTagTimelineList",map) ;
 	}
 }
