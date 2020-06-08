@@ -31,7 +31,7 @@ public class UserService {
 
 	}
 
-	public UserVo getUserFriend(String userId) {
+	public FriendVo getUserFriend(String userId) {
 		return userRepository.friendInfo(userId);
 	}
 
@@ -91,6 +91,21 @@ public class UserService {
   
 	public Boolean updateUserInfo(UserVo vo) {
 		return userRepository.updateUserInfo(vo);
+	}
+
+	public List<UserVo> getFriendNavi(Map<String, Object> param) {
+		
+		return userRepository.friendNaviList(param);
+	}
+
+	public String getFriendStatus(Map<String, Object> param) {
+		
+		return userRepository.friendStatus(param);
+	}
+
+	public String getFriendNo(Map<String, Object> param) {
+		
+		return userRepository.friendNo(param);
 	}
   
 }

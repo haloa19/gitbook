@@ -60,9 +60,32 @@ public class UserController {
   
 	@ResponseBody
 	@RequestMapping(value = "/friend", method = RequestMethod.POST)
-	public JsonResult friendInfo(@RequestBody String userId) { // 클릭한 친구의 정보 가져오기
+	public JsonResult friendInfo(@RequestBody Map<String, Object> param) { // 클릭한 친구의 정보 가져오기
 
-		UserVo friendvo = userService.getUserFriend(userId);
+		System.out.println("친구 처리 : " + param.get("userno") + ":" + param.get("friendid"));
+		FriendVo friendvo = userService.getUserFriend(param.get("friendid").toString());
+		
+		String friendno = userService.getFriendNo(param);
+		System.out.println("num :" + friendno);
+		param.put("friendno", friendno);
+		
+		String status = userService.getFriendStatus(param);
+		System.out.println("처리 결과 : " + status);
+		
+		if(status == null) {
+			if(param.get("userno").equals(param.get("friendno"))) {
+				System.out.println("본인이야");
+				friendvo.setStatus("본인");
+			} else {
+				System.out.println("기타");
+				friendvo.setStatus("기타");
+			}
+		} else if(status.equals("친구")) {
+			friendvo.setStatus("친구");
+		} else if(status.equals("요청중")) {
+			friendvo.setStatus("요청중");
+		}
+		
 		return JsonResult.success(friendvo);
 
 	}
@@ -82,12 +105,19 @@ public class UserController {
 		List<UserVo> friendList = userService.getFriend(param);
 		return JsonResult.success(friendList);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/friend/navilist", method = RequestMethod.POST)
+	public JsonResult friendNaviList(@RequestBody Map<String, Object> param) { // auth가 클릭한 친구의 친구들 목록 가져오기
+
+		List<UserVo> friendList = userService.getFriendNavi(param);
+		return JsonResult.success(friendList);
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/friend/add", method = RequestMethod.POST)
 	public JsonResult friendAdd(@RequestBody Map<String, Object> param) { // auth가 클릭한 친구의 친구들 목록 가져오기
-		System.out.println("추가확인 " + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("id") + ":" + param.get("kind"));
-
+		
 		userService.addFriend(param);
 		userService.addFriend2(param);
 		List<UserVo> friendList = userService.getFriend(param);
@@ -98,7 +128,7 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value="/friend/delete",method=RequestMethod.POST)
 	public JsonResult friendDelete(@RequestBody Map<String, Object> param) {	// auth가 클릭한 친구의 친구들 목록 가져오기
-		System.out.println("추가확인 삭제" + param.get("userno") + ":" + param.get("friendno") + ":" + param.get("kind"));
+		
 		userService.deleteFriend(param);
 		List<UserVo> friendList = userService.getFriend(param);
 		System.out.println(friendList.get(0));
@@ -110,13 +140,11 @@ public class UserController {
 	@RequestMapping(value="/friend/search",method=RequestMethod.POST)
 	public JsonResult search(@RequestBody Map<String, Object> param) {
 		
-		System.out.println("추가확인요청 " + param.get("userno") + ":" + param.get("userid") + ":" + param.get("keyword"));
 		List<FriendVo> searchList = null;
 		
 		if(param.get("keyword") != "") {
-	
 			searchList = userService.getSearchList(param);
-		}
+		} 
 		
 		return JsonResult.success(searchList);
 	}

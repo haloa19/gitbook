@@ -32,7 +32,7 @@ public class UserRepository {
 	}
 
 	
-	public UserVo friendInfo(String userId) {
+	public FriendVo friendInfo(String userId) {
 		return sqlSession.selectOne("user.friendInfo", userId);
 	}
 
@@ -103,6 +103,21 @@ public class UserRepository {
 	public Boolean updateUserInfo(UserVo vo) {
 		return sqlSession.update("user.updateUserInfo", vo) == 1;
 
+	}
+
+	public List<UserVo> friendNaviList(Map<String, Object> param) {
+		
+		return sqlSession.selectList("user.friendNaviList", param);
+	}
+
+	public String friendStatus(Map<String, Object> param) {
+		
+		return sqlSession.selectOne("user.friendstatus", param);
+	}
+
+	public String friendNo(Map<String, Object> param) {
+		
+		return sqlSession.selectOne("user.frinedNo", param);
 	}
 
 
