@@ -9,7 +9,7 @@
 				a.type, a.user_no as userNo, a.group_no as groupNo
 		from schedule a, user b
 		where b.id = #{id}
-		and a.user_no = b.no
+			and a.user_no = b.no
 			and a.check_date = #{date}
 			and a.type = 'todo'
 			and a.group_no is null

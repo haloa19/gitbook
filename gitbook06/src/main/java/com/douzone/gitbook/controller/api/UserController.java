@@ -243,8 +243,13 @@ public class UserController {
 	@Auth
 	@ResponseBody
 	@RequestMapping(value = "/account/checkUser", method = RequestMethod.POST)
-	public JsonResult checkUser(@RequestBody UserVo vo) {
+	public JsonResult checkUser(@RequestBody UserVo vo, @AuthUser UserVo authUser) {
 		System.out.println("[checkUser(vo)] id : " + vo.getId() + "  //  password : " + vo.getPassword());
+		System.out.println("[authUser] id : " + authUser.getId());
+		if("".equals(authUser.getId()) || vo.getId().equals(authUser.getId()) == false) {
+			return JsonResult.fail("Not matched with session information");
+		}
+		
 		UserVo userData = userService.getUser(vo);
 		if(userData == null) {
 			return JsonResult.fail("no user found");
