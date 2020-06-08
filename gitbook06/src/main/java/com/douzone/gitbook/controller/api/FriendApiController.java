@@ -29,6 +29,7 @@ public class FriendApiController {
 	@RequestMapping(value="/request",method=RequestMethod.POST)
 	public JsonResult reqFollow(@RequestBody Map<String, Object> param) {	// auth가 클릭한 userid받아오기
 		
+		System.out.println("chk 0608 :" + param.get("userno") + ":" + param.get("friendno"));
 		friendService.requestFriend(param);
 		//friendService.requestFriend2(param);
 		

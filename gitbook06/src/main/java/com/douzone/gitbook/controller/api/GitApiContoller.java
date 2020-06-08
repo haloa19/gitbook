@@ -1,6 +1,7 @@
 package com.douzone.gitbook.controller.api;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,16 +96,15 @@ public class GitApiContoller {
 	@GetMapping("/item/{repoName}")
 	public JsonResult gitListItem(@PathVariable String id, @PathVariable("repoName") String repoName) {
 		GitVo vo = gitService.getGitItem(id, repoName);
-
 		return JsonResult.success(vo);
 	}
 
 	@ResponseBody
 	@GetMapping("/repolist/{repoName}")
-	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName) {
+	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName) throws NoSuchAlgorithmException {
 
 		// 잘못된 URL 입력
-		if (GitService.checkUserAndRepo(id, repoName) == false) {
+		if (gitService.checkUserAndRepo(id, repoName) == false) {
 			return JsonResult.fail("repo not found");
 		}
 
