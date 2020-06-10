@@ -56,4 +56,13 @@ public class GitRepository {
 		return result_alarm == 1 && result_schedule == 1 && result_timeline == 1;
 	}
 
+	public List<GitVo> findListGroup(Map<String, String> map) {
+		return sqlSession.selectList("git.findListGroup", map);
+	}
+
+	public List<GitVo> findMyList(String id) {
+		
+		return sqlSession.selectList("git.findMyList", id);
+	}
+
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -148,5 +149,9 @@ public class TimelineService {
 	}
 	public List<TimelineVo> getTagTimelineList(String tagid) {
 		return timelineRepositroy.getTagTimelineList(tagid);
+	}
+	public List<TimelineVo> getGroupTimelineList(Map<String, Long> map) {
+		
+		return timelineRepositroy.getGroupTimelineList(map);
 	}
 }

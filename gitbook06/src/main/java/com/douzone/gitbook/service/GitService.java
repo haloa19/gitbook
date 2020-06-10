@@ -199,4 +199,14 @@ public class GitService {
 		return gitRepository.addPushInfo(push);
 	}
 
+	public List<GitVo> getGroupRepositoryList(Map<String, String> map) {
+		
+		return gitRepository.findListGroup(map);
+	}
+
+	public List<GitVo> getMyRepositoryList(String id) {
+		return gitRepository.findMyList(id);
+	}
+
+
 }

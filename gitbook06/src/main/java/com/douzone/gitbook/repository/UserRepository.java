@@ -120,6 +120,11 @@ public class UserRepository {
 		return sqlSession.selectOne("user.frinedNo", param);
 	}
 
+	public String findByUserNo(String id) {
+		
+		return sqlSession.selectOne("user.findUserId", id);
+	}
+
 
   
 }
