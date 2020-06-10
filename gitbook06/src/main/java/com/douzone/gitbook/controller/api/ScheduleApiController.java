@@ -25,7 +25,7 @@ public class ScheduleApiController {
 	@ResponseBody
 	@RequestMapping(value = "/toDoList/{date}", method = RequestMethod.GET)
 	public JsonResult getToDoList(@PathVariable String id, @PathVariable String date) {
-
+		
 		List<ScheduleVo> list = scheduleService.getToDoList(id, date);
 
 		return JsonResult.success(list);
@@ -77,7 +77,6 @@ public class ScheduleApiController {
 		scheduleService.insertToDo(vo);
 		List<ScheduleVo> list = scheduleService.getToDoList(id, date);
 		return JsonResult.success(list);
-
 	}
 
 	@ResponseBody
@@ -88,5 +87,8 @@ public class ScheduleApiController {
 		System.out.println(list);
 		return JsonResult.success(list);
 	}
+	
+	
+	
 
 }
