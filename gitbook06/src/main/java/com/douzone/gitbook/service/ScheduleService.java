@@ -39,8 +39,33 @@ public class ScheduleService {
 	}
 
 	public void deleteToDo(ScheduleVo vo) {
-		System.out.println("서비스 vo" + vo);
 		scheduleRepository.deleteList(vo);
+	}
+	
+	
+	/////////////group
+	public List<ScheduleVo> getToDoList(Long groupNo,Long userNo, String date) {
+		return scheduleRepository.findToDoList(groupNo, userNo, date);
+	}
+	
+	public List<ScheduleVo> getRepoList(Long groupNo,Long userNo, String date) {
+		return scheduleRepository.findRepoList(groupNo, userNo, date);
+	}
+	
+	public void insertGroupToDo(ScheduleVo vo, Long groupNo) {
+		scheduleRepository.insertGroupToDo(vo, groupNo);
+	}
+	
+	public List<ScheduleVo> getCheckedToDoDay(Long groupNo) {
+		return scheduleRepository.findCheckedToDoDay(groupNo);
+	}
+	
+	public List<ScheduleVo> getCheckedCommitDay(Long groupNo) {
+		return scheduleRepository.findCheckedGroupCommitDay(groupNo);
+	}
+	
+	public List<ScheduleVo> getNaviCommitDay(Long groupNo,String date) {
+		return scheduleRepository.findNaviCommitDay(groupNo,date);
 	}
 
 	

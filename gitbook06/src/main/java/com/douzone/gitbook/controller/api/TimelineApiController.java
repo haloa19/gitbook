@@ -147,8 +147,9 @@ public class TimelineApiController {
 			@AuthUser UserVo userVo,
 			@PathVariable String id
 			) {
-	
+			
 		List<TimelineVo> list = timelineService.getMainTimelineList(userVo);
+		System.out.println(list);
 		return JsonResult.success(list);
 	}
 	

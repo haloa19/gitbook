@@ -42,6 +42,7 @@
 		where a.no = b.user_no
 		and a.id=#{id}
 		and b.group_no is NULL
+		
 		order by b.reg_date desc
 		]]>
 	</select>
@@ -141,6 +142,7 @@
         and a.no=c.user_no
         and b.user_no=c.user_no
 		and b.group_no is NULL
+		and b.visible='public'
         and c.status='친구'
         and c.friend_no=#{no}
 		order by b.reg_date desc

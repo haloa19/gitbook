@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="alarm">
+	<select id="findList" parameterType="String" resultType="alarmvo">
+		<![CDATA[
+			select 
+				no, user_no as userNo , alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
+			from 
+				alarm 
+			where 
+				user_no = (select U.no from user U where U.id = #{id})
+			order by alarm_date desc;
+		]]>
+	</select>
+	
+	<update id="markRead" parameterType="map">
+		<![CDATA[
+			update alarm 
+			set alarm_check = 'check' 
+			where 
+				user_no = (select U.no from user U where U.id = #{id}) 
+				and no = #{no}
+		]]>
+	</update>
+
+</mapper>
