@@ -120,4 +120,8 @@ public class TimelineRepository {
 		map.put("tagid",tagid)	;	
 		return sqlSession.selectList("timeline.getTagTimelineList",map) ;
 	}
+
+	public List<TimelineVo> getGroupTimelineList(Map<String, Long> map) {	
+		return sqlSession.selectList("timeline.getGroupTimelineList", map);
+	}
 }

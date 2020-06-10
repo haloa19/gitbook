@@ -9,7 +9,7 @@
 			    DATE_FORMAT(a.reg_date,'%Y-%m-%d %H:%i') as regDate
 		from git a, user b 
 		where a.user_no = b.no
-		and b.id = #{id}
+		and b.id = #{id} and a.group_no is NULL
 		order by reg_date desc;
 		]]>
 	</select>
@@ -31,7 +31,7 @@
 	<insert id="insertGit" parameterType="gitvo">
 		<![CDATA[
 			insert into git 
-			values(null,#{userNo},null,#{description},#{visible},#{gitName},now())
+			values(null,#{userNo},#{groupNo},#{description},#{visible},#{gitName},now())
 		]]>
 	</insert>
 	
@@ -78,5 +78,31 @@
 			insert into timeline values(null, #{contents}, now(), 'public', (select group_no from group_list where user_no = #{userNo}), #{userNo})
 		]]>
 	</insert>
+	
+	<select id="findListGroup" parameterType="map" resultType="gitvo">
+		<![CDATA[
+		select a.no,a.user_no as userNo,a.group_no as groupNo,
+			   a.description, a.visible,a.git_name as gitName,
+				DATE_FORMAT(a.reg_date,'%Y-%m-%d %H:%i') as regDate, b.id as userId
+		from git a join user b on a.user_no = b.no
+		where a.group_no = #{groupNo} and 
+			a.no not in(select no
+						  from git
+						where user_no != #{userNo} and visible="private"
+						)
+		]]>
+	</select>
+	
+	<select id="findMyList" parameterType="string" resultType="gitvo">
+		<![CDATA[
+		select a.no,a.user_no as userNo,a.group_no as groupNo,
+			   a.description, a.visible,a.git_name as gitName,
+			    DATE_FORMAT(a.reg_date,'%Y-%m-%d %H:%i') as regDate
+		from git a, user b 
+		where a.user_no = b.no
+		and b.id = #{id}
+		order by reg_date desc;
+		]]>
+	</select>
 
 </mapper>

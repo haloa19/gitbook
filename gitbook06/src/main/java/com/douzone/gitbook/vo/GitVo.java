@@ -9,6 +9,7 @@ public class GitVo {
 	private String visible;
 	private String gitName;
 	private String regDate;
+	private String userId;
 	
 	public Long getNo() {
 		return no;
@@ -51,6 +52,12 @@ public class GitVo {
 	}
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	@Override
 	public String toString() {
