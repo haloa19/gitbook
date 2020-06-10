@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.douzone.gitbook.dto.JsonResult;
+import com.douzone.gitbook.service.AlarmService;
 import com.douzone.gitbook.service.GitService;
 
 import com.douzone.gitbook.service.UserService;
@@ -47,6 +48,9 @@ public class GitApiContoller {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AlarmService alarmService;
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -151,7 +155,7 @@ public class GitApiContoller {
 
 		Map<String, Object> push = new HashMap<>();
 		push.put("id", (String) input.get("username"));
-		push.put("repo", ((String) input.get("repo")).split("/")[2]);
+		push.put("repoName", ((String) input.get("repo")).split("/")[2].split("\\.")[0]);
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
 
@@ -162,6 +166,8 @@ public class GitApiContoller {
 		if (!result) {
 			return JsonResult.fail("failed for updating push records");
 		}
+		
+		alarmService.sendAlarm((String) push.get("contents_short"), (String) push.get("id"));
 		return JsonResult.success(true);
 	}
 
