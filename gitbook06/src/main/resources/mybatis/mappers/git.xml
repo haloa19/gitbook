@@ -75,7 +75,7 @@
 	
 	<insert id="insertSchedule" parameterType="map">
 		<![CDATA[
-			insert into schedule values(null, #{commitDate}, #{contents_short}, 'commit', #{userNo}, (select group_no from git where user_no = #{userNo} and git_name = #{repoName})
+			insert into schedule values(null, #{commitDate}, #{contents_short}, 'commit', #{userNo}, (select group_no from git where user_no = #{userNo} and git_name = #{repoName}))
 		]]>
 	</insert>
 	
