@@ -183,7 +183,7 @@ public class GitApiContoller {
 		AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
 		try {
 			String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
-			alarmService.sendAlarm(alarmJsonStr, (String) push.get("id"));
+			alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String) push.get("id"));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
