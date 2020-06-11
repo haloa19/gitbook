@@ -84,5 +84,6 @@ public class ScheduleGroupApiController {
 			scheduleService.deleteToDo(vo);
 			List<ScheduleVo> list = scheduleService.getToDoList(groupNo, userNo ,date);
 			return JsonResult.success(list);
+			//test
 		}
 }
