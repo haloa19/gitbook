@@ -47,7 +47,11 @@ public class AlarmService {
 //			String message = "개세이야";
 //			// "/topic/alarm/유저아이디" 로 해당 알림 메시지를 날린다.
 //			webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송
+<<<<<<< HEAD
 //			test
+=======
+//test
+>>>>>>> fb08a33914eab8da05df1ab9db3cf30c52b8c99c
 //		}
 
 }

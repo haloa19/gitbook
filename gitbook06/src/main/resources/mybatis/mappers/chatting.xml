@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chatting">
+	
+	<insert id="addchatRoom" parameterType="chattingroomvo">
+		<![CDATA[		
+				insert into chatting values(null,#{title});
+			]]>
+			<selectKey keyProperty = "no" resultType="long" order="AFTER">
+	         		select last_insert_id()
+	      	</selectKey>
+	
+	</insert>
+	
+	<insert id="addChatRoomuser" parameterType="chattingroomvo">
+		<![CDATA[		
+				insert into chatting_user values(#{userNo},#{no},#{grant});
+			]]>
+			<selectKey keyProperty = "no" resultType="long" order="AFTER">
+	         		select last_insert_id()
+	      	</selectKey>
+	
+	</insert>
+	
+	<insert id="addAdminMsg" parameterType="chattingmsgvo">
+											
+		<![CDATA[		
+				insert into message values(null,null,#{chattingNo},now(),#{contents},'yes');
+			]]>
+			
+	</insert>
+	
+	<select id="chatRoomList" parameterType="long"
+		resultType="chattingroomvo">
+		<![CDATA[
+		select a.user_no as userNo, b.no as no, a.grant ,b.title , max(c.send_date) as sendDate
+        from chatting_user a, chatting b,message c
+        where a.chatting_no = b.no
+        and c.chatting_no=b.no
+        and a.user_no=#{userNo}
+        group by b.no 
+        order by sendDate desc
+		]]>
+	</select>
+	
+	<select id="getAdminImage" parameterType="long"
+		resultType="chattingmsgvo">
+		<![CDATA[
+		  select a.image
+        from profile a , chatting_user b 
+        where a.user_no=b.user_no
+        and b.grant ='admin'
+        and b.chatting_no=#{chatRoonNo}
+		]]>
+	</select>
+	
+	<select id="getLastMsg" parameterType="long"
+		resultType="chattingmsgvo">
+		<![CDATA[
+		  select no,user_no as userNo,
+		  		chatting_no as chattingNo,
+		  		DATE_FORMAT(send_date,'%Y-%m-%d %H:%i') as sendDate,
+		  		chatting_contents as contents, 
+		  		
+		  		read_msg as readMsg
+        from message 
+        where chatting_no=#{chatRoonNo}
+        and send_date= (select max(send_date)
+							from message 
+							where chatting_no=#{chatRoonNo})
+		]]>
+	</select>
+	
+</mapper>
