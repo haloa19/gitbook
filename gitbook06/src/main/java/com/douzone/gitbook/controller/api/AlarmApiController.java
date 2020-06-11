@@ -3,7 +3,9 @@ package com.douzone.gitbook.controller.api;
 import java.util.List;
 import java.util.Map;
 
+import org.bouncycastle.asn1.iana.IANAObjectIdentifiers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,14 @@ public class AlarmApiController {
 		}
 
 		return JsonResult.success(true);
+	}
+	
+	@MessageMapping("/alarm/send") //react > spring 수신
+	public void send(AlarmVo msg) {
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 가즈아!!!!!!!!!!!!!!!!!!!!!!!!!!!" + msg.getAlarmContents());
+		
+	
+		// webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송
 	}
 
 }

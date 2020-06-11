@@ -27,4 +27,8 @@ public class AlarmRepository {
 		return sqlSession.selectOne("alarm.findRecentAlarm", vo);
 	}
 
+	public void addAlarm(AlarmVo vo) {
+		sqlSession.insert("alarm.addAlarm", vo);
+	}
+
 }
