@@ -32,4 +32,8 @@ public class AlarmService {
 		return alarmRepository.markRead(input);
 	}
 
+	public AlarmVo getRecentAlarm(AlarmVo vo) {
+		return alarmRepository.findRecentAlarm(vo);
+	}
+
 }

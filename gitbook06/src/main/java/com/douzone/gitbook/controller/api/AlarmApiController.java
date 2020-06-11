@@ -39,10 +39,13 @@ public class AlarmApiController {
 	@Auth
 	@ResponseBody
 	@RequestMapping(value = "/mark", method = RequestMethod.POST)
-	public JsonResult markAsRead(@RequestBody Map<String, Object> input) {
-		// input : { id : ??? , no : ??? }
-		Boolean isMarked = alarmService.markAsRead(input);
+	public JsonResult markAsRead(@RequestBody Map<String, Object> input, @AuthUser UserVo authUser) {
+		// input : { no : ??? , id : ??? }
+		if (authUser.getId().equals((String) input.get("id")) == false) {
+			return JsonResult.fail("not matched user ID");
+		}
 
+		Boolean isMarked = alarmService.markAsRead(input);
 		if (!isMarked) {
 			return JsonResult.fail("failed for marking read");
 		}
