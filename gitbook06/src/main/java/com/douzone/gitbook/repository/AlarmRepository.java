@@ -20,7 +20,11 @@ public class AlarmRepository {
 	}
 
 	public Boolean markRead(Map<String, Object> input) {
-		return sqlSession.update("alarm.markRead", input) == 1;
+		return sqlSession.update("alarm.markRead", input) >= 1;
+	}
+
+	public AlarmVo findRecentAlarm(AlarmVo vo) {
+		return sqlSession.selectOne("alarm.findRecentAlarm", vo);
 	}
 
 }

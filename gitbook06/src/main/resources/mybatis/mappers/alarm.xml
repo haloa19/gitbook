@@ -5,23 +5,48 @@
 	<select id="findList" parameterType="String" resultType="alarmvo">
 		<![CDATA[
 			select 
-				no, user_no as userNo , alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
+				no, user_no as userNo, alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
 			from 
 				alarm 
 			where 
 				user_no = (select U.no from user U where U.id = #{id})
-			order by alarm_date desc;
+				and alarm_check = 'uncheck'
+			order by alarm_date desc
 		]]>
 	</select>
-	
-	<update id="markRead" parameterType="map">
+
+	<select id="findRecentAlarm" parameterType="alarmvo" resultType="alarmvo">
 		<![CDATA[
-			update alarm 
-			set alarm_check = 'check' 
-			where 
-				user_no = (select U.no from user U where U.id = #{id}) 
-				and no = #{no}
+			select 
+				no, user_no as userNo, alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
+			from 
+				alarm 
+			where no = (
+				select no 
+				from alarm A 
+				where A.user_no = (select U.no from user U where U.id = #{userId}) 
+				and A.alarm_type = #{alarmType} 
+				and A.alarm_check = 'uncheck' 
+				and A.alarm_contents = #{alarmContents} 
+				order by alarm_date desc 
+				limit 0, 1
+			)
 		]]>
+	</select>
+
+	<update id="markRead" parameterType="map">
+		<choose>
+			<when test="no != null">
+				<![CDATA[
+					update alarm set alarm_check = 'check' where user_no = (select U.no from user U where U.id = #{id}) and no = #{no}
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					update alarm set alarm_check = 'check' where user_no = (select U.no from user U where U.id = #{id})
+				]]>
+			</otherwise>
+		</choose>
 	</update>
 
 </mapper>

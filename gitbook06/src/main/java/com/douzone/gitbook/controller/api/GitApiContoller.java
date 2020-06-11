@@ -28,9 +28,11 @@ import com.douzone.gitbook.service.GitService;
 import com.douzone.gitbook.service.UserService;
 
 import com.douzone.gitbook.util.LinuxServer;
-
+import com.douzone.gitbook.vo.AlarmVo;
 import com.douzone.gitbook.vo.GitVo;
 import com.douzone.gitbook.vo.UserVo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import me.saro.commons.ssh.SSHExecutor;
 
@@ -53,6 +55,9 @@ public class GitApiContoller {
 	
 	@Autowired
 	private AlarmService alarmService;
+	
+	@Autowired
+	private ObjectMapper jsonMapper;
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -170,7 +175,19 @@ public class GitApiContoller {
 			return JsonResult.fail("failed for updating push records");
 		}
 		
-		alarmService.sendAlarm((String) push.get("contents_short"), (String) push.get("id"));
+		AlarmVo alarmVo = new AlarmVo();
+		alarmVo.setUserId((String) push.get("id"));
+		alarmVo.setAlarmType("commit");
+		alarmVo.setAlarmContents((String) push.get("contents"));
+
+		AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
+		try {
+			String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+			alarmService.sendAlarm(alarmJsonStr, (String) push.get("id"));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
 		return JsonResult.success(true);
 	}
 	

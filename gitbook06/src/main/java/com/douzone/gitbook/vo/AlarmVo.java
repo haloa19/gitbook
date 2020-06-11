@@ -3,6 +3,7 @@ package com.douzone.gitbook.vo;
 public class AlarmVo {
 	private Long no;
 	private Long userNo;
+	private String userId;
 	private String alarmType;
 	private String alarmContents;
 	private String alarmCheck;
@@ -22,6 +23,14 @@ public class AlarmVo {
 
 	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getAlarmType() {
@@ -58,7 +67,8 @@ public class AlarmVo {
 
 	@Override
 	public String toString() {
-		return "AlarmVo [no=" + no + ", userNo=" + userNo + ", alarmType=" + alarmType + ", alarmContents=" + alarmContents + ", alarmCheck=" + alarmCheck + ", alarmDate=" + alarmDate + "]";
+		return "AlarmVo [no=" + no + ", userNo=" + userNo + ", userId=" + userId + ", alarmType=" + alarmType + ", alarmContents=" + alarmContents + ", alarmCheck=" + alarmCheck + ", alarmDate="
+				+ alarmDate + "]";
 	}
 
 }
