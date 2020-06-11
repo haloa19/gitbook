@@ -217,6 +217,15 @@
 			</otherwise>
 		</choose>
 	</update>
+	
+	<select id="findUserId" parameterType="string"
+		resultType="string">
+		<![CDATA[
+		select id
+			from user 
+		where no = #{id}
+		]]>
+	</select>
 
 
 </mapper>

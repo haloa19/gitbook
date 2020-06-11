@@ -82,7 +82,7 @@ public class GroupApiController {
 	@ResponseBody
 	@RequestMapping(value="/info",method=RequestMethod.POST)
 	public JsonResult info(@RequestBody Map<String, Object> param) {		
-
+		System.out.println("navi chk :" + param.get("userno") + ":" + param.get("groupno"));
 		GroupVo groupVo = groupService.getInfo(param);
 		
 		return JsonResult.success(groupVo);	
@@ -187,4 +187,6 @@ public class GroupApiController {
 		
 		return JsonResult.success(groupVo);	
 	}
+	
+	
 }

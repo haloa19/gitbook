@@ -19,6 +19,9 @@ public class UserVo {
 	private String image;
 	private String nickname;
 	private String profileContents;
+	
+	// Friend
+	private Long friendNum;
 
 	public Long getNo() {
 		return no;
@@ -114,6 +117,14 @@ public class UserVo {
 
 	public void setProfileContents(String profileContents) {
 		this.profileContents = profileContents;
+	}
+
+	public Long getFriendNum() {
+		return friendNum;
+	}
+
+	public void setFriendNum(Long friendNum) {
+		this.friendNum = friendNum;
 	}
 
 	@Override

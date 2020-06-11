@@ -44,8 +44,8 @@ public class GitRepository {
 		Long userNo = sqlSession.selectOne("git.findUserNo", push);
 		push.put("userNo", userNo);
 
-//		Integer result_alarm = sqlSession.insert("git.insertAlarm", push);
-//		System.out.println("result_alarm >> " + (result_alarm == 1));
+		Integer result_alarm = sqlSession.insert("git.insertAlarm", push);
+		System.out.println("result_alarm >> " + (result_alarm == 1));
 
 		Integer result_schedule = sqlSession.insert("git.insertSchedule", push);
 		System.out.println("result_schedule >> " + (result_schedule == 1));
@@ -53,7 +53,16 @@ public class GitRepository {
 		Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
 		System.out.println("result_timeline >> " + (result_timeline == 1));
 
-		return result_schedule == 1 && result_timeline == 1;
+		return result_alarm == 1 && result_schedule == 1 && result_timeline == 1;
+	}
+
+	public List<GitVo> findListGroup(Map<String, String> map) {
+		return sqlSession.selectList("git.findListGroup", map);
+	}
+
+	public List<GitVo> findMyList(String id) {
+		
+		return sqlSession.selectList("git.findMyList", id);
 	}
 
 }

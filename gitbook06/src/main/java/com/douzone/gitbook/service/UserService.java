@@ -107,5 +107,10 @@ public class UserService {
 		
 		return userRepository.friendNo(param);
 	}
+
+	public String getUserId(String id) {
+
+		return userRepository.findByUserNo(id);
+	}
   
 }

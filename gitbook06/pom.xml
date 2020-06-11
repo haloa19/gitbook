@@ -115,7 +115,11 @@
 			<version>1.60</version>
 		</dependency>
 
-
+		<!-- spring-boot-starter-websocket -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
 
 		<!-- tomcat jasper -->
 		<dependency>

@@ -217,7 +217,7 @@ public class UserController {
 	@Auth
 	@ResponseBody
 	@RequestMapping(value = "/profile/update/{id}", method = RequestMethod.POST)
-	public JsonResult updateProfile(@PathVariable("id") String id, @RequestBody UserVo vo) {
+	public JsonResult updateProfile(@PathVariable("id") String id, @RequestBody UserVo vo, HttpServletRequest request) {
 		vo.setId(id);
 		System.out.println("[updateProfile] " + vo.getId() + " >>> profile no : " + vo.getProfileNo() + "  //  nickname : " + vo.getNickname() + "  //  contents : " + vo.getProfileContents() + "  //  image : " + vo.getImage());
     
@@ -226,6 +226,15 @@ public class UserController {
 		if(!result) {
 			return JsonResult.fail("failed updating profile");
 		}
+		
+		// 세션 업데이트
+		HttpSession session = request.getSession(false);
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		authUser.setNickname(vo.getNickname());
+		authUser.setProfileContents(vo.getProfileContents());
+		authUser.setImage(vo.getImage());
+		session.setAttribute("authUser", authUser);
+		
 		return JsonResult.success(true);
 	}
 	
@@ -266,7 +275,7 @@ public class UserController {
 	@Auth
 	@ResponseBody
 	@RequestMapping(value = "/account/updateUser", method = RequestMethod.POST)
-	public JsonResult updateUser(@RequestBody Map<String, Object> input, @AuthUser UserVo authUser) {
+	public JsonResult updateUser(@RequestBody Map<String, Object> input, @AuthUser UserVo authUser, HttpServletRequest request) {
 		if(authUser == null) {
 			return JsonResult.fail("cannot find user");
 		}
@@ -287,6 +296,16 @@ public class UserController {
 		if(!result) {
 			return JsonResult.fail("failed for update");
 		}
+		
+		//세션 업데이트
+		HttpSession session = request.getSession(false);
+		UserVo authUserOriginal = (UserVo) session.getAttribute("authUser");
+		authUserOriginal.setName(vo.getName());
+		authUserOriginal.setPhone(vo.getPhone());
+		authUserOriginal.setBirthday(vo.getBirthday());
+		authUserOriginal.setGender(vo.getGender());
+		session.setAttribute("authUser", authUserOriginal);
+		
 		return JsonResult.success(true);
 	}
 	

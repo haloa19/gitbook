@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ import com.douzone.security.AuthUser;
 
 
 @RestController
-@RequestMapping("/timeline/{id:(?!assets).*}")
+@RequestMapping({"/timeline/{id:(?!assets).*}"})
 public class TimelineApiController {
 
 	@Autowired
@@ -37,30 +38,38 @@ public class TimelineApiController {
 	
 	
 
-	@PostMapping(value="/upload")
+	@PostMapping(value= {"/upload/undefined","/upload/{groupNo}"})
 	public void addUpload(
 			@PathVariable String id,
+			@PathVariable Optional<Long> groupNo,
 			@RequestParam(value="userNo", required= true) Long userNo,
 			@RequestParam(value="contents", required= true) String contents,
 			@RequestParam(value="visible", required= true) String visible,
 			@RequestParam(value="tagList", required= true)ArrayList<String> tagList,
 			@RequestParam(value="imgList", required= true)ArrayList<String> imgList
+			
 			) {
 		
-		TimelineVo vo=new TimelineVo();
-		vo.setUserNo(userNo);
-		vo.setContents(contents);
-		vo.setVisible(visible);
-		timelineService.insertTimeline(vo);		
-		for(String url: imgList) {	
-			timelineService.insertTimelineFile(url,vo.getNo());
-		}
-		for(String tagContents: tagList) {	
-			TagVo tagVo= new TagVo();
-			tagVo.setTagContents(tagContents);
-			timelineService.insertTag(tagVo);
-			timelineService.insertTagList(vo.getNo(),tagVo.getNo());
-		}
+			TimelineVo vo=new TimelineVo();
+			vo.setUserNo(userNo);
+			vo.setContents(contents);
+			vo.setVisible(visible);
+			
+			if(groupNo.isPresent()) {
+				vo.setGroupNo(groupNo.get());
+			}
+			
+			timelineService.insertTimeline(vo);		
+			for(String url: imgList) {	
+				timelineService.insertTimelineFile(url,vo.getNo());
+			}
+			for(String tagContents: tagList) {	
+				TagVo tagVo= new TagVo();
+				tagVo.setTagContents(tagContents);
+				timelineService.insertTag(tagVo);
+				timelineService.insertTagList(vo.getNo(),tagVo.getNo());
+			}
+
 	}
 	
 	@PostMapping(value="/update/{timelineNo}")
@@ -117,13 +126,30 @@ public class TimelineApiController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/list/{groupNo}")
+	public JsonResult groupTimelineList(
+			@PathVariable Long id,
+			@PathVariable Long groupNo
+			) {
+		Map<String, Long> map = new HashMap<String, Long>();
+		map.put("userNo", id);
+		map.put("groupNo", groupNo);
+		
+		List<TimelineVo> list = timelineService.getGroupTimelineList(map);
+		System.out.println("group timeline chk" + groupNo + ":" + id + ":" + groupNo.toString() + ":" + list.get(0).getContents());
+		
+		return JsonResult.success(list);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/mainlist")
 	public JsonResult mainTimelineList(
 			@AuthUser UserVo userVo,
 			@PathVariable String id
 			) {
-	
+			
 		List<TimelineVo> list = timelineService.getMainTimelineList(userVo);
+		System.out.println(list);
 		return JsonResult.success(list);
 	}
 	
