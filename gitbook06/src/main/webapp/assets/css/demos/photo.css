@@ -315,7 +315,7 @@ a.navbar-brand:hover {
   display: block;
 }
 .text-muted {
-  color: #98a6ad !important;
+  color: #98a6ad;
 }
 .notification-list a.notify-all{
   background: #f4f4f4;
@@ -1587,7 +1587,7 @@ a.navbar-brand:hover {
 .sidebar .list li small{
  font-family: 'Abhaya Libre', serif;	
  font-size: 16px;
- color: #88898a !important;
+ color: #88898a;
 }
 .sidebar .list li p{
  font-family: 'Abhaya Libre', serif;	
