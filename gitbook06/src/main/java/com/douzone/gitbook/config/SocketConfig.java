@@ -12,13 +12,13 @@ public class SocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! registerStompEndpoints");
+		System.out.println("소켓통신확인 from config/SocketConfig.java");
 		registry.addEndpoint("/socket").setAllowedOrigins("*").withSockJS();
 	}
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! configureMessageBroker");
+		System.out.println("소켓통신확인 from config/SocketConfig.java");
 		registry.enableSimpleBroker("/topic");
 		registry.setApplicationDestinationPrefixes("/app");
 	}

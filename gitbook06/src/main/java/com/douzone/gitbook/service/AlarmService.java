@@ -12,16 +12,16 @@ import com.douzone.gitbook.vo.AlarmVo;
 
 @Service
 public class AlarmService {
-	
+
 	@Autowired
 	private AlarmRepository alarmRepository;
-	
+
 	@Autowired
 	private SimpMessagingTemplate webSocket;
-	
+
 	public void sendAlarm(String message, String id) {
 		// "/topic/alarm/유저아이디" 로 해당 알림 메시지를 날린다.
-		webSocket.convertAndSend("/topics/alarm/" + id, message);
+		webSocket.convertAndSend("/topics/alarm/" + id, message); // react로 메세지 전송
 	}
 
 	public List<AlarmVo> getAlarmList(String id) {
@@ -35,5 +35,19 @@ public class AlarmService {
 	public AlarmVo getRecentAlarm(AlarmVo vo) {
 		return alarmRepository.findRecentAlarm(vo);
 	}
+
+	public void addAlarm(AlarmVo vo) {
+		alarmRepository.addAlarm(vo);
+	}
+	
+
+	//test용
+//		public void test() {
+//			//System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 불리긴하는지 함 보자");
+//			String message = "개세이야";
+//			// "/topic/alarm/유저아이디" 로 해당 알림 메시지를 날린다.
+//			webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송
+//test
+//		}
 
 }

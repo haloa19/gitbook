@@ -188,6 +188,8 @@ public class GitApiContoller {
 			e.printStackTrace();
 		}
 		
+		
+		
 		return JsonResult.success(true);
 	}
 	
