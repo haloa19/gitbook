@@ -13,6 +13,8 @@
 		<typeAlias alias="groupvo" type="com.douzone.gitbook.vo.GroupVo"/>
 		<typeAlias alias="schedulevo" type="com.douzone.gitbook.vo.ScheduleVo"/>
 		<typeAlias alias="alarmvo" type="com.douzone.gitbook.vo.AlarmVo"/>
+		<typeAlias alias="chattingmsgvo" type="com.douzone.gitbook.vo.ChattingMsgVo"/>
+		<typeAlias alias="chattingroomvo" type="com.douzone.gitbook.vo.ChattingRoomVo"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/mappers/user.xml" />
@@ -22,5 +24,6 @@
 		<mapper resource="mybatis/mappers/group.xml" />
 		<mapper resource="mybatis/mappers/schedule.xml" />
 		<mapper resource="mybatis/mappers/alarm.xml" />
+		<mapper resource="mybatis/mappers/chatting.xml" />
 	</mappers>
 </configuration>

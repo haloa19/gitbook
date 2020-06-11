@@ -59,6 +59,7 @@
 			where a.user_no = b.no
 			and b.id = #{id}
 			and a.type = 'todo'
+			and a.group_no is null
 			group by a.check_date;
 	]]>
 	</select>
