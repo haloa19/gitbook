@@ -186,6 +186,7 @@
         and b.no=c.timeline_no
         and c.tag_no=d.no
 		and b.group_no is NULL
+		and b.visible='public'
 		and d.tag_contents like '%${tagid}%' 
 		group by b.no
 		order by b.reg_date desc
