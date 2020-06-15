@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.douzone.gitbook.vo.AlarmVo;
+import com.douzone.gitbook.vo.UserVo;
 
 @Repository
 public class AlarmRepository {
@@ -26,9 +27,17 @@ public class AlarmRepository {
 	public AlarmVo findRecentAlarm(AlarmVo vo) {
 		return sqlSession.selectOne("alarm.findRecentAlarm", vo);
 	}
-
+	
 	public void addAlarm(AlarmVo vo) {
 		sqlSession.insert("alarm.addAlarm", vo);
+	}
+
+	public UserVo findUserNoAndNickname(long paramNo) {
+		return sqlSession.selectOne("alarm.findUserByNo", paramNo);
+	}
+
+	public UserVo getUserIdAndGroupTitle(Map<String, Long> numberMap) {
+		return sqlSession.selectOne("alarm.findUserIdAndGroupTitleByNo", numberMap);
 	}
 
 }
