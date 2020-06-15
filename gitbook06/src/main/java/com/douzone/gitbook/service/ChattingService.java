@@ -44,4 +44,28 @@ public class ChattingService {
 		
 		return chattingRepository.getLastMsg(chatRoonNo);
 	}
+
+	public List<ChattingMsgVo> inviteList(Long chatRoonNo) {
+		
+		return chattingRepository.inviteList(chatRoonNo);
+	}
+
+	public List<ChattingMsgVo> msgList(Long chatRoonNo) {
+		return chattingRepository.msgList(chatRoonNo);
+	}
+
+	public void addUserMsg(ChattingMsgVo msgVo) {
+	 chattingRepository.addUserMsg(msgVo);
+		
+	}
+
+	public void addCheckMsg(ChattingMsgVo msgVo) {
+		chattingRepository.addCheckMsg(msgVo);
+		
+	}
+
+	public String getSendDate(Long no) {
+		
+		return chattingRepository.getSendDate(no);
+	}
 }
