@@ -17,16 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.AlarmService;
 import com.douzone.gitbook.service.GitService;
-
 import com.douzone.gitbook.service.UserService;
-
 import com.douzone.gitbook.util.LinuxServer;
 import com.douzone.gitbook.vo.AlarmVo;
 import com.douzone.gitbook.vo.GitVo;
@@ -49,13 +46,13 @@ public class GitApiContoller {
 
 	@Autowired
 	private GitService gitService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AlarmService alarmService;
-	
+
 	@Autowired
 	private ObjectMapper jsonMapper;
 
@@ -77,11 +74,12 @@ public class GitApiContoller {
 
 	@PostMapping("/add")
 	public void add(@RequestBody GitVo vo, @PathVariable String id) {
-	
+
 		vo.setGitName(vo.getGitName().trim());
 
 		try {
-			SSHExecutor.just(host, port, user, password, charset, "cd " + dir + id + " && sudo git-create-repo " + id + " " + vo.getGitName());
+			SSHExecutor.just(host, port, user, password, charset,
+					"cd " + dir + id + " && sudo git-create-repo " + id + " " + vo.getGitName());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +110,8 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@GetMapping("/repolist/{repoName}")
-	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName) throws NoSuchAlgorithmException {
+	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName)
+			throws NoSuchAlgorithmException {
 
 		// 잘못된 URL 입력
 		if (gitService.checkUserAndRepo(id, repoName) == false) {
@@ -129,7 +128,8 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@GetMapping("/repolist/{repoName}/**")
-	public JsonResult showInternalOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName, HttpServletRequest request) {
+	public JsonResult showInternalOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName,
+			HttpServletRequest request) {
 		String fullPath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
 		String pathName = fullPath.substring(fullPath.indexOf(repoName) + repoName.length() + 1);
@@ -145,20 +145,20 @@ public class GitApiContoller {
 
 		return JsonResult.success(data);
 	}
-  
-  	@ResponseBody
-		@RequestMapping(value="/checkPW")
-		public JsonResult checkEmail(@PathVariable String id,
-				@RequestBody String password) {
-			boolean exist = userService.existUser(password,id);
-		
-			return JsonResult.success(exist);
-		}
+
+	@ResponseBody
+	@RequestMapping(value = "/checkPW")
+	public JsonResult checkEmail(@PathVariable String id, @RequestBody String password) {
+		boolean exist = userService.existUser(password, id);
+
+		return JsonResult.success(exist);
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/pushProcess", method = RequestMethod.POST)
 	public JsonResult pushProcess(@RequestBody Map<String, Object> input, @PathVariable("id") String id) {
-		String[] commitMsgList = LinuxServer.getResult("cd /var/www/git/" + input.get("repo") + " && git log --date=iso8601 --pretty=format:\"%H<<>>%ad<<>>%s\" | grep " + input.get("commit"))
+		String[] commitMsgList = LinuxServer.getResult("cd /var/www/git/" + input.get("repo")
+				+ " && git log --date=iso8601 --pretty=format:\"%H<<>>%ad<<>>%s\" | grep " + input.get("commit"))
 				.split("\\<<>>");
 
 		Map<String, Object> push = new HashMap<>();
@@ -167,14 +167,15 @@ public class GitApiContoller {
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
 
-		push.put("contents", push.get("id") + " 님이 " + push.get("repoName") + " 에 PUSH 하였습니다. (" + push.get("commitMsg") + ")");
+		push.put("contents",
+				push.get("id") + " 님이 " + push.get("repoName") + " 에 PUSH 하였습니다. (" + push.get("commitMsg") + ")");
 		push.put("contents_short", push.get("repoName") + " : \"" + push.get("commitMsg") + "\"");
 
 		Boolean result = gitService.pushProcess(push);
 		if (!result) {
 			return JsonResult.fail("failed for updating push records");
 		}
-		
+
 		AlarmVo alarmVo = new AlarmVo();
 		alarmVo.setUserId((String) push.get("id"));
 		alarmVo.setAlarmType("commit");
@@ -187,41 +188,37 @@ public class GitApiContoller {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
+
 		return JsonResult.success(true);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/check", method = RequestMethod.GET)
 	public JsonResult checkRepositoryName(HttpServletRequest request) {
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
-		
+
 		System.out.println("네임 중복 체크" + uservo.getId());
 		List<GitVo> list = gitService.getMyRepositoryList(uservo.getId());
 		return JsonResult.success(list);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/grouplist/{groupno}/{userno}", method = RequestMethod.GET)
-	public JsonResult groupRepositoryList(
-			@PathVariable String id, 
-			@PathVariable Long groupno,
+	public JsonResult groupRepositoryList(@PathVariable String id, @PathVariable Long groupno,
 			@PathVariable Long userno) {
 		System.out.println("group git chk : " + id + ":" + groupno.toString() + ":" + userno.toString());
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("groupNo", groupno.toString());
 		map.put("userNo", userno.toString());
-		
+
 		List<GitVo> list = gitService.getGroupRepositoryList(map);
 		System.out.println("fdaf :" + list.size());
-		
+
 		return JsonResult.success(list);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/group/delete", method = RequestMethod.POST)
 	public JsonResult groupRepositoryDelete(@PathVariable String id, @RequestBody GitVo vo) {
@@ -230,11 +227,11 @@ public class GitApiContoller {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("groupNo", vo.getGroupNo().toString());
 		map.put("userNo", vo.getUserNo().toString());
-		
+
 		List<GitVo> list = gitService.getGroupRepositoryList(map);
 		return JsonResult.success(list);
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/group/update")
 	public JsonResult groupUpdateVisible(@PathVariable String id, @RequestBody GitVo vo) {
@@ -245,16 +242,17 @@ public class GitApiContoller {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("groupNo", vo.getGroupNo().toString());
 		map.put("userNo", vo.getUserNo().toString());
-		
+
 		List<GitVo> list = gitService.getGroupRepositoryList(map);
 		System.out.println("list:" + list);
 
 		return JsonResult.success(list);
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/group/repolist/{repoName}")
-	public JsonResult showRootOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName) throws NoSuchAlgorithmException {
+	public JsonResult showRootOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName)
+			throws NoSuchAlgorithmException {
 		String userid = userService.getUserId(id);
 		System.out.println("repo test : " + userid);
 		// 잘못된 URL 입력
@@ -269,13 +267,14 @@ public class GitApiContoller {
 		System.out.println("레포지토리 생성 실행");
 		return JsonResult.success(GitService.getFileListOnTop(userid, repoName));
 	}
-	
+
 	@ResponseBody
 	@GetMapping("/group/repolist/{repoName}/**")
-	public JsonResult showInternalOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName, HttpServletRequest request) {
+	public JsonResult showInternalOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName,
+			HttpServletRequest request) {
 		String userid = userService.getUserId(id);
 		System.out.println("repo test2 : " + userid);
-		
+
 		String fullPath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
 		String pathName = fullPath.substring(fullPath.indexOf(repoName) + repoName.length() + 1);
@@ -297,7 +296,7 @@ public class GitApiContoller {
 	public JsonResult gitListItemGroup(@PathVariable String id, @PathVariable("repoName") String repoName) {
 		String userid = userService.getUserId(id);
 		System.out.println("repo item : " + userid);
-		
+
 		GitVo vo = gitService.getGitItem(userid, repoName);
 		return JsonResult.success(vo);
 	}

@@ -44,7 +44,7 @@ public class FriendApiController {
 		vo.setUserNo(Integer.toUnsignedLong((Integer) param.get("friendno")));
 		vo.setAlarmType("friend");
 		vo.setUserId((String)param.get("friendId"));
-		vo.setAlarmContents(param.get("userId")+"님의 친구요청이 있습니다.");
+		vo.setAlarmContents(param.get("userNickName")+"님의 친구요청이 있습니다.");
 			
 		alarmService.addAlarm(vo);
 		
