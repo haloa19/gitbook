@@ -136,7 +136,7 @@ public class TimelineApiController {
 		map.put("groupNo", groupNo);
 		
 		List<TimelineVo> list = timelineService.getGroupTimelineList(map);
-				
+
 		return JsonResult.success(list);
 	}
 	
