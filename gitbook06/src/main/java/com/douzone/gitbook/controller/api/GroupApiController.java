@@ -1,5 +1,6 @@
 package com.douzone.gitbook.controller.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,17 +182,36 @@ public class GroupApiController {
 																										// userid받아오기
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
-
+		
+		// 그룹 초대 승락 알람 소캣
+		List<Map<String, Object>> groupList = new ArrayList<>();
+		groupList = alarmService.getGroupUserList((Integer)param.get("groupno"));
+		
 		groupService.addGroup(param);
 
-		// 그룹 초대 승락 알람 소캣
-		AlarmVo vo = new AlarmVo();
-
-		vo.setUserNo(Integer.toUnsignedLong((Integer) param.get("userno")));
-
-		//
-		List<GroupVo> groupList = groupService.getList(uservo);
-
+		for(Map<String, Object> line: groupList) {
+						
+			 AlarmVo vo = new AlarmVo();
+			 
+			 vo.setUserNo((Long)line.get("no")); // 그룹원들의 no로 맞출 것
+			 vo.setAlarmType("group");
+			 vo.setAlarmContents(uservo.getNickname()+" 님이 "+line.get("groupTitle") + " 그룹에 가입했습니다.");
+			 vo.setUserId((String)line.get("id"));
+			 
+			 alarmService.addAlarm(vo);
+			 
+			 AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
+			
+			 try {
+					String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+					alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String)line.get("id"));
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+		}
+		
+		
+		
 		return JsonResult.success(groupList);
 	}
 

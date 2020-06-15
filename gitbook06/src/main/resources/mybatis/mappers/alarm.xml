@@ -67,7 +67,17 @@
 				and a.no = #{no}
 		]]>
 	</select>
-
+	
+	<select id="findUserNicknameById" parameterType="string"
+		resultType="string">
+		<![CDATA[
+			select b.nickname as nickname
+				from user a, profile b
+				where a.no = b.user_no
+				and a.id = #{id}
+		]]>
+	</select>
+	
 	<!-- 그룹 요청 시 필요한 아이디와 그룹이름 -->
 
 	<select id="findUserIdAndGroupTitleByNo" parameterType="map"
@@ -81,4 +91,18 @@
 			and b.group_no = #{groupNo}
 		]]>
 	</select>
+
+
+	<select id="findGroupUserList" parameterType="int"
+		resultType="map">
+		<![CDATA[
+			select U.no as no, U.id as id, G.group_title as groupTitle, P.nickname as nickName
+ 			from group_list GL join user U on (GL.user_no = U.no) 
+ 				join `group` G on (GL.group_no = G.no)
+ 				 join profile P on (P.user_no = U.no)
+ 			where GL.group_no = #{groupNo}
+ 			 and GL.`grant` != 'user_req'
+		]]>
+	</select>
+
 </mapper>
