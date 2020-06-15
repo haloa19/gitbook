@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +20,8 @@ import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.ChattingService;
 import com.douzone.gitbook.vo.ChattingMsgVo;
 import com.douzone.gitbook.vo.ChattingRoomVo;
+import com.douzone.gitbook.vo.UserVo;
+import com.douzone.security.AuthUser;
 
 
 @Controller("ChattingApiController")
@@ -97,16 +97,16 @@ public class ChattingApiController {
 	}
 	
 	@ResponseBody
-	
 	@RequestMapping(value="/chatRoomListItmeInfo/{chatRoonNo}")
 	public JsonResult chatRoomListItmeInfo(
-			@PathVariable Long chatRoonNo
+			@PathVariable Long chatRoonNo,
+			@AuthUser UserVo userVo
 		
 			) {
 		Map<String,Object> map = new HashMap<>();
 		map.put("image",chattingService.getAdminImage(chatRoonNo).getImage());
 		map.put("lastMsg",chattingService.getLastMsg(chatRoonNo));
-	
+		map.put("alarmCount", chattingService.getAlarmList(chatRoonNo,userVo.getNo()));
 	
 		return JsonResult.success(map);
 	}
@@ -114,14 +114,16 @@ public class ChattingApiController {
 	@ResponseBody
 	@RequestMapping(value="/chatRoomInfo/{chatRoonNo}")
 	public JsonResult chatRoomInfo(
-			@PathVariable Long chatRoonNo
-		
+			@PathVariable Long chatRoonNo,
+			@AuthUser UserVo userVo
 			) {
-		System.out.println(chatRoonNo);
+		
 		Map<String,Object> map = new HashMap<>();
 		map.put("inviteList",chattingService.inviteList(chatRoonNo));
 		map.put("msgList",chattingService.msgList(chatRoonNo));
-		
+		chattingService.updateResetAlarm(userVo.getNo(),chatRoonNo);
+		webSocket.convertAndSend("/topics/chatting/alarm/"+chatRoonNo+"/"+userVo.getNo(),
+				chattingService.getAlarmList(chatRoonNo,userVo.getNo()));
 		return JsonResult.success(map);
 	}
 	
@@ -151,6 +153,16 @@ public class ChattingApiController {
 				chattingService.msgList(chatRoonNo));
 	
 		for(Long no :inviteList){
+			if(no != userNo) {
+				ChattingMsgVo alarmVo=  new ChattingMsgVo();
+				alarmVo.setUserNo(no);
+				alarmVo.setNo(msgVo.getNo());
+				alarmVo.setReadMsg("no");
+				chattingService.addCheckMsg(alarmVo);//메시지알람테이블에 등록
+				webSocket.convertAndSend("/topics/chatting/alarm/"+chatRoonNo+"/"+no,
+						chattingService.getAlarmList(chatRoonNo,no));
+				
+			}
 			List<ChattingRoomVo> list= chattingService.chatRoomList(no);
 			webSocket.convertAndSend("/topics/chatting/resetChatRoom/"+no, list);
 
@@ -161,5 +173,33 @@ public class ChattingApiController {
 		return JsonResult.success(chattingService.msgList(chatRoonNo));
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/resetAlarm/{userNo}/{chatRoonNo}")
+	public void resetAlarm(
+			
+			@PathVariable Long userNo,
+			@PathVariable Long chatRoonNo
+			) {
+	
+		chattingService.updateResetAlarm(userNo,chatRoonNo);
+		webSocket.convertAndSend("/topics/chatting/alarm/"+chatRoonNo+"/"+userNo,
+				chattingService.getAlarmList(chatRoonNo,userNo));
+	}
+	
+	
+//	@ResponseBody
+//	@RequestMapping(value="/resetAlarm/{userNo}/{chatRoonNo}")
+//	public void deleteChatRoom(
+//			@PathVariable Long userNo,
+//			@PathVariable Long chatRoonNo,
+//			@RequestParam(value="nickName", required= true) String nickName
+//			,
+//			@RequestParam(value="inviteList", required= true)ArrayList<Long> inviteList
+//			) {
+//				
+//		System.out.println(userNo+chatRoonNo+nickName+inviteList);
+//		
+//	}
+//	
 	
 }

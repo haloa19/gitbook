@@ -68,4 +68,14 @@ public class ChattingService {
 		
 		return chattingRepository.getSendDate(no);
 	}
+
+	public Long getAlarmList(Long chatRoonNo,Long userNo) {
+	
+		return chattingRepository.getAlarmList(chatRoonNo,userNo);
+	}
+
+	public void updateResetAlarm(Long no, Long chatRoonNo) {
+		 chattingRepository.updateResetAlarm(no,chatRoonNo);
+		
+	}
 }

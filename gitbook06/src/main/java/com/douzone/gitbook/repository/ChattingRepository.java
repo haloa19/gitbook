@@ -1,6 +1,8 @@
 package com.douzone.gitbook.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,21 @@ public class ChattingRepository {
 	public String getSendDate(Long no) {
 		
 		return sqlSession.selectOne("chatting.getSendDate", no);
+	}
+
+	public Long getAlarmList(Long chatRoonNo,Long userNo) {
+		Map<String,Long> map = new HashMap<>();
+		map.put("userNo",userNo);
+		map.put("chattingNo",chatRoonNo);
+		
+		return sqlSession.selectOne("chatting.getAlarmList", map);
+	}
+
+	public void updateResetAlarm(Long no, Long chatRoonNo) {
+		Map<String,Long> map = new HashMap<>();
+		map.put("userNo",no);
+		map.put("chattingNo",chatRoonNo);
+		sqlSession.update("chatting.updateResetAlarm", map);
 	}
 
 

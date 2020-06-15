@@ -123,4 +123,29 @@
 		]]>
 	</select>
 	
+	
+	<select id="getAlarmList" parameterType="map"
+		resultType="long">
+		<![CDATA[
+			select count(a.read_msg) from message_alarm a, message b 
+        where a.msg_no=b.no
+        and b.chatting_no=#{chattingNo}
+        and a.user_no = #{userNo}
+        and a.read_msg ='no'
+		]]>
+	</select>
+	
+	<update id="updateResetAlarm" parameterType="map"
+		>
+		<![CDATA[
+		 update message_alarm a, message b set a.read_msg='yes'
+		where a.msg_no=b.no
+        and b.chatting_no=#{chattingNo}
+        and a.user_no = #{userNo}
+        and a.read_msg ='no'
+		]]>
+	</update>
+	
+	
+	
 </mapper>

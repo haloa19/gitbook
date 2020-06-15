@@ -148,7 +148,7 @@ public class TimelineApiController {
 			) {
 			
 		List<TimelineVo> list = timelineService.getMainTimelineList(userVo);
-		System.out.println(list);
+		
 		return JsonResult.success(list);
 	}
 	
@@ -159,9 +159,9 @@ public class TimelineApiController {
 			@PathVariable String id,
 			@PathVariable String tagid
 			) {
-		System.out.println(tagid);
+	
 		List<TimelineVo> list = timelineService.getTagTimelineList(tagid);
-		System.out.println(list);
+		
 		return JsonResult.success(list);
 	}
 	
