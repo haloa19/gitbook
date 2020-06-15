@@ -44,5 +44,30 @@ public class ChattingRepository {
 		return sqlSession.selectOne("chatting.getLastMsg", chatRoonNo);
 	}
 
+	public List<ChattingMsgVo> inviteList(Long chatRoonNo) {
+		
+		return sqlSession.selectList("chatting.inviteList", chatRoonNo);
+	}
+
+	public List<ChattingMsgVo> msgList(Long chatRoonNo) {
+		
+		return sqlSession.selectList("chatting.msgList",chatRoonNo);
+	}
+
+	public void addUserMsg(ChattingMsgVo msgVo) {
+		sqlSession.insert("chatting.addUserMsg",msgVo);
+	
+	}
+
+	public void addCheckMsg(ChattingMsgVo msgVo) {
+		sqlSession.insert("chatting.addCheckMsg",msgVo);
+		
+	}
+
+	public String getSendDate(Long no) {
+		
+		return sqlSession.selectOne("chatting.getSendDate", no);
+	}
+
 
 }

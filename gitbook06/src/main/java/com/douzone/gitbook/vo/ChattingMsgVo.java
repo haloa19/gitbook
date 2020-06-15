@@ -7,12 +7,12 @@ public class ChattingMsgVo {
 	private String userNickname;
 	private String userId;
 	private String image;
+	private String grant;
 	
 	private Long chattingNo;
 	private String sendDate; 
 	private String contents; 
 	private String readMsg;
-	
 	public Long getNo() {
 		return no;
 	}
@@ -43,6 +43,12 @@ public class ChattingMsgVo {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	public String getGrant() {
+		return grant;
+	}
+	public void setGrant(String grant) {
+		this.grant = grant;
+	}
 	public Long getChattingNo() {
 		return chattingNo;
 	}
@@ -70,10 +76,11 @@ public class ChattingMsgVo {
 	@Override
 	public String toString() {
 		return "ChattingMsgVo [no=" + no + ", userNo=" + userNo + ", userNickname=" + userNickname + ", userId="
-				+ userId + ", image=" + image + ", chattingNo=" + chattingNo + ", sendDate=" + sendDate + ", contents="
-				+ contents + ", readMsg=" + readMsg + "]";
+				+ userId + ", image=" + image + ", grant=" + grant + ", chattingNo=" + chattingNo + ", sendDate="
+				+ sendDate + ", contents=" + contents + ", readMsg=" + readMsg + "]";
 	}
 	
+
 	
 	
 	
