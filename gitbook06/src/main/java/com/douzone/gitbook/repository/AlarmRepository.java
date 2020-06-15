@@ -40,4 +40,13 @@ public class AlarmRepository {
 		return sqlSession.selectOne("alarm.findUserIdAndGroupTitleByNo", numberMap);
 	}
 
+	public List<Map<String, Object>> getGroupUserList(int groupNo) {
+		
+		return sqlSession.selectList("alarm.findGroupUserList", groupNo);
+	}
+
+
+
+	
+
 }

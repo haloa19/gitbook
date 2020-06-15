@@ -198,6 +198,10 @@ public class GitService {
 	public Boolean pushProcess(Map<String, Object> push) {
 		return gitRepository.addPushInfo(push);
 	}
+	
+	public String getNickName(String id) {
+		return gitRepository.getUserNickName(id);
+	}
 
 	public List<GitVo> getGroupRepositoryList(Map<String, String> map) {
 		

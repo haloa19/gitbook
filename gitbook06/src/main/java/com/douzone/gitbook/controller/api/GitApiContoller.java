@@ -166,9 +166,10 @@ public class GitApiContoller {
 		push.put("repoName", ((String) input.get("repo")).split("/")[2].split("\\.")[0]);
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
-
+		push.put("nickName", gitService.getNickName((String) push.get("id")));
+		
 		push.put("contents",
-				push.get("id") + " 님이 " + push.get("repoName") + " 에 PUSH 하였습니다. (" + push.get("commitMsg") + ")");
+				push.get("nickName") + " 님이 " + push.get("repoName") + " 에 PUSH 하였습니다. (" + push.get("commitMsg") + ")");
 		push.put("contents_short", push.get("repoName") + " : \"" + push.get("commitMsg") + "\"");
 
 		Boolean result = gitService.pushProcess(push);

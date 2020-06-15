@@ -36,7 +36,7 @@ public class AlarmService {
 	public AlarmVo getRecentAlarm(AlarmVo vo) {
 		return alarmRepository.findRecentAlarm(vo);
 	}
-	
+
 	public UserVo getUserNoAndNickname(long paramNo) {
 		return alarmRepository.findUserNoAndNickname(paramNo);
 	}
@@ -48,9 +48,15 @@ public class AlarmService {
 	public UserVo getUserIdAndGroupTitle(Map<String, Long> numberMap) {
 		return alarmRepository.getUserIdAndGroupTitle(numberMap);
 	}
+
+	public List<Map<String, Object>> getGroupUserList(int groupNo) {
+		return alarmRepository.getGroupUserList(groupNo);
+	}
+
+	
 	
 
-	//test용
+	// test용
 //		public void test() {
 //			//System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 불리긴하는지 함 보자");
 //			String message = "개세이야";

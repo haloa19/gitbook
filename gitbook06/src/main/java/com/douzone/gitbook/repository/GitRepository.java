@@ -61,8 +61,13 @@ public class GitRepository {
 	}
 
 	public List<GitVo> findMyList(String id) {
-		
+
 		return sqlSession.selectList("git.findMyList", id);
+	}
+
+	public String getUserNickName(String id) {
+		String nickName = sqlSession.selectOne("alarm.findUserNicknameById", id);
+		return nickName;
 	}
 
 }
