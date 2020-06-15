@@ -96,6 +96,7 @@
 						  from git
 						where user_no != #{userNo} and visible="private"
 						)
+		order by reg_date desc;
 		]]>
 	</select>
 	
