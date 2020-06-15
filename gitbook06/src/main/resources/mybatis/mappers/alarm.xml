@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="alarm">
-	<select id="findList" parameterType="String" resultType="alarmvo">
+	<select id="findList" parameterType="String"
+		resultType="alarmvo">
 		<![CDATA[
 			select 
 				no, user_no as userNo, alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
@@ -15,7 +16,8 @@
 		]]>
 	</select>
 
-	<select id="findRecentAlarm" parameterType="alarmvo" resultType="alarmvo">
+	<select id="findRecentAlarm" parameterType="alarmvo"
+		resultType="alarmvo">
 		<![CDATA[
 			select 
 				no, user_no as userNo, alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
@@ -48,11 +50,35 @@
 			</otherwise>
 		</choose>
 	</update>
-	
+
 	<insert id="addAlarm" parameterType="alarmvo">
 		<![CDATA[
 			insert into alarm values(null, #{userNo}, #{alarmType}, #{alarmContents}, 'uncheck', now())
 		]]>
 	</insert>
 
+	<!-- 친구 요청 수락 시 필요한 값 -->
+	<select id="findUserByNo" parameterType="long"
+		resultType="uservo">
+		<![CDATA[
+			select a.id as id, b.nickname as nickname
+				from user a, profile b
+				where a.no = b.user_no
+				and a.no = #{no}
+		]]>
+	</select>
+
+	<!-- 그룹 요청 시 필요한 아이디와 그룹이름 -->
+
+	<select id="findUserIdAndGroupTitleByNo" parameterType="map"
+		resultType="uservo">
+		<![CDATA[
+			select a.id as id, c.group_title as groupTitle
+			from user a 
+			join group_list b on (a.no = b.user_no) 
+			join `group` c on (b.group_no = c.no)
+			where b.user_no = #{userNo}
+			and b.group_no = #{groupNo}
+		]]>
+	</select>
 </mapper>

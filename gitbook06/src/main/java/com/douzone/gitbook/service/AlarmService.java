@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.douzone.gitbook.repository.AlarmRepository;
 import com.douzone.gitbook.vo.AlarmVo;
+import com.douzone.gitbook.vo.UserVo;
 
 @Service
 public class AlarmService {
@@ -35,9 +36,17 @@ public class AlarmService {
 	public AlarmVo getRecentAlarm(AlarmVo vo) {
 		return alarmRepository.findRecentAlarm(vo);
 	}
+	
+	public UserVo getUserNoAndNickname(long paramNo) {
+		return alarmRepository.findUserNoAndNickname(paramNo);
+	}
 
 	public void addAlarm(AlarmVo vo) {
 		alarmRepository.addAlarm(vo);
+	}
+
+	public UserVo getUserIdAndGroupTitle(Map<String, Long> numberMap) {
+		return alarmRepository.getUserIdAndGroupTitle(numberMap);
 	}
 	
 
@@ -47,11 +56,6 @@ public class AlarmService {
 //			String message = "개세이야";
 //			// "/topic/alarm/유저아이디" 로 해당 알림 메시지를 날린다.
 //			webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송
-<<<<<<< HEAD
-//			test
-=======
-//test
->>>>>>> fb08a33914eab8da05df1ab9db3cf30c52b8c99c
 //		}
 
 }

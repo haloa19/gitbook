@@ -19,9 +19,12 @@ public class UserVo {
 	private String image;
 	private String nickname;
 	private String profileContents;
-	
+
 	// Friend
 	private Long friendNum;
+
+	// Group
+	private String groupTitle;
 
 	public Long getNo() {
 		return no;
@@ -127,10 +130,20 @@ public class UserVo {
 		this.friendNum = friendNum;
 	}
 
+	public String getGroupTitle() {
+		return groupTitle;
+	}
+
+	public void setGroupTitle(String groupTitle) {
+		this.groupTitle = groupTitle;
+	}
+
 	@Override
 	public String toString() {
-		return "UserVo [no=" + no + ", id=" + id + ", password=" + password + ", phone=" + phone + ", name=" + name + ", gender=" + gender + ", birthday=" + birthday + ", joinDate=" + joinDate
-				+ ", ProfileNo=" + ProfileNo + ", image=" + image + ", nickname=" + nickname + ", profileContents=" + profileContents + "]";
+		return "UserVo [no=" + no + ", id=" + id + ", password=" + password + ", phone=" + phone + ", name=" + name
+				+ ", gender=" + gender + ", birthday=" + birthday + ", joinDate=" + joinDate + ", ProfileNo="
+				+ ProfileNo + ", image=" + image + ", nickname=" + nickname + ", profileContents=" + profileContents
+				+ ", friendNum=" + friendNum + ", groupTitle=" + groupTitle + "]";
 	}
 
 }

@@ -136,8 +136,7 @@ public class TimelineApiController {
 		map.put("groupNo", groupNo);
 		
 		List<TimelineVo> list = timelineService.getGroupTimelineList(map);
-		System.out.println("group timeline chk" + groupNo + ":" + id + ":" + groupNo.toString() + ":" + list.get(0).getContents());
-		
+				
 		return JsonResult.success(list);
 	}
 	
