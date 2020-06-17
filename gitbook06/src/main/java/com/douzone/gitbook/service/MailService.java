@@ -8,9 +8,12 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 @Service
+@EnableAsync
 public class MailService implements MailServiceInterface {
 
 	private Log log = LogFactory.getLog(MailService.class);
@@ -18,9 +21,6 @@ public class MailService implements MailServiceInterface {
 	// org.springframework.mail.javamail.JavaMailSender
 	@Autowired
 	private JavaMailSender javaMailSender;
-	
-	@Autowired
-	private AsyncService asyncService;
 
 	@Override
 	public boolean send(String subject, String text, String from, String to, String filePath) {
@@ -42,6 +42,7 @@ public class MailService implements MailServiceInterface {
 		return false;
 	}
 
+	@Async
 	public void sendAsync(String subject, String text, String from, String to, String filePath) {
 		MimeMessage message = javaMailSender.createMimeMessage();
 		
@@ -59,10 +60,6 @@ public class MailService implements MailServiceInterface {
 			System.out.println("[MailService.java] Failed process with sendAsync(...). Check out below message.");
 			e.printStackTrace();
 		}
-	}
-	
-	public void sendAsyncMethodCall(String subject, String text, String from, String to, String filePath) {
-		asyncService.run(() -> sendAsync(subject, text, from, to, filePath));
 	}
 
 }

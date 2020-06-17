@@ -179,39 +179,43 @@ public class GroupApiController {
 	@ResponseBody
 	@RequestMapping(value = "/addgroup", method = RequestMethod.POST)
 	public JsonResult addGroup(HttpServletRequest request, @RequestBody Map<String, Object> param) { // auth가 클릭한
-																										// userid받아오기
+		// userid받아오기
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
-		
-		// 그룹 초대 승락 알람 소캣
-		List<Map<String, Object>> groupList = new ArrayList<>();
-		groupList = alarmService.getGroupUserList((Integer)param.get("groupno"));
-		
+		List<Map<String, Object>> groupUserList = new ArrayList<>();
+
+		// groupNo Casting
+		int groupNo = ("java.lang.String".equals(param.get("groupno").getClass().getName())) ? Integer.parseInt((String) param.get("groupno")) : (Integer) param.get("groupno");
+		groupUserList = alarmService.getGroupUserList(groupNo);
+		//
+
 		groupService.addGroup(param);
 
-		for(Map<String, Object> line: groupList) {
-						
-			 AlarmVo vo = new AlarmVo();
-			 
-			 vo.setUserNo((Long)line.get("no")); // 그룹원들의 no로 맞출 것
-			 vo.setAlarmType("group");
-			 vo.setAlarmContents(uservo.getNickname()+" 님이 "+line.get("groupTitle") + " 그룹에 가입했습니다.");
-			 vo.setUserId((String)line.get("id"));
-			 
-			 alarmService.addAlarm(vo);
-			 
-			 AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
-			
-			 try {
-					String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
-					alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String)line.get("id"));
-				} catch (JsonProcessingException e) {
-					e.printStackTrace();
-				}
+		List<GroupVo> groupList = groupService.getList(uservo);
+
+		System.out.println(groupUserList);
+
+		for (Map<String, Object> line : groupUserList) {
+
+			AlarmVo vo = new AlarmVo();
+
+			vo.setUserNo((Long) line.get("no")); // 그룹원들의 no로 맞출 것
+			vo.setAlarmType("group");
+			vo.setAlarmContents(uservo.getNickname() + " 님이 " + line.get("groupTitle") + " 그룹에 가입했습니다.");
+			vo.setUserId((String) line.get("id"));
+
+			alarmService.addAlarm(vo);
+
+			AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
+
+			try {
+				String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+				alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String) line.get("id"));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 		}
-		
-		
-		
+
 		return JsonResult.success(groupList);
 	}
 

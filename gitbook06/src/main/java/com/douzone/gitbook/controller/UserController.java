@@ -137,7 +137,7 @@ public class UserController {
 		sb.append("귀하의 인증 링크: " + returnedLink);
 		
 		System.out.println("Sending email");
-		mailService.sendAsyncMethodCall(subject, sb.toString(), "bigbossdc200@gmail.com", email, null);
+		mailService.sendAsync(subject, sb.toString(), "bigbossdc200@gmail.com", email, null);
 		
 		// 최종적으로 email 링크와 사이트 링크를 보내기
 		model.addAttribute("email", email);
