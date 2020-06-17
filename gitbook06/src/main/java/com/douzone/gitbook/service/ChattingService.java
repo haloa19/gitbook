@@ -1,6 +1,7 @@
 package com.douzone.gitbook.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.douzone.gitbook.repository.ChattingRepository;
 import com.douzone.gitbook.vo.ChattingMsgVo;
 import com.douzone.gitbook.vo.ChattingRoomVo;
+import com.douzone.gitbook.vo.UserVo;
 
 @Service
 public class ChattingService {
@@ -77,5 +79,15 @@ public class ChattingService {
 	public void updateResetAlarm(Long no, Long chatRoonNo) {
 		 chattingRepository.updateResetAlarm(no,chatRoonNo);
 		
+	}
+
+	public void deleteChatRoom(Map<String, Long> map) {
+		 chattingRepository.deleteChatRoom(map);
+		
+	}
+
+	public List<UserVo> getInviteList(Long chatRoonNo) {
+		
+		return chattingRepository.getInviteList(chatRoonNo);
 	}
 }

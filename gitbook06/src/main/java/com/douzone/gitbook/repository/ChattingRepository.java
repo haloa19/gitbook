@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.douzone.gitbook.vo.ChattingMsgVo;
 import com.douzone.gitbook.vo.ChattingRoomVo;
+import com.douzone.gitbook.vo.UserVo;
 
 @Repository
 public class ChattingRepository {
@@ -84,6 +85,16 @@ public class ChattingRepository {
 		map.put("userNo",no);
 		map.put("chattingNo",chatRoonNo);
 		sqlSession.update("chatting.updateResetAlarm", map);
+	}
+
+	public void deleteChatRoom(Map<String, Long> map) {
+		sqlSession.update("chatting.deleteChatRoom", map);
+		
+	}
+
+	public List<UserVo> getInviteList(Long chatRoonNo) {
+		
+		return sqlSession.selectList("chatting.getInviteList", chatRoonNo);
 	}
 
 
