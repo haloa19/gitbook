@@ -176,6 +176,8 @@ public class GroupApiController {
 	}
 
 	// 요청온 그룹 참여
+
+
 	@ResponseBody
 	@RequestMapping(value = "/addgroup", method = RequestMethod.POST)
 	public JsonResult addGroup(HttpServletRequest request, @RequestBody Map<String, Object> param) { // auth가 클릭한
@@ -183,14 +185,13 @@ public class GroupApiController {
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
 		List<Map<String, Object>> groupUserList = new ArrayList<>();
-
-		// groupNo Casting
+	
+		//groupNo Casting
 		int groupNo = ("java.lang.String".equals(param.get("groupno").getClass().getName())) ? Integer.parseInt((String) param.get("groupno")) : (Integer) param.get("groupno");
 		groupUserList = alarmService.getGroupUserList(groupNo);
-		//
-
-		groupService.addGroup(param);
-
+    		
+		groupService.addGroup(param); 
+    
 		List<GroupVo> groupList = groupService.getList(uservo);
 
 		System.out.println(groupUserList);
@@ -218,6 +219,7 @@ public class GroupApiController {
 
 		return JsonResult.success(groupList);
 	}
+
 
 	// 요청온 그룹 거절
 	@ResponseBody

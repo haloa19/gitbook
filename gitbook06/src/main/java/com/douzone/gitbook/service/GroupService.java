@@ -128,4 +128,24 @@ public class GroupService {
 		
 	}
 
+	public List<GroupVo> getGrantAll(Long no) {
+		
+		return groupRepository.getGrantAll(no);
+	}
+
+	public void deleteGroupListAllAdmin(Long no) {
+		groupRepository.deleteGroupListAllAdmin(no);
+		
+	}
+	
+	public void deleteGroupListAll(Long groupno, Long userno) {
+		groupRepository.deleteGroupListAll(groupno, userno);
+		
+	}
+
+	public void deleteGroupAll(Long no) {
+		groupRepository.deleteGroupAll(no);
+		
+	}
+
 }

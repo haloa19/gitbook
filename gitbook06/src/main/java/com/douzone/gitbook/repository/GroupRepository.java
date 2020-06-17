@@ -1,5 +1,6 @@
 package com.douzone.gitbook.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,30 @@ public class GroupRepository {
 
 	public void update(Map<String, Object> param) {
 		sqlSession.update("group.update", param);
+		
+	}
+
+	public List<GroupVo> getGrantAll(Long no) {
+		
+		return sqlSession.selectList("group.grantAll", no);
+	}
+	
+	public void deleteGroupListAllAdmin(Long no) {
+		sqlSession.delete("group.deleteGroupListAllAdmin", no);
+		
+	}
+
+	public void deleteGroupListAll(Long groupno, Long userno) {
+		Map<String, Long> map = new HashMap<String,Long>(); 
+		map.put("groupno", groupno);
+		map.put("userno", userno);
+		
+		sqlSession.delete("group.deleteGroupListAll", map);
+		
+	}
+
+	public void deleteGroupAll(Long no) {
+		sqlSession.delete("group.deleteGroupAll", no);
 		
 	}
 	

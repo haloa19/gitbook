@@ -164,6 +164,12 @@
 	]]>
 	</select>
 	
+	<delete id="deleteGroupAll" parameterType="long">
+		<![CDATA[		
+				delete from schedule where group_no = #{no}
+		]]>
+	</delete>
+	
 	
 
 

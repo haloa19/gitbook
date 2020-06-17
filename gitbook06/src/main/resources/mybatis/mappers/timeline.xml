@@ -50,7 +50,7 @@
 	<select id="getUserInfo" parameterType="long"
 		resultType="uservo">
 		<![CDATA[
-		select c.image,c.nickname,a.id
+		select c.image,c.nickname,a.id,a.user_status as userStatus
 		from user a, timeline b ,profile c
 		where a.no=b.user_no
 		and a.no=c.user_no
@@ -86,6 +86,7 @@
 		<![CDATA[
 			select c.no,c.contents,DATE_FORMAT(c.reg_date,'%Y-%m-%d %H:%i')as regDate,c.user_no,c.timeline_no,
 			a.id as userId,
+			a.user_status as userStatus,
 			b.image as userProfile
 			,b.nickname as uesrNickname
 			from user a, profile b, comment c 
@@ -207,5 +208,11 @@
 		order by b.reg_date desc;
 		]]>
 	</select>
+	
+	<delete id="deleteGroupAll" parameterType="long">
+		<![CDATA[		
+				delete from timeline where group_no = #{no};
+			]]>
+	</delete>
 	
 </mapper>

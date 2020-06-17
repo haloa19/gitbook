@@ -68,5 +68,10 @@ public class ScheduleService {
 		return scheduleRepository.findNaviCommitDay(groupNo,date);
 	}
 
+	public void deleteGroupAll(Long no) {
+		scheduleRepository.deleteGroupAll(no);
+		
+	}
+
 	
 }

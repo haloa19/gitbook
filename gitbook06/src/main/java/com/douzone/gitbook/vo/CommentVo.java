@@ -11,6 +11,7 @@ public class CommentVo {
 	private String userId;
 	private String userProfile;
 	private String userNickname;
+	private String userStatus;
 	public Long getNo() {
 		return no;
 	}
@@ -58,6 +59,12 @@ public class CommentVo {
 	}
 	public void setUesrNickname(String uesrNickname) {
 		this.userNickname = uesrNickname;
+	}
+	public String getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 	@Override
 	public String toString() {

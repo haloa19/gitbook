@@ -70,4 +70,9 @@ public class GitRepository {
 		return nickName;
 	}
 
+	public void deleteGroupAll(Long no) {
+		sqlSession.delete("git.deleteGroupAll", no);
+		
+	}
+
 }

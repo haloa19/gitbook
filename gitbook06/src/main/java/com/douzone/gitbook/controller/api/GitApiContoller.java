@@ -167,7 +167,7 @@ public class GitApiContoller {
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
 		push.put("nickName", gitService.getNickName((String) push.get("id")));
-
+    
 		push.put("contents", "COMMIT UPDATE!!\n\n\n[" + push.get("repoName") + ".git]에 Commit하였습니다.\nCommit Message : " + push.get("commitMsg"));
 		push.put("contents_short", push.get("repoName") + ">>>>>" + push.get("commitMsg"));
 
