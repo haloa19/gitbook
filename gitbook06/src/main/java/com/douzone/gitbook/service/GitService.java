@@ -212,5 +212,10 @@ public class GitService {
 		return gitRepository.findMyList(id);
 	}
 
+	public void deleteGroupAll(Long no) {
+		gitRepository.deleteGroupAll(no);
+		
+	}
+
 
 }

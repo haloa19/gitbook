@@ -176,44 +176,52 @@ public class GroupApiController {
 	}
 
 	// 요청온 그룹 참여
-	@ResponseBody
-	@RequestMapping(value = "/addgroup", method = RequestMethod.POST)
-	public JsonResult addGroup(HttpServletRequest request, @RequestBody Map<String, Object> param) { // auth가 클릭한
-																										// userid받아오기
-		HttpSession httpSession = request.getSession(false);
-		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
-		
-		// 그룹 초대 승락 알람 소캣
-		List<Map<String, Object>> groupList = new ArrayList<>();
-		groupList = alarmService.getGroupUserList((Integer)param.get("groupno"));
-		
-		groupService.addGroup(param);
+	   @ResponseBody
+	   @RequestMapping(value = "/addgroup", method = RequestMethod.POST)
+	   public JsonResult addGroup(HttpServletRequest request, @RequestBody Map<String, Object> param) { // auth가 클릭한
+	                                                                              // userid받아오기
+	      HttpSession httpSession = request.getSession(false);
+	      UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
+	      List<Map<String, Object>> groupUserList = new ArrayList<>();
+	      
+	      //groupno casting
+	      if("java.lang.String".equals(param.get("groupno").getClass().getName())) {
+	         groupUserList = alarmService.getGroupUserList(Integer.parseInt((String) param.get("groupno"))); // 한번 더 들어가서 수락 = string
+	      }
+	      else {
+	         groupUserList = alarmService.getGroupUserList((Integer) param.get("groupno"));//바로 수락 = int
+	      }
+	      //
+	      
+	      groupService.addGroup(param); 
 
-		for(Map<String, Object> line: groupList) {
-						
-			 AlarmVo vo = new AlarmVo();
-			 
-			 vo.setUserNo((Long)line.get("no")); // 그룹원들의 no로 맞출 것
-			 vo.setAlarmType("group");
-			 vo.setAlarmContents(uservo.getNickname()+" 님이 "+line.get("groupTitle") + " 그룹에 가입했습니다.");
-			 vo.setUserId((String)line.get("id"));
-			 
-			 alarmService.addAlarm(vo);
-			 
-			 AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
-			
-			 try {
-					String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
-					alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String)line.get("id"));
-				} catch (JsonProcessingException e) {
-					e.printStackTrace();
-				}
-		}
-		
-		
-		
-		return JsonResult.success(groupList);
-	}
+	      List<GroupVo> groupList = groupService.getList(uservo);
+
+	      System.out.println(groupUserList);
+
+	      for (Map<String, Object> line : groupUserList) {
+
+	         AlarmVo vo = new AlarmVo();
+
+	         vo.setUserNo((Long) line.get("no")); // 그룹원들의 no로 맞출 것
+	         vo.setAlarmType("group");
+	         vo.setAlarmContents(uservo.getNickname() + " 님이 " + line.get("groupTitle") + " 그룹에 가입했습니다.");
+	         vo.setUserId((String) line.get("id"));
+
+	         alarmService.addAlarm(vo);
+
+	         AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
+
+	         try {
+	            String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+	            alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String) line.get("id"));
+	         } catch (JsonProcessingException e) {
+	            e.printStackTrace();
+	         }
+	      }
+
+	      return JsonResult.success(groupList);
+	   }
 
 	// 요청온 그룹 거절
 	@ResponseBody

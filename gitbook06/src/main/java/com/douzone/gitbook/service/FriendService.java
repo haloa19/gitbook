@@ -21,4 +21,9 @@ public class FriendService {
 		friendRepository.insertRequest2(param);
 	}
 
+	public void deleteFriendAll(Long no) {
+		friendRepository.deleteFriendAll(no);
+		
+	}
+
 }

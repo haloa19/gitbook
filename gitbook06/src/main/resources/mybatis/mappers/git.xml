@@ -111,5 +111,11 @@
 		order by reg_date desc;
 		]]>
 	</select>
+	
+	<delete id="deleteGroupAll" parameterType="long">
+		<![CDATA[		
+				delete from git where group_no = #{no};
+			]]>
+	</delete>
 
 </mapper>

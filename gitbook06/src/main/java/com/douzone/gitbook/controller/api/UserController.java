@@ -21,10 +21,16 @@ import org.springframework.web.multipart.MultipartFile;
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.AlarmService;
 import com.douzone.gitbook.service.FileUploadService;
+import com.douzone.gitbook.service.FriendService;
+import com.douzone.gitbook.service.GitService;
+import com.douzone.gitbook.service.GroupService;
 import com.douzone.gitbook.service.MailService;
+import com.douzone.gitbook.service.ScheduleService;
+import com.douzone.gitbook.service.TimelineService;
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.vo.AlarmVo;
 import com.douzone.gitbook.vo.FriendVo;
+import com.douzone.gitbook.vo.GroupVo;
 import com.douzone.gitbook.vo.UserVo;
 import com.douzone.security.Auth;
 import com.douzone.security.AuthUser;
@@ -37,6 +43,21 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private FriendService friendService;
+	
+	@Autowired
+	private GroupService groupService;
+	
+	@Autowired
+	private TimelineService timelineService;
+	
+	@Autowired
+	private GitService gitService;
+	
+	@Autowired
+	private ScheduleService scheduleService;
 
 	@Autowired
 	MailService mailService;
@@ -345,6 +366,58 @@ public class UserController {
 		authUserOriginal.setGender(vo.getGender());
 		session.setAttribute("authUser", authUserOriginal);
 
+		return JsonResult.success(true);
+	}
+	
+	@Auth
+	@ResponseBody
+	@RequestMapping(value = "/out/{no}", method = RequestMethod.POST)
+	public JsonResult out(@PathVariable("no") Long no, HttpServletRequest request) {
+		HttpSession httpSession = request.getSession(false);
+		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
+
+		System.out.println("탈퇴 테테스트" + no);
+		
+		// 1. 계정 비활성화
+		userService.updateUserStatus(no);
+		
+		// 2. 친구 관계 삭제
+		friendService.deleteFriendAll(no);
+		
+		// 3. 그룹에서 탈퇴
+		// 3-0. 유저 권한 조회
+		List<GroupVo> list = groupService.getGrantAll(no);
+		for(GroupVo vo : list) {
+			System.out.println("grant : " + vo.getGrant() + ":" + vo.getNo());
+			
+		
+			if(vo.getGrant().equals("admin")) {		// 3-1. 그룹장인 경우 그룹 관련 모든 그룹 데이터 삭제(스케쥴, 타임라인, 레포) => 요청 그룹, 참여중인 그룹 쿼리에 조건 추가 필요
+				// 타임라인 삭제
+				timelineService.deleteGroupAll(vo.getNo());
+				
+				// 깃 삭제
+				gitService.deleteGroupAll(vo.getNo());
+				
+				// 스케쥴 삭제
+				scheduleService.deleteGroupAll(vo.getNo());
+				
+				// 그룹 리스트 삭제
+				groupService.deleteGroupListAllAdmin(vo.getNo());
+				
+				// 그룹 삭제
+				groupService.deleteGroupAll(vo.getNo());
+				
+				
+			} else {	// 3-2. 일반 유저 또는 요청중인 경우 group_list에서만 삭제
+				// 그룹 리스트 삭제
+				groupService.deleteGroupListAll(vo.getNo(), uservo.getNo());
+			}
+		}
+	
+		
+		// 5. 참여중인 채팅방에서 나가기
+		// 6. 채팅방장인 경우 채팅방 자체를 삭제
+		
 		return JsonResult.success(true);
 	}
 

@@ -38,7 +38,7 @@
 	
 	<select id="groupInfo" parameterType="map" resultType="groupvo">
 		<![CDATA[
-		select g1.no, g1.image, g1.groupTitle, g1.groupIntro, g1.regDate, g1.grant, g2.masterNo, g2.masterImage, g3.repoNum, g4.memberNum
+		select g1.no, g1.image, g1.groupTitle, g1.groupIntro, DATE_FORMAT(g1.regDate,'%Y-%m-%d %H:%i') as regDate, g1.grant, g2.masterNo, g2.masterImage, g3.repoNum, g4.memberNum
 		from(
 			select b.no, b.image, b.group_title as groupTitle, b.group_intro as groupIntro, b.reg_date as regDate, a.grant
 			from group_list a join gitbook.group b on a.group_no = b.no 
@@ -146,5 +146,29 @@
 		 update gitbook.group set group_title = #{groupTitle}, group_intro = #{groupIntro}, image = #{imgurl}  where no = #{groupno};
 		]]>
 	</update>
+	
+	<select id="grantAll" parameterType="long" resultType="groupvo">
+		<![CDATA[
+			select group_no as no, group_list.grant from group_list where user_no = #{no};
+		]]>
+	</select>
+	
+	<delete id="deleteGroupListAllAdmin" parameterType="long">
+		<![CDATA[
+		delete from group_list where group_no = #{no};
+		]]>
+	</delete>
+	
+	<delete id="deleteGroupListAll" parameterType="map">
+		<![CDATA[
+		delete from group_list where group_no = #{groupno} and user_no = #{userno};
+		]]>
+	</delete>
+	
+	<delete id="deleteGroupAll" parameterType="long">
+		<![CDATA[
+		delete from gitbook.group where no = #{no};
+		]]>
+	</delete>
 
 </mapper>
