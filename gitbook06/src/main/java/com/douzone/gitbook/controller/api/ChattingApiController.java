@@ -104,7 +104,13 @@ public class ChattingApiController {
 		
 			) {
 		Map<String,Object> map = new HashMap<>();
-		map.put("image",chattingService.getAdminImage(chatRoonNo).getImage());
+		if(chattingService.getAdminImage(chatRoonNo)==null) {
+			map.put("image",
+					"/gitbook/assets/img/users/default.jpg");
+		}else {
+		map.put("image",
+				chattingService.getAdminImage(chatRoonNo).getImage());
+		}
 		map.put("lastMsg",chattingService.getLastMsg(chatRoonNo));
 		map.put("alarmCount", chattingService.getAlarmList(chatRoonNo,userVo.getNo()));
 	
@@ -150,7 +156,7 @@ public class ChattingApiController {
 				msgVo);
 		
 		webSocket.convertAndSend("/topics/chatting/test"+"/"+chatRoonNo, 
-				chattingService.msgList(chatRoonNo));
+				chattingService.msgList(chatRoonNo));// 메시지 리스트를 새로 뿌려줌
 	
 		for(Long no :inviteList){
 			if(no != userNo) {
@@ -187,19 +193,95 @@ public class ChattingApiController {
 	}
 	
 	
-//	@ResponseBody
-//	@RequestMapping(value="/resetAlarm/{userNo}/{chatRoonNo}")
-//	public void deleteChatRoom(
-//			@PathVariable Long userNo,
-//			@PathVariable Long chatRoonNo,
-//			@RequestParam(value="nickName", required= true) String nickName
-//			,
-//			@RequestParam(value="inviteList", required= true)ArrayList<Long> inviteList
-//			) {
-//				
-//		System.out.println(userNo+chatRoonNo+nickName+inviteList);
-//		
-//	}
-//	
+	@ResponseBody
+	@RequestMapping(value="/deleteChatRoom/{userNo}/{chatRoonNo}")
+	public void deleteChatRoom(
+			@PathVariable Long userNo,
+			@PathVariable Long chatRoonNo,
+			@RequestParam(value="nickName", required= true) String nickName
+			,
+			@RequestParam(value="inviteList", required= true)ArrayList<Long> inviteList
+			) {
+				
+		System.out.println(userNo+":::::"+chatRoonNo+nickName+inviteList);
+		Map<String,Long> map =new HashMap<String,Long>();
+		map.put("userNo", userNo);
+		map.put("chatRoonNo", chatRoonNo);
+		chattingService.deleteChatRoom(map);
+		
+		ChattingMsgVo msgVo= new ChattingMsgVo();
+		msgVo.setChattingNo(chatRoonNo);
+		msgVo.setContents(nickName+"(가)이 퇴장 하였습니다");
+		chattingService.addAdminMsg(msgVo);
+		webSocket.convertAndSend("/topics/chatting/test"+"/"+chatRoonNo, 
+				chattingService.msgList(chatRoonNo));// 메시지 리스트를 새로 뿌려줌
+		for(Long no :inviteList){
+			List<ChattingRoomVo> list= chattingService.chatRoomList(no);
+			webSocket.convertAndSend("/topics/chatting/resetChatRoom/"+no, list);
+			if(chattingService.getAdminImage(chatRoonNo)==null) {
+				if(userNo != no) {
+					webSocket.convertAndSend("/topics/chatting/imgagReset/"+chatRoonNo+"/"+no, 
+							"/gitbook/assets/img/users/default.jpg");
+					}
+			}
+		
+		}
+		webSocket.convertAndSend("/topics/chatting/test"+"/"+chatRoonNo, 
+				chattingService.msgList(chatRoonNo));// 메시지 리스트를 새로 뿌려줌
+		webSocket.convertAndSend("/topics/chatting/lastMsg/"+chatRoonNo, 
+				chattingService.getLastMsg(chatRoonNo));
+		webSocket.convertAndSend("/topics/chatting/changeInviteList/"+chatRoonNo, 
+				chattingService.inviteList(chatRoonNo));
+		
+			
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getInviteList/{chatRoonNo}")
+	public JsonResult getInviteList(
+			@PathVariable Long chatRoonNo
+			) {
+		List<UserVo> list = chattingService.getInviteList(chatRoonNo);
+		
+		return JsonResult.success(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/addinviteUser/{userNo}/{chatRoonNo}")
+	public void addinviteUser(
+			@PathVariable Long userNo,
+			@PathVariable Long chatRoonNo,
+			@RequestParam(value="inviteNicknameList", required= true) ArrayList<String> inviteNicknameList
+			,
+			@RequestParam(value="inviteList", required= true)ArrayList<Long> inviteList
+			) {
+		
+		for(Long no :inviteList){
+			
+			ChattingRoomVo addVo=new ChattingRoomVo();
+			addVo.setUserNo(no);
+			addVo.setNo(chatRoonNo);
+			addVo.setGrant("user");
+			chattingService.addChatRoomuser(addVo);
+			List<ChattingRoomVo> list= chattingService.chatRoomList(no);
+			webSocket.convertAndSend("/topics/chatting/resetChatRoom/"+no, list);
+			}
+		for(String nickName :inviteNicknameList){
+			ChattingMsgVo msgVo= new ChattingMsgVo();
+			msgVo.setChattingNo(chatRoonNo);
+			msgVo.setContents(nickName+"(가)이 초대 되었습니다");
+			chattingService.addAdminMsg(msgVo);
+			}
+		
+		webSocket.convertAndSend("/topics/chatting/test"+"/"+chatRoonNo, 
+				chattingService.msgList(chatRoonNo));// 메시지 리스트를 새로 뿌려줌
+		webSocket.convertAndSend("/topics/chatting/lastMsg/"+chatRoonNo, 
+				chattingService.getLastMsg(chatRoonNo));
+		webSocket.convertAndSend("/topics/chatting/changeInviteList/"+chatRoonNo, 
+				chattingService.inviteList(chatRoonNo));
+		
+		
+	}
+	
 	
 }
