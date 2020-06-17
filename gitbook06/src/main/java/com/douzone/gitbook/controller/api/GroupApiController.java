@@ -181,7 +181,7 @@ public class GroupApiController {
 	@ResponseBody
 	@RequestMapping(value = "/addgroup", method = RequestMethod.POST)
 	public JsonResult addGroup(HttpServletRequest request, @RequestBody Map<String, Object> param) { // auth가 클릭한
-																										// userid받아오기
+		// userid받아오기
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
 		List<Map<String, Object>> groupUserList = new ArrayList<>();
@@ -189,10 +189,9 @@ public class GroupApiController {
 		//groupNo Casting
 		int groupNo = ("java.lang.String".equals(param.get("groupno").getClass().getName())) ? Integer.parseInt((String) param.get("groupno")) : (Integer) param.get("groupno");
 		groupUserList = alarmService.getGroupUserList(groupNo);
-		//
-		
+    		
 		groupService.addGroup(param); 
-
+    
 		List<GroupVo> groupList = groupService.getList(uservo);
 
 		System.out.println(groupUserList);
