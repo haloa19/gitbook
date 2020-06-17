@@ -13,6 +13,7 @@ public class UserVo {
 	private String gender;
 	private String birthday;
 	private String joinDate;
+	private String userStatus;
 
 	// Profile vo
 	private Long ProfileNo;
@@ -88,6 +89,14 @@ public class UserVo {
 
 	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
+	}
+
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 
 	public Long getProfileNo() {

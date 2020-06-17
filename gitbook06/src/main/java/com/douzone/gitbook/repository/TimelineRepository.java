@@ -124,4 +124,9 @@ public class TimelineRepository {
 	public List<TimelineVo> getGroupTimelineList(Map<String, Long> map) {	
 		return sqlSession.selectList("timeline.getGroupTimelineList", map);
 	}
+
+	public void deleteGroupall(Long no) {
+		sqlSession.delete("timeline.deleteGroupAll", no);
+		
+	}
 }

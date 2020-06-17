@@ -101,6 +101,11 @@ public class ScheduleRepository {
 		
 		return sqlSession.selectList("schedule.findGroupNaviCommitList",map);
 	}
+
+	public void deleteGroupAll(Long no) {
+		sqlSession.delete("schedule.deleteGroupAll", no);
+		
+	}
 	
 	
 }

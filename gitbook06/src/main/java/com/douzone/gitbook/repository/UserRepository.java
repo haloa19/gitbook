@@ -125,6 +125,11 @@ public class UserRepository {
 		return sqlSession.selectOne("user.findUserId", id);
 	}
 
+	public Object updateUserStatus(Long no) {
+		
+		return sqlSession.update("user.userStatus", no);
+	}
+
 
   
 }

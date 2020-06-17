@@ -154,4 +154,7 @@ public class TimelineService {
 		
 		return timelineRepositroy.getGroupTimelineList(map);
 	}
+	public void deleteGroupAll(Long no) {
+		timelineRepositroy.deleteGroupall(no);
+	}
 }

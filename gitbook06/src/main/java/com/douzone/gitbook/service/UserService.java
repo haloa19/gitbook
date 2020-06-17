@@ -112,5 +112,10 @@ public class UserService {
 
 		return userRepository.findByUserNo(id);
 	}
+
+	public void updateUserStatus(Long no) {
+		
+		userRepository.updateUserStatus(no);
+	}
   
 }

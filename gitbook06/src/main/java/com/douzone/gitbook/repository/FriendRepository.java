@@ -20,4 +20,8 @@ public class FriendRepository {
 		sqlSession.insert("friend.reqFriend2", param);	
 	}
 
+	public void deleteFriendAll(Long no) {
+		sqlSession.delete("friend.deleteAll", no);		
+	}
+
 }

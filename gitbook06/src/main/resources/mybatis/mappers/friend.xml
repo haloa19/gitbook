@@ -8,6 +8,12 @@
 		insert into friends values('요청', #{userno}, #{friendno});
 		]]>
 	</insert>
+	
+	<delete id="deleteAll" parameterType="long">
+		<![CDATA[
+		delete from friends where user_no = #{no} or friend_no = #{no};
+		]]>
+	</delete>
 
 
 </mapper>
