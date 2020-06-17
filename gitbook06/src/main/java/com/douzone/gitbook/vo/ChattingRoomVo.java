@@ -5,7 +5,7 @@ public class ChattingRoomVo {
 	private String title; 
 	private String grant;
 	private Long userNo;
-		
+	private String regDate;
 	public Long getNo() {
 		return no;
 	}
@@ -30,10 +30,18 @@ public class ChattingRoomVo {
 	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
 	}
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
 	@Override
 	public String toString() {
-		return "ChattingRoomVo [no=" + no + ", title=" + title + ", grant=" + grant + ", userNo=" + userNo + "]";
-	} 
+		return "ChattingRoomVo [no=" + no + ", title=" + title + ", grant=" + grant + ", userNo=" + userNo
+				+ ", regDate=" + regDate + "]";
+	}
+		
 	
 	
 	

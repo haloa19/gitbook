@@ -26,7 +26,7 @@
 	<insert id="addAdminMsg" parameterType="chattingmsgvo">
 											
 		<![CDATA[		
-				insert into message values(null,1004,#{chattingNo},now(),#{contents},'yes');
+				insert into message values(null,1004,#{chattingNo},now(3),#{contents},'yes');
 			]]>
 			
 	</insert>
@@ -66,7 +66,7 @@
 		  		read_msg as readMsg
         from message 
         where chatting_no=#{chatRoonNo}
-        and send_date= (select max(send_date)
+        and no= (select max(no)
 							from message 
 							where chatting_no=#{chatRoonNo})
 		]]>
@@ -93,14 +93,14 @@
         from message a, profile b
         where a.user_no=b.user_no
         and a.chatting_no= #{chatRoonNo}
-        order by a.send_date asc
+        order by a.send_date desc
 		]]>
 	</select>
 	
 	<insert id="addUserMsg" parameterType="chattingmsgvo">
 											
 		<![CDATA[		
-				insert into message values(null,#{userNo},#{chattingNo},now(),#{contents},'yes');
+				insert into message values(null,#{userNo},#{chattingNo},now(3),#{contents},'yes');
 		]]>
 		<selectKey keyProperty = "no" resultType="long" order="AFTER">
 	         	select last_insert_id()
@@ -146,6 +146,25 @@
 		]]>
 	</update>
 	
+	<delete id="deleteChatRoom" parameterType="map"
+		>
+		<![CDATA[
+		delete from chatting_user 
+        where user_no=#{userNo}
+        and chatting_no=#{chatRoonNo}
+		]]>
+	</delete>
+	
+	<select id="getInviteList" parameterType="long"
+		resultType="uservo">
+		<![CDATA[
+		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
+		from user a ,profile b,chatting_user c 
+        where  a.no = b.user_no
+        and a.no=c.user_no
+        and chatting_no=#{chatRoonNo}
+		]]>
+	</select>
 	
 	
 </mapper>

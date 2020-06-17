@@ -176,6 +176,7 @@ public class GroupApiController {
 	}
 
 	// 요청온 그룹 참여
+
 	@ResponseBody
 	@RequestMapping(value = "/addgroup", method = RequestMethod.POST)
 	public JsonResult addGroup(HttpServletRequest request, @RequestBody Map<String, Object> param) { // auth가 클릭한
@@ -218,6 +219,7 @@ public class GroupApiController {
 
 		return JsonResult.success(groupList);
 	}
+
 
 	// 요청온 그룹 거절
 	@ResponseBody
