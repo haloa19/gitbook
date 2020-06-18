@@ -166,8 +166,11 @@ public class GitApiContoller {
 		push.put("repoName", ((String) input.get("repo")).split("/")[2].split("\\.")[0]);
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
-		push.put("nickName", gitService.getNickName((String) push.get("id")));
-    
+		
+		long userNo = userService.getUserNo((String)push.get("id"));
+		
+		push.put("groupNo", gitService.getGroupNo( (String)push.get("repoName") , (String)push.get("id"), userNo ) );
+		
 		push.put("contents", "COMMIT UPDATE!!\n\n\n[" + push.get("repoName") + ".git]에 Commit하였습니다.\nCommit Message : " + push.get("commitMsg"));
 		push.put("contents_short", push.get("repoName") + ">>>>>" + push.get("commitMsg"));
 
@@ -175,13 +178,17 @@ public class GitApiContoller {
 		if (!result) {
 			return JsonResult.fail("failed for updating push records");
 		}
-
+		
 		AlarmVo alarmVo = new AlarmVo();
 		alarmVo.setUserId((String) push.get("id"));
 		alarmVo.setAlarmType("commit");
 		alarmVo.setAlarmContents((String) push.get("contents"));
-
+			
+		
 		AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
+		recentAlarm.setGroupNo((Long) push.get("groupNo"));
+		recentAlarm.setRepoName((String)push.get("repoName"));
+				
 		try {
 			String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
 			alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String) push.get("id"));
@@ -227,7 +234,7 @@ public class GitApiContoller {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("groupNo", vo.getGroupNo().toString());
 		map.put("userNo", vo.getUserNo().toString());
-
+		
 		List<GitVo> list = gitService.getGroupRepositoryList(map);
 		return JsonResult.success(list);
 	}

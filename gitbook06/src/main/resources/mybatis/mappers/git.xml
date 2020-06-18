@@ -13,7 +13,7 @@
 		order by reg_date desc;
 		]]>
 	</select>
-	
+
 	<select id="getGitItem" parameterType="map" resultType="gitvo">
 		<![CDATA[
 		select a.no, a.user_no as userNo , a.group_no as groupNo, 
@@ -25,8 +25,8 @@
 		and b.id=#{id}
 		]]>
 	</select>
-	
-	
+
+
 
 	<insert id="insertGit" parameterType="gitvo">
 		<![CDATA[
@@ -34,13 +34,13 @@
 			values(null,#{userNo},#{groupNo},#{description},#{visible},#{gitName},now())
 		]]>
 	</insert>
-	
+
 	<delete id="deleteRepository" parameterType="gitvo">
 		<![CDATA[
 			delete from git where no=#{no} 
 		]]>
 	</delete>
-	
+
 
 	<update id="updateVisible" parameterType="gitvo">
 		<choose>
@@ -60,32 +60,33 @@
 			</otherwise>
 		</choose>
 	</update>
-	
+
 	<select id="findUserNo" parameterType="map" resultType="long">
 		<![CDATA[
 			select no from user where id = #{id}
 		]]>
 	</select>
-	
+
 	<insert id="insertAlarm" parameterType="map">
 		<![CDATA[
 			insert into alarm values(null, #{userNo}, "commit", #{contents}, 'uncheck', now())
 		]]>
 	</insert>
-	
+
 	<insert id="insertSchedule" parameterType="map">
 		<![CDATA[
 			insert into schedule values(null, #{commitDate}, #{contents_short}, 'commit', #{userNo}, (select group_no from git where user_no = #{userNo} and git_name = #{repoName}))
 		]]>
 	</insert>
-	
+
 	<insert id="insertTimeline" parameterType="map">
 		<![CDATA[
-			insert into timeline values(null, #{contents}, now(), 'public', (select group_no from git where user_no = #{userNo} and git_name = #{repoName}), #{userNo})
+			insert into timeline values(null, #{contents}, now(), 'public', (select group_no from git where user_no = #{userNo} and git_name = #{repoName}), #{userNo}, 'commit')
 		]]>
 	</insert>
-	
-	<select id="findListGroup" parameterType="map" resultType="gitvo">
+
+	<select id="findListGroup" parameterType="map"
+		resultType="gitvo">
 		<![CDATA[
 		select a.no,a.user_no as userNo,a.group_no as groupNo,
 			   a.description, a.visible,a.git_name as gitName,
@@ -99,8 +100,9 @@
 		order by reg_date desc;
 		]]>
 	</select>
-	
-	<select id="findMyList" parameterType="string" resultType="gitvo">
+
+	<select id="findMyList" parameterType="string"
+		resultType="gitvo">
 		<![CDATA[
 		select a.no,a.user_no as userNo,a.group_no as groupNo,
 			   a.description, a.visible,a.git_name as gitName,
@@ -111,11 +113,22 @@
 		order by reg_date desc;
 		]]>
 	</select>
-	
+
 	<delete id="deleteGroupAll" parameterType="long">
 		<![CDATA[		
 				delete from git where group_no = #{no};
 			]]>
 	</delete>
 
+
+	<select id="getGroupNo" parameterType="map" resultType="long">
+		<![CDATA[
+				select a.group_no
+				 from git a, user b
+				where a.user_no = b.no 
+				and a.git_name = #{repoName}
+				and b.id = #{id}
+				and b.no = #{userNo}
+		]]>
+	</select>
 </mapper>

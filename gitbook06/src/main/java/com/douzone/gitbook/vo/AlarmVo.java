@@ -8,7 +8,10 @@ public class AlarmVo {
 	private String alarmContents;
 	private String alarmCheck;
 	private String alarmDate;
-
+	
+	private Long groupNo;
+	private String repoName;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -65,10 +68,26 @@ public class AlarmVo {
 		this.alarmDate = alarmDate;
 	}
 
-	@Override
-	public String toString() {
-		return "AlarmVo [no=" + no + ", userNo=" + userNo + ", userId=" + userId + ", alarmType=" + alarmType + ", alarmContents=" + alarmContents + ", alarmCheck=" + alarmCheck + ", alarmDate="
-				+ alarmDate + "]";
+	public Long getGroupNo() {
+		return groupNo;
 	}
 
+	public void setGroupNo(Long groupNo) {
+		this.groupNo = groupNo;
+	}
+	
+	public String getRepoName() {
+		return repoName;
+	}
+
+	public void setRepoName(String repoName) {
+		this.repoName = repoName;
+	}
+
+	@Override
+	public String toString() {
+		return "AlarmVo [no=" + no + ", userNo=" + userNo + ", userId=" + userId + ", alarmType=" + alarmType
+				+ ", alarmContents=" + alarmContents + ", alarmCheck=" + alarmCheck + ", alarmDate=" + alarmDate
+				+ ", groupNo=" + groupNo + ", repoName=" + repoName + "]";
+	}
 }

@@ -217,5 +217,7 @@ public class GitService {
 		
 	}
 
-
+	public Object getGroupNo(String repoName, String id, long userNo) {
+		return gitRepository.getGroupNo(repoName, id, userNo);
+	}
 }

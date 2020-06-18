@@ -130,6 +130,7 @@ public class UserRepository {
 		return sqlSession.update("user.userStatus", no);
 	}
 
-
-  
+	public long getUserNo(String id) {
+		return sqlSession.selectOne("user.getUserNo", id);
+	}
 }

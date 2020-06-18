@@ -67,7 +67,7 @@
 				and a.no = #{no}
 		]]>
 	</select>
-	
+
 	<select id="findUserNicknameById" parameterType="string"
 		resultType="string">
 		<![CDATA[
@@ -77,7 +77,7 @@
 				and a.id = #{id}
 		]]>
 	</select>
-	
+
 	<!-- 그룹 요청 시 필요한 아이디와 그룹이름 -->
 
 	<select id="findUserIdAndGroupTitleByNo" parameterType="map"
@@ -102,6 +102,15 @@
  				 join profile P on (P.user_no = U.no)
  			where GL.group_no = #{groupNo}
  			 and GL.`grant` != 'user_req'
+		]]>
+	</select>
+
+	<select id="getGroupNo" parameterType="map" resultType="long">
+	<![CDATA[
+		select group_no
+		from git
+		where user_no = #{userNo}
+		and git_name = #{repoName}
 		]]>
 	</select>
 

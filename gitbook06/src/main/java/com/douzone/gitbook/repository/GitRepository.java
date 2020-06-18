@@ -75,4 +75,11 @@ public class GitRepository {
 		
 	}
 
+	public Object getGroupNo(String repoName, String id, long userNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("repoName", repoName);
+		map.put("id", id);
+		map.put("userNo", userNo);
+		return sqlSession.selectOne("git.getGroupNo", map);
+	}
 }
