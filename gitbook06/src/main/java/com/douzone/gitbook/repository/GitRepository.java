@@ -82,4 +82,16 @@ public class GitRepository {
 		map.put("userNo", userNo);
 		return sqlSession.selectOne("git.getGroupNo", map);
 	}
+
+	public Long findGroupNo(Map<String, Object> push) {
+		Long userNo = sqlSession.selectOne("git.findUserNo", push);
+		push.put("userNo", userNo);
+		
+		return sqlSession.selectOne("git.findGroupNo", push);
+	}
+
+	public List<String> findGroupMemberIdList(Long groupNo) {
+		return sqlSession.selectOne("git.findGroupMemberIdList", groupNo);
+	}
+
 }

@@ -131,4 +131,24 @@
 				and b.no = #{userNo}
 		]]>
 	</select>
+	
+	
+		<select id="findVisible" parameterType="map" resultType="string">
+		<![CDATA[
+			select visible from git where user_no = #{userNo} and git_name = #{repoName}
+		]]>
+	</select>
+	
+	<select id="findGroupNo" parameterType="map" resultType="long">
+		<![CDATA[
+			select group_no from git where user_no = #{userNo} and git_name = #{repoName}
+		]]>
+	</select>
+	
+	<select id="findGroupMemberIdList" parameterType="long" resultType="long">
+		<![CDATA[
+			select U.id from `group` G join group_list GL on (G.no = GL.group_no) join user U on (GL.user_no) = U.no where G.no = #{groupNo}
+		]]>
+	</select>
+	
 </mapper>
