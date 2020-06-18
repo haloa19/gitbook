@@ -157,9 +157,7 @@ public class GitApiContoller {
 	@ResponseBody
 	@RequestMapping(value = "/pushProcess", method = RequestMethod.POST)
 	public JsonResult pushProcess(@RequestBody Map<String, Object> input, @PathVariable("id") String id) {
-		String[] commitMsgList = LinuxServer.getResult("cd /var/www/git/" + input.get("repo")
-				+ " && git log --date=iso8601 --pretty=format:\"%H<<>>%ad<<>>%s\" | grep " + input.get("commit"))
-				.split("\\<<>>");
+		String[] commitMsgList = LinuxServer.getResult("cd /var/www/git/" + input.get("repo") + " && git log --date=iso8601 --pretty=format:\"%H<<>>%ad<<>>%s\" | grep " + input.get("commit")).split("\\<<>>");
 
 		Map<String, Object> push = new HashMap<>();
 		push.put("id", (String) input.get("username"));
@@ -171,25 +169,59 @@ public class GitApiContoller {
 		push.put("contents", "COMMIT UPDATE!!\n\n\n[" + push.get("repoName") + ".git]에 Commit하였습니다.\nCommit Message : " + push.get("commitMsg"));
 		push.put("contents_short", push.get("repoName") + ">>>>>" + push.get("commitMsg"));
 
-		Boolean result = gitService.pushProcess(push);
-		if (!result) {
-			return JsonResult.fail("failed for updating push records");
+		//push을 이용하여 group no 가져오기 (user_no는 repository 단게에서 가져옴)
+		Long groupNo = gitService.getGroupNo(push);
+		List<String> groupMemeberIdList = null;
+		
+		if (groupNo != null) {
+			// groupNo가 존재하는 경우(not null)?	>> 그룹 내의 맴버들 id들을 list로 가져온다. (밑에서 재활용)
+			groupMemeberIdList = gitService.getGroupMemberIdList(groupNo);
+
+			for (String memberId : groupMemeberIdList) {
+				// push.id 에 memberId 적용
+				push.put("id", memberId);
+				
+				Boolean result = gitService.pushProcess(push);
+				if (!result) {
+					return JsonResult.fail("failed for updating push records");
+				}
+				AlarmVo alarmVo = new AlarmVo();
+				alarmVo.setUserId((String) push.get("id"));
+				alarmVo.setAlarmType("commit");
+				alarmVo.setAlarmContents((String) push.get("contents"));
+
+				AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
+				try {
+					String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+					alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String) push.get("id"));
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+			}
+
+			return JsonResult.success(true);
+		} else {
+			// groupNo가 없을 경우(null) >> 그냥 진행
+			Boolean result = gitService.pushProcess(push);
+			if (!result) {
+				return JsonResult.fail("failed for updating push records");
+			}
+			AlarmVo alarmVo = new AlarmVo();
+			alarmVo.setUserId((String) push.get("id"));
+			alarmVo.setAlarmType("commit");
+			alarmVo.setAlarmContents((String) push.get("contents"));
+
+			AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
+			try {
+				String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+				alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String) push.get("id"));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+
+			return JsonResult.success(true);
 		}
-
-		AlarmVo alarmVo = new AlarmVo();
-		alarmVo.setUserId((String) push.get("id"));
-		alarmVo.setAlarmType("commit");
-		alarmVo.setAlarmContents((String) push.get("contents"));
-
-		AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
-		try {
-			String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
-			alarmService.sendAlarm("alarm>>" + alarmJsonStr, (String) push.get("id"));
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		return JsonResult.success(true);
+		
 	}
 
 	@ResponseBody

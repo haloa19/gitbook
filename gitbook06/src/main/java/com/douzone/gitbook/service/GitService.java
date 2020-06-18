@@ -217,5 +217,13 @@ public class GitService {
 		
 	}
 
+	public Long getGroupNo(Map<String, Object> push) {
+		return gitRepository.findGroupNo(push);
+	}
+
+	public List<String> getGroupMemberIdList(Long groupNo) {
+		return gitRepository.findGroupMemberIdList(groupNo);
+	}
+
 
 }
