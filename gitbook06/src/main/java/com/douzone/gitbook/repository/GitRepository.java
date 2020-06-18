@@ -49,11 +49,17 @@ public class GitRepository {
 
 		Integer result_schedule = sqlSession.insert("git.insertSchedule", push);
 		System.out.println("result_schedule >> " + (result_schedule == 1));
-
+		
+		String visible = sqlSession.selectOne("git.findVisible", push);
+		if("public".equals(visible)) {
+			push.put("visible", "public");
+		} else {
+			push.put("visible", "private");
+		}
 		Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
 		System.out.println("result_timeline >> " + (result_timeline == 1));
 
-		return result_alarm == 1 && result_schedule == 1 && result_timeline == 1;
+		return result_alarm == 1 && result_schedule == 1;
 	}
 
 	public List<GitVo> findListGroup(Map<String, String> map) {
@@ -73,6 +79,17 @@ public class GitRepository {
 	public void deleteGroupAll(Long no) {
 		sqlSession.delete("git.deleteGroupAll", no);
 		
+	}
+
+	public Long findGroupNo(Map<String, Object> push) {
+		Long userNo = sqlSession.selectOne("git.findUserNo", push);
+		push.put("userNo", userNo);
+		
+		return sqlSession.selectOne("git.findGroupNo", push);
+	}
+
+	public List<String> findGroupMemberIdList(Long groupNo) {
+		return sqlSession.selectOne("git.findGroupMemberIdList", groupNo);
 	}
 
 }
