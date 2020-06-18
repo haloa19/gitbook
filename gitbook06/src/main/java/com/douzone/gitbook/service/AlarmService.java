@@ -53,6 +53,10 @@ public class AlarmService {
 		return alarmRepository.getGroupUserList(groupNo);
 	}
 
+	public Long getGroupNo(long userNo,String repoName) {
+		return alarmRepository.getGroupNo(userNo,repoName);
+	}
+
 	
 	
 

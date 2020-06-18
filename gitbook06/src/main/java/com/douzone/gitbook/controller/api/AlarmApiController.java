@@ -3,7 +3,6 @@ package com.douzone.gitbook.controller.api;
 import java.util.List;
 import java.util.Map;
 
-import org.bouncycastle.asn1.iana.IANAObjectIdentifiers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -31,10 +30,21 @@ public class AlarmApiController {
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public JsonResult getAlarmList(@AuthUser UserVo authUser) {
 		List<AlarmVo> alarmList = alarmService.getAlarmList(authUser.getId());
+		long userNo = authUser.getNo();
+		
 		for (AlarmVo vo : alarmList) {
-			System.out.println(vo.toString());
+			if("commit".equals(vo.getAlarmType())) {
+				String contents = vo.getAlarmContents();
+				String repoName = contents.substring(contents.indexOf("[", 0) + 1, contents.indexOf(".git", 0));
+				Long groupNo = alarmService.getGroupNo(userNo,repoName);
+				
+				vo.setGroupNo(groupNo);
+			}
 		}
-
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println(alarmList);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
+		
 		return JsonResult.success(alarmList);
 	}
 

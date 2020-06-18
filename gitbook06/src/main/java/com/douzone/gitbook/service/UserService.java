@@ -117,5 +117,9 @@ public class UserService {
 		
 		userRepository.updateUserStatus(no);
 	}
+
+	public long getUserNo(String id) {
+		return userRepository.getUserNo(id);
+	}
   
 }

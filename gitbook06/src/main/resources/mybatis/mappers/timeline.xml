@@ -4,7 +4,7 @@
 <mapper namespace="timeline">
 	<insert id="insertTimeline" parameterType="timelinevo">
 		<![CDATA[		
-			insert into timeline values(null,#{contents},now(),#{visible},#{groupNo},#{userNo});
+			insert into timeline values(null,#{contents},now(),#{visible},#{groupNo},#{userNo}, 'public');
 		]]>
 		<selectKey keyProperty = "no" resultType="long" order="AFTER">
          		select last_insert_id()
@@ -37,7 +37,7 @@
 	<select id="getMyTimelineList" parameterType="string"
 		resultType="timelinevo">
 		<![CDATA[
-		select b.no,b.timeline_contents as contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, b.visible,b.group_no as groupNo, b.user_no as userNo
+		select b.no,b.timeline_contents as contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, b.visible,b.group_no as groupNo, b.user_no as userNo, b.type
 		from user a, timeline b 
 		where a.no = b.user_no
 		and a.id=#{id}
@@ -137,7 +137,7 @@
 		<![CDATA[
 		select b.no,b.timeline_contents as 
 		contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, 
-		b.visible,b.group_no as groupNo, b.user_no as userNo
+		b.visible,b.group_no as groupNo, b.user_no as userNo, b.type
         from user a, timeline b,friends c 
 		where a.no = b.user_no
         and a.no=c.user_no
@@ -181,7 +181,7 @@
 		<![CDATA[
 		select b.no,b.timeline_contents as 
 		contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, 
-		b.visible,b.group_no as groupNo, b.user_no as userNo
+		b.visible,b.group_no as groupNo, b.user_no as userNo, b.type
         from user a, timeline b,tag_list c,tag d 
 		where a.no = b.user_no
         and b.no=c.timeline_no
@@ -198,7 +198,7 @@
 	<select id="getGroupTimelineList" parameterType="map"
 		resultType="timelinevo">
 		<![CDATA[
-		select b.no, b.timeline_contents as contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, b.visible,b.group_no as groupNo, b.user_no as userNo
+		select b.no, b.timeline_contents as contents, DATE_FORMAT(b.reg_date,'%Y-%m-%d %H:%i') as regDate, b.visible,b.group_no as groupNo, b.user_no as userNo, b.type
 		from user a join timeline b on a.no = b.user_no
 		where b.group_no = #{groupNo} and 
 			b.no not in(select no

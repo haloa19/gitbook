@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.douzone.gitbook.repository.TimelineRepository;
 import com.douzone.gitbook.vo.CommentVo;
 import com.douzone.gitbook.vo.FileVo;
-import com.douzone.gitbook.vo.GitVo;
 import com.douzone.gitbook.vo.LikeVo;
 import com.douzone.gitbook.vo.TagVo;
 import com.douzone.gitbook.vo.TimelineVo;

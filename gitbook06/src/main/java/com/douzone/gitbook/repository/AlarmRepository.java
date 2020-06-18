@@ -1,5 +1,6 @@
 package com.douzone.gitbook.repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +44,14 @@ public class AlarmRepository {
 	public List<Map<String, Object>> getGroupUserList(int groupNo) {
 		
 		return sqlSession.selectList("alarm.findGroupUserList", groupNo);
+	}
+
+	public Long getGroupNo(long userNo, String repoName) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userNo", userNo);
+		map.put("repoName", repoName);
+		
+		return sqlSession.selectOne("alarm.getGroupNo", map);
 	}
 
 

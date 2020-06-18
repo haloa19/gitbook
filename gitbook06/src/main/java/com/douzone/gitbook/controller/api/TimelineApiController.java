@@ -21,7 +21,6 @@ import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.TimelineService;
 import com.douzone.gitbook.vo.CommentVo;
 import com.douzone.gitbook.vo.FileVo;
-import com.douzone.gitbook.vo.GitVo;
 import com.douzone.gitbook.vo.LikeVo;
 import com.douzone.gitbook.vo.TagVo;
 import com.douzone.gitbook.vo.TimelineVo;

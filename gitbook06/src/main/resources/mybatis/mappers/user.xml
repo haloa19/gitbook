@@ -233,6 +233,15 @@
 		update user set user_status = '0' where no = #{no};
 		]]>
 	</update>
+	
+	<select id="getUserNo" parameterType="string"
+		resultType="long">
+		<![CDATA[
+		select no
+			from user 
+		where id = #{id}
+		]]>
+	</select>
 
 
 </mapper>

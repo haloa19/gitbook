@@ -217,6 +217,10 @@ public class GitService {
 		
 	}
 
+	public Object getGroupNo(String repoName, String id, long userNo) {
+		return gitRepository.getGroupNo(repoName, id, userNo);
+	}
+	
 	public Long getGroupNo(Map<String, Object> push) {
 		return gitRepository.findGroupNo(push);
 	}
@@ -224,6 +228,5 @@ public class GitService {
 	public List<String> getGroupMemberIdList(Long groupNo) {
 		return gitRepository.findGroupMemberIdList(groupNo);
 	}
-
 
 }
