@@ -184,9 +184,8 @@ public class UserController {
 
 		userService.deleteFriend(param);
 		List<UserVo> friendList = userService.getFriend(param);
-		System.out.println(friendList.get(0));
 		return JsonResult.success(friendList);
-
+ 
 	}
 
 	@ResponseBody

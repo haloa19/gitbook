@@ -31,8 +31,8 @@
      
      
       <link type="text/css" href="${pageContext.request.contextPath}/assets/css/demos/photo.css" rel="stylesheet" />
-      
-      
+      <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/railscasts.css" />
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/github-gist.min.css">
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
       <!--script src="assets/js/modernizr-custom.js"></script-->
@@ -44,7 +44,11 @@
       <script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
       
-
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+     <!--  <script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script> -->
+           <script src="./assets/js/highlightjs-line-numbers.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initLineNumbersOnLoad();</script>
         
     <title>GitBook</title>
   </head>
