@@ -53,7 +53,7 @@
 
 	<insert id="addAlarm" parameterType="alarmvo">
 		<![CDATA[
-			insert into alarm values(null, #{userNo}, #{alarmType}, #{alarmContents}, 'uncheck', now())
+			insert into alarm values(null, #{userNo}, #{alarmType}, #{alarmContents}, 'uncheck', now(), null)
 		]]>
 	</insert>
 
