@@ -40,7 +40,7 @@
         and c.chatting_no=b.no
         and a.user_no=#{userNo}
         group by b.no 
-        order by sendDate desc
+        order by max(c.no) desc;
 		]]>
 	</select>
 	

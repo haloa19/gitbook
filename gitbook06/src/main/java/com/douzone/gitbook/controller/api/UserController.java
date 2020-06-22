@@ -1,5 +1,8 @@
 package com.douzone.gitbook.controller.api;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.AlarmService;
+import com.douzone.gitbook.service.ChattingService;
 import com.douzone.gitbook.service.FileUploadService;
 import com.douzone.gitbook.service.FriendService;
 import com.douzone.gitbook.service.GitService;
@@ -29,6 +34,8 @@ import com.douzone.gitbook.service.ScheduleService;
 import com.douzone.gitbook.service.TimelineService;
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.vo.AlarmVo;
+import com.douzone.gitbook.vo.ChattingMsgVo;
+import com.douzone.gitbook.vo.ChattingRoomVo;
 import com.douzone.gitbook.vo.FriendVo;
 import com.douzone.gitbook.vo.GroupVo;
 import com.douzone.gitbook.vo.UserVo;
@@ -70,6 +77,11 @@ public class UserController {
 
 	@Autowired
 	private ObjectMapper jsonMapper;
+	
+	@Autowired
+	private ChattingService chattingService;
+	@Autowired
+	private SimpMessagingTemplate webSocket;
 
 	@ResponseBody
 	@RequestMapping(value = "/auth", method = RequestMethod.GET)
@@ -415,7 +427,55 @@ public class UserController {
 	
 		
 		// 5. 참여중인 채팅방에서 나가기
-		// 6. 채팅방장인 경우 채팅방 자체를 삭제
+		List<ChattingRoomVo> chatRoomList= chattingService.chatRoomList(no);
+		HashSet<Long> userList = new HashSet<Long>();
+		for(ChattingRoomVo vo : chatRoomList){
+			
+			List<ChattingMsgVo> user= chattingService.inviteList(vo.getNo()); // 방번호
+			
+			Map<String,Long> map =new HashMap<String,Long>();
+			map.put("userNo", no);
+			map.put("chatRoonNo", vo.getNo());
+			chattingService.deleteChatRoom(map);
+			ChattingMsgVo msgVo= new ChattingMsgVo();
+			msgVo.setChattingNo(vo.getNo());
+			msgVo.setContents("(알수 없음)이 퇴장 하였습니다");
+			chattingService.addAdminMsg(msgVo);
+			webSocket.convertAndSend("/topics/chatting/test"+"/"+vo.getNo(), 
+					chattingService.msgList(vo.getNo()));// 메시지 리스트를 새로 뿌려줌
+			
+			for(ChattingMsgVo vo2 :user ) {
+				userList.add(vo2.getUserNo());// 유저번호 
+
+			}
+		}	
+		
+		for(Long userNo : userList) {
+			List<ChattingRoomVo> list2= chattingService.chatRoomList(userNo);
+			ArrayList<Map<String,Object>> mapList= new ArrayList<Map<String,Object>>();
+			for(ChattingRoomVo vo2 : list2 ) {
+				Map <String,Object> map2= new HashMap<>();
+				map2.put("chatRoomListItem",vo2);
+				
+				if(chattingService.getAdminImage(vo2.getNo())==null) {
+					map2.put("image",
+							"/gitbook/assets/img/users/default.jpg");
+				}else {
+					map2.put("image",
+						chattingService.getAdminImage(vo2.getNo()).getImage());
+				}
+				map2.put("lastMsg",chattingService.getLastMsg(vo2.getNo()));
+				map2.put("alarmCount", chattingService.getAlarmList(vo2.getNo(),userNo));
+				
+				mapList.add(map2);
+			}
+			webSocket.convertAndSend("/topics/chatting/resetChatRoom/"+userNo, mapList);
+			
+		}
+		
+		
+		
+		
 		
 		return JsonResult.success(true);
 	}

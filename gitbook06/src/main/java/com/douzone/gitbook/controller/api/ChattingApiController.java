@@ -300,7 +300,7 @@ public class ChattingApiController {
 			@RequestParam(value="inviteList", required= true)ArrayList<Long> inviteList
 			) {
 				
-		System.out.println(userNo+":::::"+chatRoonNo+nickName+inviteList);
+		
 		Map<String,Long> map =new HashMap<String,Long>();
 		map.put("userNo", userNo);
 		map.put("chatRoonNo", chatRoonNo);
@@ -312,6 +312,13 @@ public class ChattingApiController {
 		chattingService.addAdminMsg(msgVo);
 		webSocket.convertAndSend("/topics/chatting/test"+"/"+chatRoonNo, 
 				chattingService.msgList(chatRoonNo));// 메시지 리스트를 새로 뿌려줌
+		
+		
+		
+		
+		
+		
+		
 		for(Long no :inviteList){
 			List<ChattingRoomVo> list= chattingService.chatRoomList(no);
 			ArrayList<Map<String,Object>> mapList= new ArrayList<Map<String,Object>>();
