@@ -177,8 +177,7 @@ public class UserController {
 		alarmService.addAlarm(vo);
 
 		AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
-		System.out.println("recentAlarm : " + recentAlarm);
-
+		
 		try {
 			String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
 			alarmService.sendAlarm("alarm>>" + alarmJsonStr, userVo.getId());

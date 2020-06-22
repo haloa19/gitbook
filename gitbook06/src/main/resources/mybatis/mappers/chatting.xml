@@ -166,5 +166,12 @@
 		]]>
 	</select>
 	
+	<select id="getChatName" parameterType="long"
+		resultType="string">
+		<![CDATA[
+			select title from chatting where no=#{chatRoonNo}
+		]]>
+	</select>
+	
 	
 </mapper>

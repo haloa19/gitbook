@@ -121,5 +121,10 @@ public class UserService {
 	public long getUserNo(String id) {
 		return userRepository.getUserNo(id);
 	}
-  
+
+	public String getId(Long no) {
+		
+		return userRepository.getId(no);
+	}
+
 }

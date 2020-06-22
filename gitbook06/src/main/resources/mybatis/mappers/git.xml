@@ -69,21 +69,21 @@
 
 	<insert id="insertAlarm" parameterType="map">
 		<![CDATA[
-			insert into alarm values(null, #{userNo}, "commit", #{contents}, 'uncheck', now())
+			insert into alarm values(null, #{userNo}, "commit", #{contents}, 'uncheck', now(), #{gitNo})
 		]]>
 	</insert>
 
 	<insert id="insertSchedule" parameterType="map">
 		<![CDATA[
-			insert into schedule values(null, #{commitDate}, #{contents_short}, 'commit', #{userNo}, (select group_no from git where user_no = #{userNo} and git_name = #{repoName}))
+			insert into schedule values(null, #{commitDate}, #{contents_short}, 'commit', #{userNo}, (select group_no from git where no = #{gitNo}))
 		]]>
 	</insert>
 
 	<insert id="insertTimeline" parameterType="map">
-		<![CDATA[
-			insert into timeline values(null, #{contents}, now(), 'public', (select group_no from git where user_no = #{userNo} and git_name = #{repoName}), #{userNo}, 'commit')
-		]]>
-	</insert>
+      <![CDATA[
+         insert into timeline values(null, #{contents}, now(), #{visible}, (select group_no from git where no = #{gitNo}), #{userNo}, 'commit')
+      ]]>
+   </insert>
 
 	<select id="findListGroup" parameterType="map"
 		resultType="gitvo">
@@ -135,7 +135,7 @@
 	
 		<select id="findVisible" parameterType="map" resultType="string">
 		<![CDATA[
-			select visible from git where user_no = #{userNo} and git_name = #{repoName}
+			select visible from git where no = #{gitNo}
 		]]>
 	</select>
 	
@@ -145,10 +145,33 @@
 		]]>
 	</select>
 	
-	<select id="findGroupMemberIdList" parameterType="long" resultType="long">
+	<select id="findGroupMemberIdList" parameterType="long" resultType="string">
 		<![CDATA[
-			select U.id from `group` G join group_list GL on (G.no = GL.group_no) join user U on (GL.user_no) = U.no where G.no = #{groupNo}
+			select U.id from `group` G join group_list GL on (G.no = GL.group_no) join user U on (GL.user_no) = U.no where G.no = #{groupNo} and GL.`grant` != 'user_req' order by GL.`grant`
 		]]>
 	</select>
+	
+	
+	<select id="findGitInfoByNo" parameterType="long" resultType="gitvo">
+		<![CDATA[
+			
+			select G.no as no, G.user_no as userNo, G.group_no as groupNo, G.description as description, G.visible as visible, G.git_name as gitName, G.reg_date as regDate, U.id as userId 
+			from git G
+			join user U on (G.user_no = U.no)
+			where G.no = #{alarmRefNo}
+		]]>
+	</select>
+	
+	<select id="findGitNoByUserInfo" parameterType="map" resultType="long">
+		<![CDATA[
+				select no
+            from git
+            where user_no = (select U.no from user U where U.id=#{gitOwnerId})
+            and git_name = #{repoName};
+		]]>
+	</select>
+	
+	
+	
 	
 </mapper>

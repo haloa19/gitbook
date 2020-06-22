@@ -59,13 +59,12 @@ public class GitVo {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
 	@Override
 	public String toString() {
-		return "RepositoryVo [no=" + no + ", userNo=" + userNo + ", groupNo=" + groupNo + ", description=" + description
-				+ ", visible=" + visible + ", gitName=" + gitName + ", regDate=" + regDate + "]";
+		return "GitVo [no=" + no + ", userNo=" + userNo + ", groupNo=" + groupNo + ", description=" + description
+				+ ", visible=" + visible + ", gitName=" + gitName + ", regDate=" + regDate + ", userId=" + userId + "]";
 	}
 
-	
-	
 
 }

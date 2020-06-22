@@ -90,4 +90,9 @@ public class ChattingService {
 		
 		return chattingRepository.getInviteList(chatRoonNo);
 	}
+
+	public String getChatName(Long chatRoonNo) {
+		
+		return chattingRepository.getChatName(chatRoonNo);
+	}
 }
