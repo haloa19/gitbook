@@ -156,7 +156,7 @@
 
 	<insert id="addUser" parameterType="uservo">
 		<![CDATA[
-			insert into user values(null, #{id}, password(#{password}), #{phone}, #{name}, #{birthday}, #{gender}, now());
+			insert into user values(null, #{id}, password(#{password}), #{phone}, #{name}, #{birthday}, #{gender}, now(), '1');
 		]]>
 	</insert>
 	
