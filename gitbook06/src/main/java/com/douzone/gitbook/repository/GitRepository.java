@@ -41,20 +41,34 @@ public class GitRepository {
 	}
 
 	public Boolean addPushInfo(Map<String, Object> push) {
-		Long userNo = sqlSession.selectOne("git.findUserNo", push);
-		push.put("userNo", userNo);
+	      Long userNo = sqlSession.selectOne("git.findUserNo", push);
+	      push.put("userNo", userNo);
+	      
+	      Long gitNo = sqlSession.selectOne("git.findGitNoByUserInfo", push);
+	      push.put("gitNo", gitNo);
 
-		Integer result_alarm = sqlSession.insert("git.insertAlarm", push);
-		System.out.println("result_alarm >> " + (result_alarm == 1));
+	      GitVo gitInfo = sqlSession.selectOne("git.findGitInfoByNo", (long)push.get("gitNo"));
+	      
+	      // 관리자와 private
+	      if("public".equals(gitInfo.getVisible()) || gitInfo.getUserNo() == (Long)push.get("userNo")) {
+	    	  Integer result_alarm = sqlSession.insert("git.insertAlarm", push);
+		      System.out.println("result_alarm >> " + (result_alarm == 1));
+	      }
+	      
+	      Integer result_schedule = sqlSession.insert("git.insertSchedule", push);
+	      System.out.println("result_schedule >> " + (result_schedule == 1));
+	      
+	      String visible = sqlSession.selectOne("git.findVisible", push);
+	      if("public".equals(visible)) {
+	         push.put("visible", "public");
+	      } else {
+	         push.put("visible", "private");
+	      }
+	      Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
+	      System.out.println("result_timeline >> " + (result_timeline == 1));
 
-		Integer result_schedule = sqlSession.insert("git.insertSchedule", push);
-		System.out.println("result_schedule >> " + (result_schedule == 1));
-
-		Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
-		System.out.println("result_timeline >> " + (result_timeline == 1));
-
-		return result_alarm == 1 && result_schedule == 1 && result_timeline == 1;
-	}
+	      return result_schedule == 1;
+	   }
 
 	public List<GitVo> findListGroup(Map<String, String> map) {
 		return sqlSession.selectList("git.findListGroup", map);
@@ -91,7 +105,11 @@ public class GitRepository {
 	}
 
 	public List<String> findGroupMemberIdList(Long groupNo) {
-		return sqlSession.selectOne("git.findGroupMemberIdList", groupNo);
+		return sqlSession.selectList("git.findGroupMemberIdList", groupNo);
+	}
+
+	public GitVo findGitInfoByNo(Long alarmRefNo) {
+		return sqlSession.selectOne("git.findGitInfoByNo", alarmRefNo);
 	}
 
 }

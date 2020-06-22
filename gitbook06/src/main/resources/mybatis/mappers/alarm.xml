@@ -6,13 +6,14 @@
 		resultType="alarmvo">
 		<![CDATA[
 			select 
-				no, user_no as userNo, alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
+				a.no, a.user_no as userNo, a.alarm_type as alarmType, a.alarm_contents as alarmContents, a.alarm_check as alarmCheck, a.alarm_date as alarmDate, b.id as userId, a.alarm_refno as alarmRefNo
 			from 
-				alarm 
+				alarm a, user b
 			where 
-				user_no = (select U.no from user U where U.id = #{id})
-				and alarm_check = 'uncheck'
-			order by alarm_date desc
+				a.user_no = (select U.no from user U where U.id = #{id})
+				and a.user_no = b.no
+				and a.alarm_check = 'uncheck'
+			order by a.alarm_date desc
 		]]>
 	</select>
 
@@ -20,11 +21,12 @@
 		resultType="alarmvo">
 		<![CDATA[
 			select 
-				no, user_no as userNo, alarm_type as alarmType, alarm_contents as alarmContents, alarm_check as alarmCheck, alarm_date as alarmDate 
+				a.no, a.user_no as userNo, a.alarm_type as alarmType, a.alarm_contents as alarmContents, a.alarm_check as alarmCheck, a.alarm_date as alarmDate, b.id as userId, a.alarm_refno as alarmRefNo
 			from 
-				alarm 
-			where no = (
-				select no 
+				alarm a, user b
+			where a.user_no = b.no
+			and a.no = (
+				select A.no 
 				from alarm A 
 				where A.user_no = (select U.no from user U where U.id = #{userId}) 
 				and A.alarm_type = #{alarmType} 
@@ -34,6 +36,7 @@
 				limit 0, 1
 			)
 		]]>
+		
 	</select>
 
 	<update id="markRead" parameterType="map">
@@ -53,8 +56,9 @@
 
 	<insert id="addAlarm" parameterType="alarmvo">
 		<![CDATA[
-			insert into alarm values(null, #{userNo}, #{alarmType}, #{alarmContents}, 'uncheck', now())
+			insert into alarm values(null, #{userNo}, #{alarmType}, #{alarmContents}, 'uncheck', now(), null)
 		]]>
+		
 	</insert>
 
 	<!-- 친구 요청 수락 시 필요한 값 -->

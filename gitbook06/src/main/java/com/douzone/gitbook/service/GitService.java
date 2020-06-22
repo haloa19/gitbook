@@ -229,4 +229,8 @@ public class GitService {
 		return gitRepository.findGroupMemberIdList(groupNo);
 	}
 
+	public GitVo getGitInfoByNo(Long alarmRefNo) {
+		return gitRepository.findGitInfoByNo(alarmRefNo); 
+	}
+
 }

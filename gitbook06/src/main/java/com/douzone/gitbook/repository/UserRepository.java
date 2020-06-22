@@ -133,4 +133,10 @@ public class UserRepository {
 	public long getUserNo(String id) {
 		return sqlSession.selectOne("user.getUserNo", id);
 	}
+
+	public String getId(Long no) {
+		
+		return sqlSession.selectOne("user.getId", no);
+	}
+
 }

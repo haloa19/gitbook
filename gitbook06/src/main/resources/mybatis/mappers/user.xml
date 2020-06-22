@@ -242,6 +242,13 @@
 		where id = #{id}
 		]]>
 	</select>
-
-
+	
+	<select id="getId" parameterType="long"
+		resultType="string">
+		<![CDATA[
+		select id
+			from user 
+		where no = #{no}
+		]]>
+	</select>
 </mapper>

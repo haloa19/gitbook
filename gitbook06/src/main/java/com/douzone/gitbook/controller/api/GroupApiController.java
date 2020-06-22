@@ -194,7 +194,7 @@ public class GroupApiController {
     
 		List<GroupVo> groupList = groupService.getList(uservo);
 
-		System.out.println(groupUserList);
+		
 
 		for (Map<String, Object> line : groupUserList) {
 

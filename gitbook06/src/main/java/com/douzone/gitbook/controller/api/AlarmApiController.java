@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.AlarmService;
+import com.douzone.gitbook.service.GitService;
+import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.vo.AlarmVo;
+import com.douzone.gitbook.vo.GitVo;
 import com.douzone.gitbook.vo.UserVo;
 import com.douzone.security.Auth;
 import com.douzone.security.AuthUser;
@@ -24,27 +27,27 @@ public class AlarmApiController {
 
 	@Autowired
 	private AlarmService alarmService;
-
+	
+	@Autowired
+	private GitService gitService;
+	
 	@Auth
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public JsonResult getAlarmList(@AuthUser UserVo authUser) {
+	
 		List<AlarmVo> alarmList = alarmService.getAlarmList(authUser.getId());
-		long userNo = authUser.getNo();
 		
 		for (AlarmVo vo : alarmList) {
 			if("commit".equals(vo.getAlarmType())) {
-				String contents = vo.getAlarmContents();
-				String repoName = contents.substring(contents.indexOf("[", 0) + 1, contents.indexOf(".git", 0));
-				Long groupNo = alarmService.getGroupNo(userNo,repoName);
-				
+				GitVo gitInfo = gitService.getGitInfoByNo(vo.getAlarmRefNo());
+	
+				Long groupNo = gitInfo.getGroupNo();
+				vo.setUserNo(gitInfo.getUserNo());
 				vo.setGroupNo(groupNo);
 			}
 		}
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println(alarmList);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
-		
+				
 		return JsonResult.success(alarmList);
 	}
 

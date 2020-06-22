@@ -17,11 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.douzone.gitbook.dto.JsonResult;
+import com.douzone.gitbook.service.AlarmService;
 import com.douzone.gitbook.service.ChattingService;
+import com.douzone.gitbook.service.UserService;
+import com.douzone.gitbook.vo.AlarmVo;
 import com.douzone.gitbook.vo.ChattingMsgVo;
 import com.douzone.gitbook.vo.ChattingRoomVo;
 import com.douzone.gitbook.vo.UserVo;
 import com.douzone.security.AuthUser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Controller("ChattingApiController")
@@ -32,7 +37,14 @@ public class ChattingApiController {
 	private ChattingService chattingService;
 	@Autowired
 	private SimpMessagingTemplate webSocket;
+	@Autowired
+	private UserService userService;
+	@Autowired
+	private ObjectMapper jsonMapper;
 	
+
+	@Autowired
+	private AlarmService alarmService;
 
 	
 	@ResponseBody
@@ -57,6 +69,28 @@ public class ChattingApiController {
 			addVo.setNo(vo.getNo());
 			addVo.setGrant("user");
 			chattingService.addChatRoomuser(addVo);
+			
+			AlarmVo alarmVo = new AlarmVo();
+
+			alarmVo.setUserNo(no); // 그룹원들의 no로 맞출 것
+			alarmVo.setAlarmType("chatting");
+			alarmVo.setAlarmContents(newChatName+"에 초대되었습니다");
+			
+			
+			alarmVo.setUserId(userService.getId(no));
+
+			alarmService.addAlarm(alarmVo);
+
+			AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
+
+			try {
+				String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+				alarmService.sendAlarm("alarm>>" + alarmJsonStr, userService.getId(no));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+		
+		
 		}
 		
 		//채팅방 생성 시 첫 메시지 등록 
@@ -376,6 +410,26 @@ public class ChattingApiController {
 	         addVo.setNo(chatRoonNo);
 	         addVo.setGrant("user");
 	         chattingService.addChatRoomuser(addVo);
+	         
+	     	AlarmVo alarmVo = new AlarmVo();
+
+			alarmVo.setUserNo(no); // 그룹원들의 no로 맞출 것
+			alarmVo.setAlarmType("chatting");
+			alarmVo.setAlarmContents(chattingService.getChatName(chatRoonNo)+"에 초대되었습니다");
+			
+			
+			alarmVo.setUserId(userService.getId(no));
+
+			alarmService.addAlarm(alarmVo);
+
+			AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
+
+			try {
+				String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
+				alarmService.sendAlarm("alarm>>" + alarmJsonStr, userService.getId(no));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
 	       
 	         }
 	      

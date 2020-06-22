@@ -97,5 +97,10 @@ public class ChattingRepository {
 		return sqlSession.selectList("chatting.getInviteList", chatRoonNo);
 	}
 
+	public String getChatName(Long chatRoonNo) {
+	
+		return sqlSession.selectOne("chatting.getChatName",chatRoonNo);
+	}
+
 
 }
