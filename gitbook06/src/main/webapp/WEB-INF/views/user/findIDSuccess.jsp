@@ -81,8 +81,9 @@
 						<a href="${pageContext.request.contextPath}/">GitBook</a>
 					</h1>
 
-					<form method="get" class="form-signin" action="${pageContext.request.contextPath}/" style="margin-top: 50px">
+					<form method="get" class="form-signin-gitbook" action="${pageContext.request.contextPath}/" style="margin-top: 50px">
 						<h3 class="find-success">아이디찾기 성공</h3>
+						<br/>
 						<p class="find-success-info">
 							찾으신 아이디는<br/>"${email }"<br/>입니다.
 						</p>

@@ -73,17 +73,17 @@
 		   <div class="form-group">
 		    <input type="password" class="form-control" name="password" placeholder="Password"></input>
 		   </div>
-		   <button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">Sign in</button>
+		   <button class="kafe-btn kafe-btn-mint-join form-group-join-btn-block" type="submit" name="subm">로그인</button>
 		   <br/>
 		   <c:if test="${not empty userVo}">
 				<p style="color:red">로그인이 실패 했습니다.</p>
 
 			</c:if>
 			
-		   <a href="${pageContext.request.contextPath}/user/join"  class="btn btn-dark " role="button" style="margin-top:10px">아직 gitbook의 회원이 아니십니까? click!!</a>
-		   <a href="${pageContext.request.contextPath}/user/findID" class="btn btn-dark " role="button">아이디 찾기</a>
+		   <a href="${pageContext.request.contextPath}/user/join"  class="btn btn-dark-join " role="button" style="margin-top:10px">아직 gitbook의 회원이 아니십니까? click!!</a>
+		   <a href="${pageContext.request.contextPath}/user/findID" class="btn btn-dark-join " role="button">아이디 찾기</a>
           
-           <a href="${pageContext.request.contextPath}/user/findPW" class="btn btn-dark " role="button">비밀번호 찾기</a>
+           <a href="${pageContext.request.contextPath}/user/findPW" class="btn btn-dark-join " role="button">비밀번호 찾기</a>
 		  </form>
     </div>
     

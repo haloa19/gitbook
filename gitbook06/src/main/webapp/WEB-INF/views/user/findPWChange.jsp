@@ -119,7 +119,7 @@ $(function() {
 						<hr class="find-act-hr"></hr>
 						<p class="find-pwd-cmt">${email } 님의 새로운 비밀번호를 입력해 주세요</p>
 
-						<form method="post" class="form-signin" id="changepw-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/PWChangeProcess">
+						<form method="post" class="form-signin-gitbook" id="changepw-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/PWChangeProcess">
 							<input name="id" id="email" type="hidden" value="${email }" />
 							<div class="form-group-join">
 								<input name="password" id="input_password" type="password" class="form-control-join" placeholder="새 비밀번호" />
