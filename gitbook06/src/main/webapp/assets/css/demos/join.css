@@ -78,7 +78,7 @@
  
 /* 로그인 */
 .form-group input::placeholder {
-  color: #E3E3E3;
+  color: #cececea1;
   font-style: 'Nanum Gothic', sans-serif;
 }
 .form-group input {
@@ -87,6 +87,15 @@
 }
 
 /*회원가입*/
+.form-group-join input::placeholder {
+  color: #cececea1;
+  font-style: 'Nanum Gothic', sans-serif;
+}
+.form-group-join input {
+	background-color: #d6d6d685;
+	color: #ffffff;
+}
+
 .form-group-join {
     margin: 10px;
     color: #333333;

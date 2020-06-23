@@ -240,12 +240,12 @@ $(function() {
 					</h1>
 
 					<div>
-						<form method="post" class="form-signin" id="join-form" action="${pageContext.request.contextPath }/user/joinProcess">
+						<form method="post" class="form-signin-gitbook" id="join-form" action="${pageContext.request.contextPath }/user/joinProcess">
 							<div class="form-group-join">
 								<input name="email" type="text" class="form-control-join-email"
 									id="input_email" placeholder="이메일" />
-								<input type="button" class="kafe-btn kafe-btn-mint form-group-join-btn"
-									id="emailBtn" value="인증" />
+								<button type="button" class="kafe-btn kafe-btn-mint form-group-join-btn"
+									id="emailBtn" value="인증">인증</button>
 								<input type="hidden" id="random" value="${random }" />
 							</div>
 							
