@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div class='errorPage'>
-		<img class="errorPage-img" src="assets/img/error/error.png" />
+		<img class="errorPage-img" src="${pageContext.request.contextPath}/assets/img/error/error.png" />
 	</div>
 </body>
 </html>
