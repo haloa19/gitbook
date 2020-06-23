@@ -1,3 +1,91 @@
+/* ==========================================================================
+   Form Styles
+   ========================================================================== */
+  
+.form-signin-gitbook{
+  max-width: 380px !important;
+  padding: 15px;
+}
+.form-signin-gitbook .form-signin-heading {
+ font-family: 'Abhaya Libre', serif;
+ font-size: 24px;
+ color: #fff;
+}
+.form-signin-gitbook .form-signin-heading,
+.form-signin-gitbook .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin-gitbook .checkbox {
+  font-weight: normal;
+}
+.form-signin-gitbook .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px 10px;
+  font-size: 16px;
+}
+
+.form-signin-gitbook .form-control-join {
+  position: relative;
+  height: auto;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 5px 5px;
+  font-size: 16px;
+}
+
+.form-signin-gitbook .form-control-join-email {
+  position: relative;
+  height: auto;
+  width: 65%;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 5px 5px;
+  font-size: 16px;
+}
+
+.form-control-join-email > .form-group-btn {
+  float: left;
+  margin-left: 100px;
+}
+
+.form-signin-gitbook .form-control .form-control-join:focus {
+  z-index: 2;
+}
+.form-signin-gitbook input[type="text"] {
+ font-family: 'Nanum Gothic', sans-serif;
+ font-size: 18px;
+  margin-bottom: 4px;
+}
+.form-signin-gitbook input[type="password"] {
+ font-family: 'Nanum Gothic', sans-serif;
+ font-size: 18px;
+ margin-bottom: 4px;
+}
+.form-signin-gitbook input[type="tel"] {
+  font-family: 'Abhaya Libre', serif;
+  font-size: 15px;
+  margin-bottom: 4px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+ }
+ 
+/* 로그인 */
+.form-group input::placeholder {
+  color: #E3E3E3;
+  font-style: 'Nanum Gothic', sans-serif;
+}
+.form-group input {
+	background-color: #d6d6d685;
+	color: #ffffff;
+}
+
 /*회원가입*/
 .form-group-join {
     margin: 10px;

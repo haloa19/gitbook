@@ -46,17 +46,15 @@
       
       <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
      <!--  <script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script> -->
-           <script src="./assets/js/highlightjs-line-numbers.js"></script>
       <script>hljs.initHighlightingOnLoad();</script>
-      <script>hljs.initLineNumbersOnLoad();</script>
         
     <title>GitBook</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-    <script src='${pageContext.request.contextPath}/assets/js/bundle.js'></script>
-    	 <!--  <script src='http://127.0.0.1:9999/bundle.js'></script>  -->
+ <script src='${pageContext.request.contextPath}/assets/js/bundle.js'></script>
+    	<!--  <script src='http://127.0.0.1:9999/bundle.js'></script> -->
        </div> 
 
   </body>

@@ -39,7 +39,7 @@
      
      
       <link type="text/css" href="${pageContext.request.contextPath}/assets/css/demos/photo.css" rel="stylesheet" />
-      
+      <link type="text/css" href="${pageContext.request.contextPath}/assets/css/demos/join.css" rel="stylesheet" />
       
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -65,7 +65,7 @@
                     <h1><a href="${pageContext.request.contextPath}">GitBook</a></h1>
      
      
-      <form method="post" class="form-signin" action="${ pageContext.request.contextPath }/main">
+      <form method="post" class="form-signin-gitbook" action="${ pageContext.request.contextPath }/main">
 		   <h3 class="form-signin-heading"></h3>
 		   <div class="form-group" >
 		    <input name="id" type="text" class="form-control" placeholder="Email"></input>
