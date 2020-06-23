@@ -133,7 +133,7 @@ $(function() {
 								<p style="color:red">존재하지 않는 이메일입니다.</p>
 							</c:if>
 							
-							<button class="kafe-btn kafe-btn-mint btn-block" type="submit">이메일 인증하기</button>
+							<button class="kafe-btn kafe-btn-mint btn-block" type="submit" style="font-size: 17px">인증하기</button>
 		   					<br/>
 		   					
 							<a href="${pageContext.request.contextPath}/" class="btn btn-dark-join " role="button"

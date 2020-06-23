@@ -134,7 +134,7 @@ $(function() {
 							</c:if>
 													
 							<div class="form-group-join">
-								<button class="kafe-btn kafe-btn-mint btn-block">확인</button>
+								<button class="kafe-btn kafe-btn-mint btn-block" style="font-size: 17px">변경하기</button>
 							</div>
 							<br/>
 							<a href="${pageContext.request.contextPath}/" class="btn btn-dark-join " role="button"

@@ -155,7 +155,7 @@ $(function() {
 							<br />
 							
 							<a>
-								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">ID 찾기</button>
+								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm" style="font-size: 17px">ID 찾기</button>
 							</a>
 							
 							<c:if test="${not empty vo}">

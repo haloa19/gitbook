@@ -88,7 +88,7 @@
 							찾으신 아이디는<br/>"${email }"<br/>입니다.
 						</p>
 						<a href=" ${pageContext.request.contextPath}/ ">
-							<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm" style="margin-top: 10px; width: 300px">
+							<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm" style="font-size:17px; margin-top: 10px; width: 300px">
 								로그인
 							</button>
 						</a>
