@@ -11,6 +11,9 @@ public class GitVo {
 	private String regDate;
 	private String userId;
 	
+	private String groupTitle;
+	
+	
 	public Long getNo() {
 		return no;
 	}
@@ -58,6 +61,13 @@ public class GitVo {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	
+	public String getGroupTitle() {
+		return groupTitle;
+	}
+	public void setGroupTitle(String groupTitle) {
+		this.groupTitle = groupTitle;
 	}
 	
 	@Override

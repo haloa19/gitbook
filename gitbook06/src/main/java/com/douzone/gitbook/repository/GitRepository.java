@@ -64,9 +64,13 @@ public class GitRepository {
 	      } else {
 	         push.put("visible", "private");
 	      }
-	      Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
-	      System.out.println("result_timeline >> " + (result_timeline == 1));
-
+	      
+	      if(push.get("whoPushed").equals(push.get("id"))) {
+	    	  Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
+	    	  System.out.println("result_timeline >> " + (result_timeline == 1));
+	      }
+	     
+	      
 	      return result_schedule == 1;
 	   }
 

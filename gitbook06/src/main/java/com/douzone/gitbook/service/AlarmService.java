@@ -48,6 +48,10 @@ public class AlarmService {
 	public UserVo getUserIdAndGroupTitle(Map<String, Long> numberMap) {
 		return alarmRepository.getUserIdAndGroupTitle(numberMap);
 	}
+	
+	public UserVo getGroupTitle(Map<String, Object> push) {
+		return alarmRepository.getGroupTitle(push);
+	}
 
 	public List<Map<String, Object>> getGroupUserList(int groupNo) {
 		return alarmRepository.getGroupUserList(groupNo);
@@ -56,6 +60,8 @@ public class AlarmService {
 	public Long getGroupNo(long userNo,String repoName) {
 		return alarmRepository.getGroupNo(userNo,repoName);
 	}
+
+	
 
 	
 	
