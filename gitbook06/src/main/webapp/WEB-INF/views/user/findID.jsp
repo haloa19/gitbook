@@ -119,7 +119,7 @@ $(function() {
 						
 						<hr class="find-act-hr"></hr>
 						
-						<form method="post" class="form-signin" id="findID-form" action="${pageContext.request.contextPath }/user/findIDProcess">
+						<form method="post" class="form-signin-gitbook" id="findID-form" action="${pageContext.request.contextPath }/user/findIDProcess">
 							<div class="form-group-join">
 								<input name="name" type="text" class="form-control-join" id="input_username" placeholder="이름" />
 							</div>
@@ -130,7 +130,7 @@ $(function() {
 							
 							<div class="form-group-join">
 
-								<select class="birth_info" name="year" type="checkbox" style="width: 100px">
+								<select class="birth_info" name="year" type="checkbox" style="width: 90px">
 									<c:forEach begin="${0}" end="${120}" var='k'>
 										<option value="${2020-k}">${2020-k}</option>'
                     				</c:forEach>
@@ -155,7 +155,7 @@ $(function() {
 							<br />
 							
 							<a>
-								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">ID 찾기</button>
+								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm" style="font-size: 17px">ID 찾기</button>
 							</a>
 							
 							<c:if test="${not empty vo}">
@@ -163,7 +163,7 @@ $(function() {
 							</c:if>
 							<br />
 							
-							<a href="${pageContext.request.contextPath}/" class="btn btn-dark " role="button"
+							<a href="${pageContext.request.contextPath}/" class="btn btn-dark-join " role="button"
 								style="margin-top:10px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a><br />
 						</form>
 						

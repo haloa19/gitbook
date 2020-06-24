@@ -240,12 +240,13 @@ $(function() {
 					</h1>
 
 					<div>
-						<form method="post" class="form-signin" id="join-form" action="${pageContext.request.contextPath }/user/joinProcess">
+						<form method="post" class="form-signin-gitbook" id="join-form" action="${pageContext.request.contextPath }/user/joinProcess">
+							<h3 class="form-signin-heading"></h3>
 							<div class="form-group-join">
 								<input name="email" type="text" class="form-control-join-email"
 									id="input_email" placeholder="이메일" />
-								<input type="button" class="kafe-btn kafe-btn-mint form-group-join-btn"
-									id="emailBtn" value="인증" />
+								<button type="button" class="kafe-btn kafe-btn-mint-join form-group-join-btn"
+									id="emailBtn" value="인증">인증</button>
 								<input type="hidden" id="random" value="${random }" />
 							</div>
 							
@@ -254,8 +255,8 @@ $(function() {
 								<input name="confirm" type="text"
 									class="form-control-join-email" id="input_authCode"
 									placeholder="인증번호" />
-								<input type="button" class="kafe-btn kafe-btn-mint form-group-join-btn"
-									id="emailAuthBtn" value="확인" />
+								<button type="button" class="kafe-btn kafe-btn-mint-join form-group-join-btn"
+									id="emailAuthBtn" value="확인">확인</button>
 							</div>
 							<div class="form-group-join" id="emailAuth_confirmed" style="display: none">
 								<label style="color: white">인증이 완료되었습니다!</label>
@@ -279,7 +280,7 @@ $(function() {
 							</div>
 							<div class="form-group-join">
 
-								<select class="birth_info" name="year" type="checkbox" style="width: 100px">
+								<select class="birth_info" name="year" type="checkbox" style="width: 90px">
 									<c:forEach begin="${0}" end="${120}" var='k'>
 										<option value="${2020-k}">${2020-k}</option>'
                     				</c:forEach>
@@ -312,11 +313,11 @@ $(function() {
 
 
 							<a>
-								<button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">가입하기</button>
+								<button class="kafe-btn kafe-btn-mint-join form-group-join-btn-block" type="submit" name="subm">가입하기</button>
 							</a>
 							<br />
 							<a
-								href="${pageContext.request.contextPath}/" class="btn btn-dark "
+								href="${pageContext.request.contextPath}/" class="btn btn-dark-join "
 								role="button" style="margin-top: 10px">이미 GitBook회원이신가요? 지금
 								로그인 하기</a>
 							<br />

@@ -76,7 +76,7 @@ public class GitApiContoller {
 	public void add(@RequestBody GitVo vo, @PathVariable String id) {
 
 		vo.setGitName(vo.getGitName().trim());
-
+		gitService.insertGit(vo);
 		try {
 			SSHExecutor.just(host, port, user, password, charset,
 					"cd " + dir + id + " && sudo git-create-repo " + id + " " + vo.getGitName());
@@ -84,7 +84,7 @@ public class GitApiContoller {
 			e.printStackTrace();
 		}
 
-		gitService.insertGit(vo);
+		
 
 	}
 
@@ -92,11 +92,11 @@ public class GitApiContoller {
 	@RequestMapping("/update")
 	public JsonResult updateVisible(@PathVariable String id, @RequestBody GitVo vo) {
 
-		System.out.println("update:" + vo);
+	
 		gitService.updateVisible(vo);
 
 		List<GitVo> list = gitService.getRepositoryList(id);
-		System.out.println("list:" + list);
+		
 
 		return JsonResult.success(list);
 	}
@@ -122,7 +122,7 @@ public class GitApiContoller {
 		if (GitService.checkNewRepo(id, repoName).contains("fatal: Not a valid object name master")) {
 			return JsonResult.fail("newRepo");
 		}
-		System.out.println("레포지토리 생성 실행");
+		
 		return JsonResult.success(GitService.getFileListOnTop(id, repoName));
 	}
 
