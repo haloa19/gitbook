@@ -112,8 +112,8 @@ $(function() {
 			return;
 		}
 		
-		if($("#input_username").val() == ''){
-			alert('이름을 입력해 주세요!');
+		if($("#input_username").val() == '' || $("#input_username").val().trim().length < 2 || $("#input_username").val().trim().length > 10){
+			alert('이름을 2자 ~ 10자 입력해주세요!');
 			$("#input_username").focus();
 			return;
 		}

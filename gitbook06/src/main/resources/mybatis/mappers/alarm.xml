@@ -12,7 +12,7 @@
 			where 
 				a.user_no = (select U.no from user U where U.id = #{id})
 				and a.user_no = b.no
-				and a.alarm_check = 'uncheck'
+				and a.alarm_check != 'delete'
 			order by a.alarm_date desc
 		]]>
 	</select>
@@ -39,26 +39,31 @@
 		
 	</select>
 
-	<update id="markRead" parameterType="map">
+	<update id="markDelete" parameterType="map">
 		<choose>
 			<when test="no != null">
 				<![CDATA[
-					update alarm set alarm_check = 'check' where user_no = (select U.no from user U where U.id = #{id}) and no = #{no}
+					update alarm set alarm_check = 'delete' where user_no = (select U.no from user U where U.id = #{id}) and no = #{no}
 				]]>
 			</when>
 			<otherwise>
 				<![CDATA[
-					update alarm set alarm_check = 'check' where user_no = (select U.no from user U where U.id = #{id})
+					update alarm set alarm_check = 'delete' where user_no = (select U.no from user U where U.id = #{id})
 				]]>
 			</otherwise>
 		</choose>
+	</update>
+	
+	<update id="markRead" parameterType="map">
+		<![CDATA[
+			update alarm set alarm_check = 'check' where user_no = (select U.no from user U where U.id = #{id}) and alarm_check = 'uncheck'
+		]]>
 	</update>
 
 	<insert id="addAlarm" parameterType="alarmvo">
 		<![CDATA[
 			insert into alarm values(null, #{userNo}, #{alarmType}, #{alarmContents}, 'uncheck', now(), null)
 		]]>
-		
 	</insert>
 
 	<!-- 친구 요청 수락 시 필요한 값 -->

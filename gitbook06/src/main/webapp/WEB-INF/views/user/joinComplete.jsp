@@ -83,16 +83,13 @@
 
 					<div>
 						<div class="row" style="margin-top: 40px">
-							<a href="${pageContext.request.contextPath}/user/findID"
-								class="find-id-head">아이디 찾기</a> <a
-								href="${pageContext.request.contextPath}/user/findPW"
-								class="find-pwd-head">비밀번호 찾기</a>
+							
 						</div>
 						<hr class="find-act-hr"></hr>
-						<p class="find-pwd-cmt">본인 인증을 위해 웹 링크를 보내드렸습니다.</p>
-						<p class="find-pwd-cmt">이메일 주소 : ${email }</p>
-						<a href="${webpage }" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
-							해당 이메일 사이트로 이동하기
+						<p class="find-pwd-cmt">회원가입이 성공되었습니다. 환영합니다!</p>
+						<p class="find-pwd-cmt">가입하신 이메일 주소 : ${email }</p>
+						<a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
+							지금 바로 로그인하기
 						</a>
 						<br/>
 						<br/>
@@ -102,10 +99,7 @@
 							GitBook계정이 생각나셨나요? 지금 로그인 하기
 						</a>
 					</div>
-
-			
-
-
+					
 				</div>
 			</div>
 		</div>
