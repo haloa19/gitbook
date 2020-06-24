@@ -36,7 +36,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/joinProcess", method = RequestMethod.POST)
-	public String joinProcess(HttpServletRequest request, HttpSession session) {
+	public String joinProcess(HttpServletRequest request, HttpSession session, Model model) {
 		UserVo vo = new UserVo();
 		vo.setId(request.getParameter("email"));
 		vo.setPassword(request.getParameter("password"));
@@ -64,7 +64,8 @@ public class UserController {
 		session.removeAttribute("random");
 		session.invalidate();
 
-		return "redirect:/";
+		model.addAttribute("email", vo.getId());
+		return "user/joinComplete";
 	}
 
 	@RequestMapping("/findID")

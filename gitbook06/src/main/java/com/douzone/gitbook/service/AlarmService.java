@@ -29,7 +29,11 @@ public class AlarmService {
 		return alarmRepository.findList(id);
 	}
 
-	public Boolean markAsRead(Map<String, Object> input) {
+	public Boolean markDelete(Map<String, Object> input) {
+		return alarmRepository.markDelete(input);
+	}
+	
+	public Boolean markRead(Map<String, Object> input) {
 		return alarmRepository.markRead(input);
 	}
 
