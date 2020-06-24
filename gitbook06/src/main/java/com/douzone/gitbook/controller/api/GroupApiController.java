@@ -82,9 +82,9 @@ public class GroupApiController {
 		map.put("grant", "admin");
 
 		groupService.grant(map);
-		List<GroupVo> groupList = groupService.getList(userVo);
-
-		return JsonResult.success(groupList);
+		//List<GroupVo> groupList = groupService.getList(userVo);
+		System.out.println("group change " + groupVo.getNo());
+		return JsonResult.success(groupVo.getNo());
 	}
 
 	// 클릭한 그룹 정보
