@@ -81,7 +81,7 @@
 						<a href="${pageContext.request.contextPath}/">GitBook</a>
 					</h1>
 
-					<div>
+					<div class="form-singin-gitbook">
 						<div class="row" style="margin-top: 40px">
 							<a href="${pageContext.request.contextPath}/user/findID"
 								class="find-id-head">아이디 찾기</a> <a
@@ -91,16 +91,13 @@
 						<hr class="find-act-hr"></hr>
 						<p class="find-pwd-cmt">본인 인증을 위해 웹 링크를 보내드렸습니다.</p>
 						<p class="find-pwd-cmt">이메일 주소 : ${email }</p>
-						<a href="${webpage }" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
-							naver.com 으로 이동하기
+						<br/>
+						<a href="${webpage }" class="btn btn-dark-join " role="button" style="margin-top: 10px; background-color: rgba(0,0,0,0.4); border-radius:0px">
+							해당 이메일 사이트로 이동하기
 						</a>
 						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
-							GitBook계정이 생각나셨나요? 지금 로그인 하기
-						</a>
+						<a href="${pageContext.request.contextPath}/" class="btn btn-dark-join " role="button"
+							style="margin-top:10px; background-color: rgba(0,0,0,0.4); border-radius:0px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a>
 					</div>
 
 			

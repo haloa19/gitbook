@@ -67,33 +67,7 @@
 <script
 	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-<!-- form 확인 후 submit 진행 -->
-<script type="text/javascript">
-$(function() {
-	$("#changepw-form").submit(function(event) {
-		event.preventDefault();
-		
-		if($("#email").val() == '') {
-			alert('[ERROR] 이메일이 비어있음. email : ' + $("#email").val());
-			return;
-		}
-		
-		if($("#input_password").val() == '' || $("#input_password").val().length < 8){
-			alert('비밀번호를 8자 이상 입력해 주세요!');
-			$("#input_password").focus();
-			return;
-		}
-		
-		if($("#input_password_again").val() != $("#input_password").val()){
-			alert('비밀번호 확인을 잘못 입력하였습니다!');
-			$("#input_password_again").focus();
-			return;
-		}
-			
-		this.submit();
-	});
-});
-</script>
+
 
 <title>GitBook</title>
 </head>
@@ -109,41 +83,23 @@ $(function() {
 
 					<div>
 						<div class="row" style="margin-top: 40px">
-							<a href="${pageContext.request.contextPath}/user/findID"
-								class="find-id-head">아이디 찾기</a> <a
-								href="${pageContext.request.contextPath}/user/findPW"
-								class="find-pwd-head">비밀번호 찾기</a>
+							
 						</div>
-
-
 						<hr class="find-act-hr"></hr>
-						<p class="find-pwd-cmt">${email } 님의 <br/>새로운 비밀번호를 입력해 주세요</p>
-
-						<form method="post" class="form-signin-gitbook" id="changepw-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/PWChangeProcess">
-							<input name="id" id="email" type="hidden" value="${email }" />
-							<div class="form-group-join">
-								<input name="password" id="input_password" type="password" class="form-control-join" placeholder="새 비밀번호" />
-							</div>
-							
-							<div class="form-group-join">
-								<input name="password_confirm" id="input_password_again" type="password" class="form-control-join" placeholder="새 비밀번호 확인" />
-							</div>
-							
-							<c:if test="${not empty vo }">
-								<p style="color:red">비밀번호 업데이트에 실패했습니다.</p>
-							</c:if>
-													
-							<div class="form-group-join">
-								<button class="kafe-btn kafe-btn-mint btn-block" style="font-size: 17px">변경하기</button>
-							</div>
-							<br/>
-							<a href="${pageContext.request.contextPath}/" class="btn btn-dark-join " role="button"
-								style="margin-top:10px; background-color: rgba(0,0,0,0.4); border-radius:0px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a>
-							<br/>
-							
-						</form>
+						<p class="find-pwd-cmt">회원가입이 성공되었습니다. 환영합니다!</p>
+						<p class="find-pwd-cmt">가입하신 이메일 주소 : ${email }</p>
+						<a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
+							지금 바로 로그인하기
+						</a>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
+							GitBook계정이 생각나셨나요? 지금 로그인 하기
+						</a>
 					</div>
-
+					
 				</div>
 			</div>
 		</div>

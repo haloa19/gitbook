@@ -53,28 +53,43 @@ public class AlarmApiController {
 
 	@Auth
 	@ResponseBody
-	@RequestMapping(value = "/mark", method = RequestMethod.POST)
-	public JsonResult markAsRead(@RequestBody Map<String, Object> input, @AuthUser UserVo authUser) {
+	@RequestMapping(value = "/markDelete", method = RequestMethod.POST)
+	public JsonResult markDelete(@RequestBody Map<String, Object> input, @AuthUser UserVo authUser) {
 		// input : { no : ??? , id : ??? }
 		if (authUser.getId().equals((String) input.get("id")) == false) {
 			return JsonResult.fail("not matched user ID");
 		}
 
-		Boolean isMarked = alarmService.markAsRead(input);
-		if (!isMarked) {
-			return JsonResult.fail("failed for marking read");
+		Boolean isDeleted = alarmService.markDelete(input);
+		if (!isDeleted) {
+			return JsonResult.fail("failed for marking as deleted");
 		}
 
 		return JsonResult.success(true);
 	}
 
-	@MessageMapping("/alarm/send") // react > spring 수신
+	
+	@Auth
+	@ResponseBody
+	@RequestMapping(value = "/markRead", method = RequestMethod.POST)
+	public JsonResult markRead(@RequestBody Map<String, Object> input, @AuthUser UserVo authUser) {
+		// input : { no : ??? , id : ??? }
+		if (authUser.getId().equals((String) input.get("id")) == false) {
+			return JsonResult.fail("not matched user ID");
+		}
+		
+		Boolean isMarked = alarmService.markRead(input);
+		if(!isMarked) {
+			return JsonResult.fail("failed for marking as read");
+		}
+		
+		return JsonResult.success(true);
+	}
+	
+	@MessageMapping("/alarm/send")
 	public void send(AlarmVo msg) {
-		System.out.println(
-				"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 가즈아!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-						+ msg.getAlarmContents());
+//		webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송
 
-		// webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송
 	}
 
 }

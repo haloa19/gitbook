@@ -21,6 +21,10 @@ public class AlarmRepository {
 		return sqlSession.selectList("alarm.findList", id);
 	}
 
+	public Boolean markDelete(Map<String, Object> input) {
+		return sqlSession.update("alarm.markDelete", input) >= 1;
+	}
+	
 	public Boolean markRead(Map<String, Object> input) {
 		return sqlSession.update("alarm.markRead", input) >= 1;
 	}
