@@ -164,15 +164,16 @@ public class GitApiContoller {
 		Map<String, Object> push = new HashMap<>();
 
 		push.put("id", (String) input.get("username"));
+		push.put("whoPushed", (String) input.get("username"));
 		push.put("gitOwnerId", ((String) input.get("repo")).split("/")[1]);
 		push.put("repoName", ((String) input.get("repo")).split("/")[2].split("\\.")[0]);
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
-
+		
 		Long groupNo = gitService.getGroupNo(push);
-
+		push.put("groupNo",groupNo);
 		
-		
+		UserVo getUserIdVo = alarmService.getGroupTitle(push);
 		
 		push.put("contents", "[" + push.get("repoName") + ".git]\n"
 				+ push.get("commitMsg"));
@@ -187,6 +188,7 @@ public class GitApiContoller {
 
 			for (String memberId : groupMemeberIdList) {
 				push.put("id", memberId);
+				
 				
 				Boolean result = gitService.pushProcess(push);
 				if (!result) {
@@ -206,10 +208,18 @@ public class GitApiContoller {
 
 				GitVo gitInfo = gitService.getGitInfoByNo(recentAlarm.getAlarmRefNo());
 
+				
+				//그룹 title 받아오기
+				
+				
+				//
+				
+				
 				recentAlarm.setGroupNo(groupNo);
 				recentAlarm.setRepoName((String) push.get("repoName"));
 				recentAlarm.setUserNo(gitInfo.getUserNo());
-
+				recentAlarm.setGroupTitle(getUserIdVo.getGroupTitle());
+							
 				if ("public".equals(gitInfo.getVisible()) || memberId.equals(gitInfo.getUserId())) {
 					try {
 						String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);

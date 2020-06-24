@@ -89,8 +89,6 @@ public class ChattingApiController {
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			}
-		
-		
 		}
 		
 		//채팅방 생성 시 첫 메시지 등록 

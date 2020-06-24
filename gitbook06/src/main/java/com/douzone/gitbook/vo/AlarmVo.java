@@ -14,6 +14,8 @@ public class AlarmVo {
 	
 	private Long alarmRefNo;
 	
+	private String groupTitle;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -94,10 +96,19 @@ public class AlarmVo {
 		this.alarmRefNo = alarmRefNo;
 	}
 
+	public String getGroupTitle() {
+		return groupTitle;
+	}
+
+	public void setGroupTitle(String groupTitle) {
+		this.groupTitle = groupTitle;
+	}
+
 	@Override
 	public String toString() {
 		return "AlarmVo [no=" + no + ", userNo=" + userNo + ", userId=" + userId + ", alarmType=" + alarmType
 				+ ", alarmContents=" + alarmContents + ", alarmCheck=" + alarmCheck + ", alarmDate=" + alarmDate
-				+ ", groupNo=" + groupNo + ", repoName=" + repoName + ", alarmRefNo=" + alarmRefNo + "]";
+				+ ", groupNo=" + groupNo + ", repoName=" + repoName + ", alarmRefNo=" + alarmRefNo + ", groupTitle="
+				+ groupTitle + "]";
 	}
 }

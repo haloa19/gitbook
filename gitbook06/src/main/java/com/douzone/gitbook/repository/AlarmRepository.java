@@ -44,6 +44,10 @@ public class AlarmRepository {
 	public UserVo getUserIdAndGroupTitle(Map<String, Long> numberMap) {
 		return sqlSession.selectOne("alarm.findUserIdAndGroupTitleByNo", numberMap);
 	}
+	
+	public UserVo getGroupTitle(Map<String, Object> push) {
+		return sqlSession.selectOne("alarm.findUserIdAndGroupTitleByNo", push);
+	}
 
 	public List<Map<String, Object>> getGroupUserList(int groupNo) {
 		
@@ -57,6 +61,8 @@ public class AlarmRepository {
 		
 		return sqlSession.selectOne("alarm.getGroupNo", map);
 	}
+
+	
 
 
 

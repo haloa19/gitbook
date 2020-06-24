@@ -81,7 +81,7 @@
 
 	<insert id="insertTimeline" parameterType="map">
       <![CDATA[
-         insert into timeline values(null, #{contents}, now(), #{visible}, (select group_no from git where no = #{gitNo}), #{userNo}, 'commit')
+         insert into timeline values(null, #{contents}, now(), #{visible}, (select group_no from git where no = #{gitNo}), (select user_no from git where no = #{gitNo}), 'commit')
       ]]>
    </insert>
 
@@ -155,10 +155,11 @@
 	<select id="findGitInfoByNo" parameterType="long" resultType="gitvo">
 		<![CDATA[
 			
-			select G.no as no, G.user_no as userNo, G.group_no as groupNo, G.description as description, G.visible as visible, G.git_name as gitName, G.reg_date as regDate, U.id as userId 
+			select G.no as no, G.user_no as userNo, G.group_no as groupNo, G.description as description, G.visible as visible, G.git_name as gitName, G.reg_date as regDate, U.id as userId, GR.group_title as groupTitle 
 			from git G
 			join user U on (G.user_no = U.no)
-			where G.no = #{alarmRefNo}
+			join `group` GR on (GR.no = G.group_no)
+			where G.no = #{alarmRefNo};
 		]]>
 	</select>
 	
