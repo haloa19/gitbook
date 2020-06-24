@@ -1,24 +1,135 @@
+/* ==========================================================================
+   Form Styles
+   ========================================================================== */
+  
+.form-signin-gitbook{
+  max-width: 380px !important;
+  padding: 15px;
+}
+.form-signin-gitbook .form-signin-heading {
+ font-family: 'Abhaya Libre', serif;
+ font-size: 24px;
+ color: #fff;
+}
+.form-signin-gitbook .form-signin-heading,
+.form-signin-gitbook .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin-gitbook .checkbox {
+  font-weight: normal;
+}
+.form-signin-gitbook .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px 10px;
+  font-size: 16px;
+}
+
+.form-signin-gitbook .form-control-join {
+  position: relative;
+  height: auto;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+}
+
+.form-signin-gitbook .form-control-join-email {
+  position: relative;
+  height: auto;
+  width: 65%;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px 10px;
+  font-size: 16px;
+      border: none;
+    border-radius: 4px;
+}
+
+.form-control-join-email > .form-group-btn {
+  float: left;
+  margin-left: 100px;
+}
+
+.form-signin-gitbook .form-control .form-control-join:focus {
+  z-index: 2;
+}
+.form-signin-gitbook input[type="text"] {
+ font-family: 'Nanum Gothic', sans-serif;
+ font-size: 18px;
+  margin-bottom: 4px;
+}
+.form-signin-gitbook input[type="password"] {
+ font-family: 'Nanum Gothic', sans-serif;
+ font-size: 18px;
+ margin-bottom: 4px;
+}
+.form-signin-gitbook input[type="tel"] {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 18px;
+  margin-bottom: 4px;
+ }
+ 
+/* 로그인 */
+.form-group input::placeholder {
+  color: #828282;
+  font-style: 'Nanum Gothic', sans-serif;
+}
+.form-group input {
+	background-color: white;
+	color: black;
+}
+
+.form-signin-heading {
+	margin-top: 40px
+}
+
+
+
 /*회원가입*/
+.form-group-join input::placeholder {
+  color: #828282;
+  font-style: 'Nanum Gothic', sans-serif;
+}
+.form-group-join input {
+	background-color: white;
+	color: black;
+}
+
 .form-group-join {
-    margin: 10px;
+    margin: 10px 0px;
     color: #333333;
 }
 .form-group-join-btn {
     margin-left: 15px;
-    margin-bottom: 0px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+	margin-bottom: 5px;
+    padding: 10px;
     width:29%;
    
 }
 .birth_info {
-   height:30px;
-    width: 50px;
+   height:45px;
+   width: 65px;
+   background-color: white;
+   font-size: 18px;
+   color: black;
+   font-style: 'Nanum Gothic', sans-serif;
+   border-radius: 4px;
+   padding:10px;
 }
  .birth_label {
      margin-left: 5px;
      margin-right: 15px;
      color: #ffffff;
+     font-size: 16px;
  }
  .chk_info{
     position: relative;
@@ -33,7 +144,40 @@
    -webkit-user-select: none; 
    -moz-user-select: none;
    -ms-user-select: none;
+   font-size: 18px;
  }
+
+.kafe-btn-mint-join {
+  font-style: 'Nanum Gothic', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: #fff !important;
+  background: #0fc19e; 
+  letter-spacing: 1px; 
+}
+
+.kafe-btn-mint-join:hover {
+  color: #fff !important;
+  background: #1ea88d; 
+  text-decoration: none;
+}
+
+.form-group-join-btn-block {
+	margin-bottom: 5px;
+    padding: 10px;
+    width: 100%;
+   
+}
+
+.form-signin-gitbook .btn-dark-join {
+	border-radius: 0;
+ 	font-style: 'Nanum Gothic', sans-serif;
+    font-size: 15px !important;
+    color: #fff;
+    background-color: rgba(0,0,0,0.4);
+    margin-bottom: 10px;
+}
+
 
 /*아이디, 비밀번호 찾기*/
 .find-id-head {
@@ -50,4 +194,14 @@
 }
 .find-pwd-cmt {
   margin-top:20px
+}
+
+.find-success {
+	font-size: 30px;
+	font-style: 'Nanum Gothic', sans-serif;
+}
+
+.find-success-info {
+	font-size: 20px;
+	font-style: 'Nanum Gothic', sans-serif;
 }

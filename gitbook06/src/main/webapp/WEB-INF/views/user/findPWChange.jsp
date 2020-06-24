@@ -117,9 +117,9 @@ $(function() {
 
 
 						<hr class="find-act-hr"></hr>
-						<p class="find-pwd-cmt">${email } 님의 새로운 비밀번호를 입력해 주세요</p>
+						<p class="find-pwd-cmt">${email } 님의 <br/>새로운 비밀번호를 입력해 주세요</p>
 
-						<form method="post" class="form-signin" id="changepw-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/PWChangeProcess">
+						<form method="post" class="form-signin-gitbook" id="changepw-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/PWChangeProcess">
 							<input name="id" id="email" type="hidden" value="${email }" />
 							<div class="form-group-join">
 								<input name="password" id="input_password" type="password" class="form-control-join" placeholder="새 비밀번호" />
@@ -132,14 +132,13 @@ $(function() {
 							<c:if test="${not empty vo }">
 								<p style="color:red">비밀번호 업데이트에 실패했습니다.</p>
 							</c:if>
-							
+													
 							<div class="form-group-join">
-								<button class="kafe-btn kafe-btn-mint form-group-join-btn">확인</button>
+								<button class="kafe-btn kafe-btn-mint btn-block" style="font-size: 17px">변경하기</button>
 							</div>
 							<br/>
-							<a class="btn btn-dark "
-								href="${pageContext.request.contextPath}/" role="button"
-								style="margin-top: 10px"> GitBook계정이 생각나셨나요? 지금 로그인 하기 </a>
+							<a href="${pageContext.request.contextPath}/" class="btn btn-dark-join " role="button"
+								style="margin-top:10px; background-color: rgba(0,0,0,0.4); border-radius:0px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a>
 							<br/>
 							
 						</form>

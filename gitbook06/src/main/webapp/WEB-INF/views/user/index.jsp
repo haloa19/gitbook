@@ -39,7 +39,7 @@
      
      
       <link type="text/css" href="${pageContext.request.contextPath}/assets/css/demos/photo.css" rel="stylesheet" />
-      
+      <link type="text/css" href="${pageContext.request.contextPath}/assets/css/demos/join.css" rel="stylesheet" />
       
       
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -65,7 +65,7 @@
                     <h1><a href="${pageContext.request.contextPath}">GitBook</a></h1>
      
      
-      <form method="post" class="form-signin" action="${ pageContext.request.contextPath }/main">
+      <form method="post" class="form-signin-gitbook" action="${ pageContext.request.contextPath }/main">
 		   <h3 class="form-signin-heading"></h3>
 		   <div class="form-group" >
 		    <input name="id" type="text" class="form-control" placeholder="Email"></input>
@@ -73,17 +73,17 @@
 		   <div class="form-group">
 		    <input type="password" class="form-control" name="password" placeholder="Password"></input>
 		   </div>
-		   <button class="kafe-btn kafe-btn-mint btn-block" type="submit" name="subm">Sign in</button>
+		   <button class="kafe-btn kafe-btn-mint-join form-group-join-btn-block" type="submit" name="subm">로그인</button>
 		   <br/>
 		   <c:if test="${not empty userVo}">
 				<p style="color:red">로그인이 실패 했습니다.</p>
 
 			</c:if>
 			
-		   <a href="${pageContext.request.contextPath}/user/join"  class="btn btn-dark " role="button" style="margin-top:10px">아직 gitbook의 회원이 아니십니까? click!!</a>
-		   <a href="${pageContext.request.contextPath}/user/findID" class="btn btn-dark " role="button">아이디 찾기</a>
+		   <a href="${pageContext.request.contextPath}/user/join"  class="btn btn-dark-join " role="button" style="margin-top:10px">아직 gitbook의 회원이 아니십니까? click!!</a>
+		   <a href="${pageContext.request.contextPath}/user/findID" class="btn btn-dark-join " role="button">아이디 찾기</a>
           
-           <a href="${pageContext.request.contextPath}/user/findPW" class="btn btn-dark " role="button">비밀번호 찾기</a>
+           <a href="${pageContext.request.contextPath}/user/findPW" class="btn btn-dark-join " role="button">비밀번호 찾기</a>
 		  </form>
     </div>
     

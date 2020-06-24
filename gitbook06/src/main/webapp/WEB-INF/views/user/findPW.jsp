@@ -123,9 +123,9 @@ $(function() {
 						<hr class="find-act-hr"></hr>
 						<p class="find-pwd-cmt">아이디를 입력해 주세요</p>
 						
-						<form method="post" class="form-signin" id="findPW-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/findPWAuth">
+						<form method="post" class="form-signin-gitbook" id="findPW-form" style="padding: 0px" action="${ pageContext.request.contextPath }/user/findPWAuth">
 							<div class="form-group-join">
-								<input id="input_email" name="email" type="text" class="form-control-join-email" placeholder="이메일" />
+								<input id="input_email" name="email" type="text" class="form-control-join-email" placeholder="이메일" style="width:100%"/>
 								<input type="hidden" id="random" name="random" value="${random }" />
 							</div>
 							
@@ -133,13 +133,11 @@ $(function() {
 								<p style="color:red">존재하지 않는 이메일입니다.</p>
 							</c:if>
 							
-							<br/>
-							<button class="kafe-btn kafe-btn-mint btn-block" type="submit">이메일 인증하기</button>
+							<button class="kafe-btn kafe-btn-mint btn-block" type="submit" style="font-size: 17px">인증하기</button>
 		   					<br/>
 		   					
-							<a href="${pageContext.request.contextPath}/" class="btn btn-dark " href="photo_login.html" role="button" style="margin-top: 10px">
-								GitBook계정이 생각나셨나요? 지금 로그인 하기
-							</a>
+							<a href="${pageContext.request.contextPath}/" class="btn btn-dark-join " role="button"
+								style="margin-top:10px">GitBook계정이 생각나셨나요? 지금 로그인 하기</a>
 							<br />
 						</form>
 						
