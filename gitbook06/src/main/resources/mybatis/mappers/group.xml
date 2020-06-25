@@ -171,4 +171,10 @@
 		]]>
 	</delete>
 
+	<select id="findGroupTitle" parameterType="long" resultType="string">
+		<![CDATA[
+				select group_title as groupTitle from `group` where no = #{groupNo};
+		]]>
+	</select>
+	
 </mapper>

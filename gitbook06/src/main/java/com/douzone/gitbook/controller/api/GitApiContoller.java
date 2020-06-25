@@ -84,19 +84,15 @@ public class GitApiContoller {
 			e.printStackTrace();
 		}
 
-		
-
 	}
 
 	@ResponseBody
 	@RequestMapping("/update")
 	public JsonResult updateVisible(@PathVariable String id, @RequestBody GitVo vo) {
 
-	
 		gitService.updateVisible(vo);
 
 		List<GitVo> list = gitService.getRepositoryList(id);
-		
 
 		return JsonResult.success(list);
 	}
@@ -122,7 +118,7 @@ public class GitApiContoller {
 		if (GitService.checkNewRepo(id, repoName).contains("fatal: Not a valid object name master")) {
 			return JsonResult.fail("newRepo");
 		}
-		
+
 		return JsonResult.success(GitService.getFileListOnTop(id, repoName));
 	}
 
@@ -169,14 +165,13 @@ public class GitApiContoller {
 		push.put("repoName", ((String) input.get("repo")).split("/")[2].split("\\.")[0]);
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
-		
+
 		Long groupNo = gitService.getGroupNo(push);
-		push.put("groupNo",groupNo);
-		
+		push.put("groupNo", groupNo);
+
 		UserVo getUserIdVo = alarmService.getGroupTitle(push);
-		
-		push.put("contents", "[" + push.get("repoName") + ".git]\n"
-				+ push.get("commitMsg"));
+
+		push.put("contents", "[" + push.get("repoName") + ".git]\n" + push.get("commitMsg"));
 		push.put("contents_short", push.get("repoName") + ">>>>>" + push.get("commitMsg"));
 
 		// push을 이용하여 group no 가져오기 (user_no는 repository 단게에서 가져옴)
@@ -188,8 +183,7 @@ public class GitApiContoller {
 
 			for (String memberId : groupMemeberIdList) {
 				push.put("id", memberId);
-				
-				
+
 				Boolean result = gitService.pushProcess(push);
 				if (!result) {
 					return JsonResult.fail("failed for updating push records");
@@ -199,27 +193,20 @@ public class GitApiContoller {
 				alarmVo.setUserId((String) push.get("id"));
 				alarmVo.setAlarmType("commit");
 				alarmVo.setAlarmContents((String) push.get("contents"));
-				
+
 				AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
-				
-				if(recentAlarm == null) {
+
+				if (recentAlarm == null) {
 					continue;
 				}
 
 				GitVo gitInfo = gitService.getGitInfoByNo(recentAlarm.getAlarmRefNo());
 
-				
-				//그룹 title 받아오기
-				
-				
-				//
-				
-				
 				recentAlarm.setGroupNo(groupNo);
 				recentAlarm.setRepoName((String) push.get("repoName"));
 				recentAlarm.setUserNo(gitInfo.getUserNo());
 				recentAlarm.setGroupTitle(getUserIdVo.getGroupTitle());
-							
+
 				if ("public".equals(gitInfo.getVisible()) || memberId.equals(gitInfo.getUserId())) {
 					try {
 						String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
@@ -230,7 +217,7 @@ public class GitApiContoller {
 				}
 			}
 			return JsonResult.success(true);
-			
+
 		} else {
 			// groupNo가 없을 경우(null) >> 그냥 진행
 			Boolean result = gitService.pushProcess(push);

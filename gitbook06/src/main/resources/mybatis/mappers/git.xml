@@ -152,15 +152,15 @@
 	</select>
 	
 	
-	<select id="findGitInfoByNo" parameterType="long" resultType="gitvo">
-		<![CDATA[
-			
-			select G.no as no, G.user_no as userNo, G.group_no as groupNo, G.description as description, G.visible as visible, G.git_name as gitName, G.reg_date as regDate, U.id as userId, GR.group_title as groupTitle 
+	<select id="findGitInfoByNo" parameterType="map" resultType="gitvo">
+		
+		  <![CDATA[
+			select G.no as no, G.user_no as userNo, G.group_no as groupNo, G.description as description, G.visible as visible, G.git_name as gitName, G.reg_date as regDate, U.id as userId 
 			from git G
 			join user U on (G.user_no = U.no)
-			join `group` GR on (GR.no = G.group_no)
 			where G.no = #{alarmRefNo};
 		]]>
+
 	</select>
 	
 	<select id="findGitNoByUserInfo" parameterType="map" resultType="long">
@@ -171,8 +171,4 @@
             and git_name = #{repoName};
 		]]>
 	</select>
-	
-	
-	
-	
 </mapper>

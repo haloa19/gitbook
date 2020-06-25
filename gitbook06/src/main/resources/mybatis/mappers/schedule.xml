@@ -113,7 +113,7 @@
 		resultType="schedulevo">
 	<![CDATA[
 			select a.no, a.check_date as checkDate, a.schedule_contents as scheduleContents,
-				a.type, a.user_no as userNo, a.group_no as groupNo
+				a.type, a.user_no as userNo, a.group_no as groupNo, b.id
 			from schedule a, user b
 			where a.user_no = b.no
 				and b.no = ${userNo}
@@ -163,6 +163,16 @@
 			and check_date like '%${date }%'
 	]]>
 	</select>
+	
+	<select id="findGroupMasterNo" parameterType="long"
+		resultType="long">
+	<![CDATA[
+		 select a.user_no from git a, `group` b
+                where a.group_no = b.no
+                and a.group_no = #{groupNo}
+	]]>
+	</select>
+	
 	
 	<delete id="deleteGroupAll" parameterType="long">
 		<![CDATA[		

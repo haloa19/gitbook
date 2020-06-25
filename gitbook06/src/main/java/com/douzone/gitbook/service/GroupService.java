@@ -148,4 +148,8 @@ public class GroupService {
 		
 	}
 
+	public String getGroupTitle(Long groupNo) {
+			return groupRepository.getGroupTitle(groupNo);
+	}
+
 }

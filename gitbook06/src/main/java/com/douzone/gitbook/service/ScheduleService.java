@@ -48,8 +48,8 @@ public class ScheduleService {
 		return scheduleRepository.findToDoList(groupNo, userNo, date);
 	}
 	
-	public List<ScheduleVo> getRepoList(Long groupNo,Long userNo, String date) {
-		return scheduleRepository.findRepoList(groupNo, userNo, date);
+	public List<ScheduleVo> getRepoList(Long groupNo, String date) {
+		return scheduleRepository.findRepoList(groupNo, date);
 	}
 	
 	public void insertGroupToDo(ScheduleVo vo, Long groupNo) {

@@ -65,10 +65,6 @@ public class AlarmService {
 		return alarmRepository.getGroupNo(userNo,repoName);
 	}
 
-	
-
-	
-	
 
 	// test용
 //		public void test() {

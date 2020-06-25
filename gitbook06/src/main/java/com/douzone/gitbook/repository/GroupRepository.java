@@ -93,5 +93,9 @@ public class GroupRepository {
 		sqlSession.delete("group.deleteGroupAll", no);
 		
 	}
+
+	public String getGroupTitle(Long groupNo) {
+		return sqlSession.selectOne("group.findGroupTitle", groupNo);
+	}
 	
 }

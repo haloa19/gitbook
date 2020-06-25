@@ -46,11 +46,15 @@ public class GitRepository {
 	      
 	      Long gitNo = sqlSession.selectOne("git.findGitNoByUserInfo", push);
 	      push.put("gitNo", gitNo);
-
-	      GitVo gitInfo = sqlSession.selectOne("git.findGitInfoByNo", (long)push.get("gitNo"));
 	      
+	      GitVo gitInfo = sqlSession.selectOne("git.findGitInfoByNo", (Long)push.get("gitNo"));
+	     
+	      System.out.println("@@@@@@@@@@@@@@@@@@@");
+	      System.out.println(gitInfo);
+	      System.out.println("@@@@@@@@@@@@@@@@@@@");	  
+	    	
 	      // 관리자와 private
-	      if("public".equals(gitInfo.getVisible()) || gitInfo.getUserNo() == (Long)push.get("userNo")) {
+	      if("public".equals(gitInfo.getVisible()) || gitInfo.getUserNo() == (long)push.get("userNo")) {
 	    	  Integer result_alarm = sqlSession.insert("git.insertAlarm", push);
 		      System.out.println("result_alarm >> " + (result_alarm == 1));
 	      }
@@ -115,5 +119,6 @@ public class GitRepository {
 	public GitVo findGitInfoByNo(Long alarmRefNo) {
 		return sqlSession.selectOne("git.findGitInfoByNo", alarmRefNo);
 	}
+
 
 }
