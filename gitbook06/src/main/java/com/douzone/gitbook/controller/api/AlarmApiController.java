@@ -44,7 +44,7 @@ public class AlarmApiController {
 				Long groupNo = gitInfo.getGroupNo();
 				vo.setUserNo(gitInfo.getUserNo());
 				vo.setGroupNo(groupNo);
-				vo.setGroupTitle(gitInfo.getGroupTitle());
+				//vo.setGroupTitle(gitInfo.getGroupTitle());
 			}
 		}
 
