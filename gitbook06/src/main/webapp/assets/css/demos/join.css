@@ -62,11 +62,14 @@
 .form-signin-gitbook .form-control .form-control-join:focus {
   z-index: 2;
 }
+
 .form-signin-gitbook input[type="text"] {
  font-family: 'Nanum Gothic', sans-serif;
  font-size: 15px;
   margin-bottom: 4px;
+
   height: 40px;
+   outline: none;
    
 }
 .form-signin-gitbook input[type="password"] {
@@ -74,13 +77,16 @@
 font-size: 15px;
   margin-bottom: 4px;
   height: 40px;
- 
+  outline: none;
 }
+
 .form-signin-gitbook input[type="tel"] {
   font-family: 'Nanum Gothic', sans-serif;
   font-size: 15px;
   margin-bottom: 4px;
   height: 40px;
+ outline: none;
+
  }
  
 /* 로그인 */
@@ -107,6 +113,7 @@ font-size: 15px;
 .form-group-join input {
 	background-color: white;
 	color: black;
+	cursor: pointer;
 }
 
 .form-group-join {
