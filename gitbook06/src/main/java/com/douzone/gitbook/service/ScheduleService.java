@@ -41,8 +41,7 @@ public class ScheduleService {
 	public void deleteToDo(ScheduleVo vo) {
 		scheduleRepository.deleteList(vo);
 	}
-	
-	
+		
 	/////////////group
 	public List<ScheduleVo> getToDoList(Long groupNo,Long userNo, String date) {
 		return scheduleRepository.findToDoList(groupNo, userNo, date);

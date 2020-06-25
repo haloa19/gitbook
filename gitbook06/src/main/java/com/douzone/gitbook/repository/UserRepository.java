@@ -22,16 +22,13 @@ public class UserRepository {
 	}
 
 	public List<UserVo> friendList(Map<String, Object> param) {
-
 		return sqlSession.selectList("user.friendList", param);
 	}
 
 	public List<UserVo> friendListReq(Map<String, Object> param) {
-		
 		return sqlSession.selectList("user.friendListReq", param);
 	}
 
-	
 	public FriendVo friendInfo(String userId) {
 		return sqlSession.selectOne("user.friendInfo", userId);
 	}
@@ -53,19 +50,16 @@ public class UserRepository {
 	}
 
 	public List<FriendVo> searchList(Map<String, Object> param) {
-
 		return sqlSession.selectList("user.searchList", param);
 	}
-
 
 	public Boolean findEmailAvailable(String email) {
 		return (Integer) sqlSession.selectOne("user.countEmail", email) == 0;
 	}
-	
+
 	public Boolean findEmailExistance(String email) {
 		return (Integer) sqlSession.selectOne("user.countEmail", email) == 1;
 	}
-
 
 	public Boolean addUser(UserVo vo) {
 		return sqlSession.insert("user.addUser", vo) == 1 && sqlSession.insert("user.addProfile", vo) == 1;
@@ -74,22 +68,18 @@ public class UserRepository {
 	public String findEmail(UserVo vo) {
 		return sqlSession.selectOne("user.findEmail", vo);
 	}
-  
+
 	public Boolean changePasswordResult(UserVo vo) {
 		return sqlSession.update("user.updatePassword", vo) == 1;
 	}
 
+	public UserVo findPassword(String password, String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("password", password);
 
-
-	public UserVo findPassword(String password,String id) {
-		
-		Map<String,Object> map = new HashMap<String,Object>(); 
-		map.put("id",id);
-		map.put("password",password);
-		
-		return sqlSession.selectOne("user.findPassword",map);
-  }
-  
+		return sqlSession.selectOne("user.findPassword", map);
+	}
 
 	public UserVo getProfileInfo(String id) {
 		return sqlSession.selectOne("user.getProfile", id);
@@ -99,34 +89,27 @@ public class UserRepository {
 		return sqlSession.update("user.updateProfile", vo) == 1;
 	}
 
-  
 	public Boolean updateUserInfo(UserVo vo) {
 		return sqlSession.update("user.updateUserInfo", vo) == 1;
-
 	}
 
 	public List<UserVo> friendNaviList(Map<String, Object> param) {
-		
 		return sqlSession.selectList("user.friendNaviList", param);
 	}
 
 	public String friendStatus(Map<String, Object> param) {
-		
 		return sqlSession.selectOne("user.friendstatus", param);
 	}
 
 	public String friendNo(Map<String, Object> param) {
-		
 		return sqlSession.selectOne("user.frinedNo", param);
 	}
 
 	public String findByUserNo(String id) {
-		
 		return sqlSession.selectOne("user.findUserId", id);
 	}
 
 	public Object updateUserStatus(Long no) {
-		
 		return sqlSession.update("user.userStatus", no);
 	}
 
@@ -135,7 +118,6 @@ public class UserRepository {
 	}
 
 	public String getId(Long no) {
-		
 		return sqlSession.selectOne("user.getId", no);
 	}
 

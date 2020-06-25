@@ -26,7 +26,6 @@ import com.douzone.security.AuthInterceptor;
 import com.douzone.security.AuthUserHandlerMethodArgumentResolver;
 import com.douzone.security.LoginInterceptor;
 import com.douzone.security.LogoutInterceptor;
-import com.douzone.security.gitbookInterceptor;
 
 @Configuration
 @PropertySource("classpath:com/douzone/gitbook/config/config.properties")

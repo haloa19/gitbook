@@ -7,11 +7,11 @@ public class CommentVo {
 	private Long userNo;
 	private Long timelineNo;
 	
-	
 	private String userId;
 	private String userProfile;
 	private String userNickname;
 	private String userStatus;
+	
 	public Long getNo() {
 		return no;
 	}

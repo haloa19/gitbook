@@ -1,7 +1,5 @@
 package com.douzone.gitbook.vo;
 
-import org.hibernate.validator.constraints.Length;
-
 public class UserVo {
 	private Long no;
 

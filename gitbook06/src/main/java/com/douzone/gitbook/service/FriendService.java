@@ -12,7 +12,7 @@ public class FriendService {
 
 	@Autowired
 	FriendRepository friendRepository;
-	
+
 	public void requestFriend(Map<String, Object> param) {
 		friendRepository.insertRequest(param);
 	}
@@ -23,7 +23,6 @@ public class FriendService {
 
 	public void deleteFriendAll(Long no) {
 		friendRepository.deleteFriendAll(no);
-		
 	}
 
 }

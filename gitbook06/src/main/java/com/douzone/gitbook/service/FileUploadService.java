@@ -24,8 +24,6 @@ public class FileUploadService {
 			String extName = originFilename.substring(originFilename.lastIndexOf('.') + 1);
 			newFileName = generateSaveFilename(extName);
 
-			System.out.println("Original file name: " + originFilename);
-
 			byte[] fileData = multipartFile.getBytes();
 			OutputStream os = new FileOutputStream(SAVE_PATH + "/" + newFileName);
 			os.write(fileData);
@@ -34,8 +32,6 @@ public class FileUploadService {
 		} catch (IOException ex) {
 			throw new RuntimeException("file upload error:" + ex);
 		}
-
-		System.out.println("New file name: " + URL + "/" + newFileName);
 		return URL + "/" + newFileName;
 	}
 

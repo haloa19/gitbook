@@ -177,4 +177,14 @@
 		]]>
 	</select>
 	
+	<select id="getGroupMaterId" parameterType="long" resultType="string">
+		<![CDATA[
+				select b.id
+            from group_list a, user b
+            where a.user_no = b.no
+            and a.`grant` = 'admin'
+            and a.group_no = #{groupNo}
+		]]>
+	</select>
+
 </mapper>

@@ -25,7 +25,7 @@ public class MailService implements MailServiceInterface {
 	@Override
 	public boolean send(String subject, String text, String from, String to, String filePath) {
 		MimeMessage message = javaMailSender.createMimeMessage();
-		
+
 		try {
 			// org.springframework.mail.javamail.MimeMessageHelper
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -33,7 +33,7 @@ public class MailService implements MailServiceInterface {
 			helper.setText(text, true);
 			helper.setFrom(from);
 			helper.setTo(to);
- 
+
 			javaMailSender.send(message);
 			return true;
 		} catch (MessagingException e) {
@@ -45,7 +45,7 @@ public class MailService implements MailServiceInterface {
 	@Async
 	public void sendAsync(String subject, String text, String from, String to, String filePath) {
 		MimeMessage message = javaMailSender.createMimeMessage();
-		
+
 		try {
 			// org.springframework.mail.javamail.MimeMessageHelper
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -53,11 +53,10 @@ public class MailService implements MailServiceInterface {
 			helper.setText(text, true);
 			helper.setFrom(from);
 			helper.setTo(to);
- 
+
 			javaMailSender.send(message);
-			System.out.println("[MailService.java] Succeed in sending mail with sendAsync(...) !!");
+
 		} catch (MessagingException e) {
-			System.out.println("[MailService.java] Failed process with sendAsync(...). Check out below message.");
 			e.printStackTrace();
 		}
 	}
