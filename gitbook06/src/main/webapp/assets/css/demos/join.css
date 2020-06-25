@@ -66,16 +66,19 @@
  font-family: 'Nanum Gothic', sans-serif;
  font-size: 18px;
   margin-bottom: 4px;
+  outline: none;
 }
 .form-signin-gitbook input[type="password"] {
  font-family: 'Nanum Gothic', sans-serif;
  font-size: 18px;
  margin-bottom: 4px;
+ outline: none;
 }
 .form-signin-gitbook input[type="tel"] {
   font-family: 'Nanum Gothic', sans-serif;
   font-size: 18px;
   margin-bottom: 4px;
+  outline: none;
  }
  
 /* 로그인 */
@@ -102,6 +105,7 @@
 .form-group-join input {
 	background-color: white;
 	color: black;
+	cursor: pointer;
 }
 
 .form-group-join {
