@@ -304,10 +304,10 @@ $(function() {
 							</div>
 							<div class="form-group-join">
 								<div class="chk_info">
-									<input type="radio" name="gender" value="male" checked="checked" />
-									<label for="gender">남자</label>
-									<input type="radio" name="gender" value="female" />
-									<label for="gender">여자</label>
+									<input type="radio" id="male" name="gender" value="male" checked="checked" />
+										<label for="male">남자</label>
+									<input type="radio" id="female" name="gender" value="female" />
+										<label for="female">여자</label>
 								</div>
 							</div>
 

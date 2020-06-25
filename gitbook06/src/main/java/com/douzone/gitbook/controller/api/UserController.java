@@ -144,6 +144,7 @@ public class UserController {
 		List<UserVo> friendList = userService.getFriend(param);
 		return JsonResult.success(friendList);
 	}
+	
 
 	@ResponseBody
 	@RequestMapping(value = "/friend/navilist", method = RequestMethod.POST)
