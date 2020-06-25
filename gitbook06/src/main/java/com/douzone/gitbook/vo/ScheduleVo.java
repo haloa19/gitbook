@@ -9,7 +9,8 @@ public class ScheduleVo {
 	private Long userNo;
 	private Long groupNo;
 	
-	
+	private String id;
+		
 	public Long getNo() {
 		return no;
 	}
@@ -47,12 +48,16 @@ public class ScheduleVo {
 		this.userNo = userNo;
 	}
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	
 	@Override
 	public String toString() {
-		return "ScheduleVo [no=" + no + ", checkDate=" + checkDate + ", scheduleContents=" + scheduleContents
-				+ ", groupNo=" + groupNo + ", userNo=" + userNo + "]";
+		return "ScheduleVo [no=" + no + ", checkDate=" + checkDate + ", type=" + type + ", scheduleContents="
+				+ scheduleContents + ", userNo=" + userNo + ", groupNo=" + groupNo + ", id=" + id + "]";
 	}
-	
-	
 }

@@ -34,7 +34,11 @@ public class ScheduleGroupApiController {
 		@ResponseBody
 		@RequestMapping(value = "/repoList/{date}", method = RequestMethod.GET)
 		public JsonResult getRepoList(@PathVariable Long groupNo,@PathVariable Long userNo, @PathVariable String date) {
-			List<ScheduleVo> list = scheduleService.getRepoList(groupNo, userNo ,date);
+			List<ScheduleVo> list = scheduleService.getRepoList(groupNo,date);
+			
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@");
+			System.out.println(list);
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@");
 			
 			return JsonResult.success(list);
 		}

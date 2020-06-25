@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.AlarmService;
 import com.douzone.gitbook.service.GitService;
+import com.douzone.gitbook.service.GroupService;
 import com.douzone.gitbook.vo.AlarmVo;
 import com.douzone.gitbook.vo.GitVo;
 import com.douzone.gitbook.vo.UserVo;
@@ -29,6 +30,9 @@ public class AlarmApiController {
 
 	@Autowired
 	private GitService gitService;
+	
+	@Autowired
+	private GroupService groupService;
 
 	@Auth
 	@ResponseBody
@@ -44,7 +48,8 @@ public class AlarmApiController {
 				Long groupNo = gitInfo.getGroupNo();
 				vo.setUserNo(gitInfo.getUserNo());
 				vo.setGroupNo(groupNo);
-				//vo.setGroupTitle(gitInfo.getGroupTitle());
+				vo.setGroupTitle(groupService.getGroupTitle(groupNo));
+
 			}
 		}
 
