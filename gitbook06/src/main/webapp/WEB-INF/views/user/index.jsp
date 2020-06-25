@@ -50,8 +50,82 @@
       <script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
       <script src="${pageContext.request.contextPath}/assets/js/base.js"></script>
       <script src="https://kit.fontawesome.com/81c2c05f29.js" crossorigin="anonymous"></script>
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-      
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+     
+      <script type="text/javascript">
+      $(function(){
+    	  $('input').focus(function(){
+	    	  $(this).parents('.form-group').addClass('focused');
+	    	});
+    	  $('#email').click(function(){
+    		  $('#emailInput').focus();
+    		  
+    	  });
+    	  
+    	  $('#password').click(function(){
+    		  $('#passwordInput').focus();
+    		  
+    	  });
+    	$('input').blur(function(){
+    	  var inputValue = $(this).val();
+    	  if ( inputValue == "" ) {
+    	    $(this).removeClass('filled');
+    	    $(this).parents('.form-group').removeClass('focused');  
+    	  } else {
+    	    $(this).addClass('filled');
+    	  }
+    	})   
+      });
+	    
+    	
+    </script>
+    <style type="text/css">
+    .form-group {
+ 		 position:relative;  
+
+
+	}
+
+	.form-label {
+		cursor:text;
+		font-size:17px;
+ 		 margin-Left:10px;
+ 		 position: absolute;
+  		 left: 0;
+ 		 top: 10px;
+  		 color: #BABABA;
+  		 background-color: rgba( 255, 255, 255, 0 );
+  		 z-index: 10;
+  		 transition: transform 150ms ease-out, font-size 150ms ease-out;
+	}
+
+		.focused .form-label {
+		  transform: translateY(-70%);
+		  font-size: .75em;
+		 background-color: rgba( 255, 255, 255, 0 );
+		
+		  color: #BABABA;
+		
+		}
+
+		.form-control {
+		  position: relative;
+		  padding: 12px 0px 5px 0;
+		  width: 100%;
+		  outline: 0;
+		  border: 0;
+		  box-shadow: 0 1px 0 0 #e5e5e5;
+		 
+		  transition: box-shadow 150ms ease-out;
+		}
+		
+
+		.form-control .filled {
+		  box-shadow: 0 2px 0 0 lightgreen;
+		  background-color: red;
+		}
+    </style>
+     
 
         
     <title>GitBook</title>
@@ -67,11 +141,13 @@
      
       <form method="post" class="form-signin-gitbook" action="${ pageContext.request.contextPath }/main">
 		   <h3 class="form-signin-heading"></h3>
-		   <div class="form-group" >
-		    <input name="id" type="text" class="form-control" placeholder="Email"></input>
+		   <div class="form-group" > 
+		   	 <label class="form-label" id="email" for="first">Email</label>
+		    <input name="id" type="text" id="emailInput" class="form-control" ></input>
 		   </div>
 		   <div class="form-group">
-		    <input type="password" class="form-control" name="password" placeholder="Password"></input>
+		   	  <label class="form-label" id="password" for="last">Password</label>
+		    <input type="password" id="passwordInput"class="form-control" name="password" ></input>
 		   </div>
 		   <button class="kafe-btn kafe-btn-mint-join form-group-join-btn-block" type="submit" name="subm">로그인</button>
 		   <br/>
