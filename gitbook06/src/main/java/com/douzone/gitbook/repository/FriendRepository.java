@@ -11,17 +11,17 @@ public class FriendRepository {
 
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	public void insertRequest(Map<String, Object> param) {
-		sqlSession.insert("friend.reqFriend", param);	
+		sqlSession.insert("friend.reqFriend", param);
 	}
 
 	public void insertRequest2(Map<String, Object> param) {
-		sqlSession.insert("friend.reqFriend2", param);	
+		sqlSession.insert("friend.reqFriend2", param);
 	}
 
 	public void deleteFriendAll(Long no) {
-		sqlSession.delete("friend.deleteAll", no);		
+		sqlSession.delete("friend.deleteAll", no);
 	}
 
 }

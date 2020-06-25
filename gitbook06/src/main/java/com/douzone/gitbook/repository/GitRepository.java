@@ -41,42 +41,34 @@ public class GitRepository {
 	}
 
 	public Boolean addPushInfo(Map<String, Object> push) {
-	      Long userNo = sqlSession.selectOne("git.findUserNo", push);
-	      push.put("userNo", userNo);
-	      
-	      Long gitNo = sqlSession.selectOne("git.findGitNoByUserInfo", push);
-	      push.put("gitNo", gitNo);
-	      
-	      GitVo gitInfo = sqlSession.selectOne("git.findGitInfoByNo", (Long)push.get("gitNo"));
-	     
-	      System.out.println("@@@@@@@@@@@@@@@@@@@");
-	      System.out.println(gitInfo);
-	      System.out.println("@@@@@@@@@@@@@@@@@@@");	  
-	    	
-	      // 관리자와 private
-	      if("public".equals(gitInfo.getVisible()) || gitInfo.getUserNo() == (long)push.get("userNo")) {
-	    	  Integer result_alarm = sqlSession.insert("git.insertAlarm", push);
-		      System.out.println("result_alarm >> " + (result_alarm == 1));
-	      }
-	      
-	      Integer result_schedule = sqlSession.insert("git.insertSchedule", push);
-	      System.out.println("result_schedule >> " + (result_schedule == 1));
-	      
-	      String visible = sqlSession.selectOne("git.findVisible", push);
-	      if("public".equals(visible)) {
-	         push.put("visible", "public");
-	      } else {
-	         push.put("visible", "private");
-	      }
-	      
-	      if(push.get("whoPushed").equals(push.get("id"))) {
-	    	  Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
-	    	  System.out.println("result_timeline >> " + (result_timeline == 1));
-	      }
-	     
-	      
-	      return result_schedule == 1;
-	   }
+		Long userNo = sqlSession.selectOne("git.findUserNo", push);
+		push.put("userNo", userNo);
+
+		Long gitNo = sqlSession.selectOne("git.findGitNoByUserInfo", push);
+		push.put("gitNo", gitNo);
+
+		GitVo gitInfo = sqlSession.selectOne("git.findGitInfoByNo", (Long) push.get("gitNo"));
+
+		// 관리자와 private
+		if ("public".equals(gitInfo.getVisible()) || gitInfo.getUserNo() == (long) push.get("userNo")) {
+			Integer result_alarm = sqlSession.insert("git.insertAlarm", push);
+		}
+
+		Integer result_schedule = sqlSession.insert("git.insertSchedule", push);
+
+		String visible = sqlSession.selectOne("git.findVisible", push);
+		if ("public".equals(visible)) {
+			push.put("visible", "public");
+		} else {
+			push.put("visible", "private");
+		}
+
+		if (push.get("whoPushed").equals(push.get("id"))) {
+			Integer result_timeline = sqlSession.insert("git.insertTimeline", push);
+		}
+
+		return result_schedule == 1;
+	}
 
 	public List<GitVo> findListGroup(Map<String, String> map) {
 		return sqlSession.selectList("git.findListGroup", map);
@@ -94,7 +86,7 @@ public class GitRepository {
 
 	public void deleteGroupAll(Long no) {
 		sqlSession.delete("git.deleteGroupAll", no);
-		
+
 	}
 
 	public Object getGroupNo(String repoName, String id, long userNo) {
@@ -108,7 +100,7 @@ public class GitRepository {
 	public Long findGroupNo(Map<String, Object> push) {
 		Long userNo = sqlSession.selectOne("git.findUserNo", push);
 		push.put("userNo", userNo);
-		
+
 		return sqlSession.selectOne("git.findGroupNo", push);
 	}
 
@@ -119,6 +111,5 @@ public class GitRepository {
 	public GitVo findGitInfoByNo(Long alarmRefNo) {
 		return sqlSession.selectOne("git.findGitInfoByNo", alarmRefNo);
 	}
-
 
 }

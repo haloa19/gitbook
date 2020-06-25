@@ -50,19 +50,19 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private FriendService friendService;
-	
+
 	@Autowired
 	private GroupService groupService;
-	
+
 	@Autowired
 	private TimelineService timelineService;
-	
+
 	@Autowired
 	private GitService gitService;
-	
+
 	@Autowired
 	private ScheduleService scheduleService;
 
@@ -77,7 +77,7 @@ public class UserController {
 
 	@Autowired
 	private ObjectMapper jsonMapper;
-	
+
 	@Autowired
 	private ChattingService chattingService;
 	@Autowired
@@ -89,7 +89,6 @@ public class UserController {
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
 
-		System.out.println("확인:" + uservo);
 		if (uservo == null) {
 			return JsonResult.success(null);
 		}
@@ -100,23 +99,19 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/friend", method = RequestMethod.POST)
 	public JsonResult friendInfo(@RequestBody Map<String, Object> param) { // 클릭한 친구의 정보 가져오기
-
-		System.out.println("친구 처리 : " + param.get("userno") + ":" + param.get("friendid"));
 		FriendVo friendvo = userService.getUserFriend(param.get("friendid").toString());
 
 		String friendno = userService.getFriendNo(param);
-		System.out.println("num :" + friendno);
 		param.put("friendno", friendno);
 
 		String status = userService.getFriendStatus(param);
-		System.out.println("처리 결과 : " + status);
 
 		if (status == null) {
 			if (param.get("userno").equals(param.get("friendno"))) {
-				System.out.println("본인이야");
+
 				friendvo.setStatus("본인");
 			} else {
-				System.out.println("기타");
+
 				friendvo.setStatus("기타");
 			}
 		} else if (status.equals("친구")) {
@@ -144,7 +139,6 @@ public class UserController {
 		List<UserVo> friendList = userService.getFriend(param);
 		return JsonResult.success(friendList);
 	}
-	
 
 	@ResponseBody
 	@RequestMapping(value = "/friend/navilist", method = RequestMethod.POST)
@@ -166,7 +160,7 @@ public class UserController {
 		AlarmVo vo = new AlarmVo();
 
 		vo.setUserNo(Integer.toUnsignedLong((Integer) param.get("friendno")));
-		
+
 		vo.setAlarmType("friend");
 
 		UserVo userVo = alarmService.getUserNoAndNickname(vo.getUserNo());
@@ -178,7 +172,7 @@ public class UserController {
 		alarmService.addAlarm(vo);
 
 		AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
-		
+
 		try {
 			String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
 			alarmService.sendAlarm("alarm>>" + alarmJsonStr, userVo.getId());
@@ -197,7 +191,7 @@ public class UserController {
 		userService.deleteFriend(param);
 		List<UserVo> friendList = userService.getFriend(param);
 		return JsonResult.success(friendList);
- 
+
 	}
 
 	@ResponseBody
@@ -218,7 +212,6 @@ public class UserController {
 	public JsonResult checkEmail(@RequestParam(value = "email", required = true, defaultValue = "") String email,
 			@RequestParam(value = "random", required = true, defaultValue = "0") String random,
 			HttpServletRequest req) {
-		System.out.println("email: " + email + "  //  random: " + random);
 
 		Boolean isAvailable = userService.getEmailStatus(email);
 		if (isAvailable == false) {
@@ -253,14 +246,10 @@ public class UserController {
 		String originalJoinCode = (String) session.getAttribute("authCode");
 		String originalRandom = Integer.toString((int) session.getAttribute("random"));
 
-		System.out.println("originalJoinCode: " + originalJoinCode + "  //  originalRandom: " + originalRandom);
-		System.out.println("input >> authCode: " + authCode + "  //  random: " + random);
-
 		if ("0".equals(authCode) || "0".equals(random)) {
 			return JsonResult.fail("authentication not matched");
 		}
 		if (originalJoinCode.equals(authCode) && originalRandom.equals(random)) {
-			System.out.println("Authentication succeess!!!");
 			return JsonResult.success(true);
 		} else {
 			return JsonResult.fail("authentication not matched");
@@ -270,13 +259,8 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/profile/info/{id}", method = RequestMethod.POST)
 	public JsonResult getProfile(@PathVariable("id") String id) {
-		System.out.println(id);
 		UserVo resultVo = userService.getProfile(id);
 		resultVo.setId(id);
-
-		System.out.println("[getProfile] " + resultVo.getId() + " >>> profile no : " + resultVo.getProfileNo()
-				+ "  //  nickname : " + resultVo.getNickname() + "  //  contents : " + resultVo.getProfileContents()
-				+ "  //  image : " + resultVo.getImage());
 
 		return JsonResult.success(resultVo);
 
@@ -287,9 +271,6 @@ public class UserController {
 	@RequestMapping(value = "/profile/update/{id}", method = RequestMethod.POST)
 	public JsonResult updateProfile(@PathVariable("id") String id, @RequestBody UserVo vo, HttpServletRequest request) {
 		vo.setId(id);
-		System.out.println("[updateProfile] " + vo.getId() + " >>> profile no : " + vo.getProfileNo()
-				+ "  //  nickname : " + vo.getNickname() + "  //  contents : " + vo.getProfileContents()
-				+ "  //  image : " + vo.getImage());
 
 		// 프로파일 업데이트 진행
 		Boolean result = userService.updateProfile(vo);
@@ -323,8 +304,6 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/account/checkUser", method = RequestMethod.POST)
 	public JsonResult checkUser(@RequestBody UserVo vo, @AuthUser UserVo authUser) {
-		System.out.println("[checkUser(vo)] id : " + vo.getId() + "  //  password : " + vo.getPassword());
-		System.out.println("[authUser] id : " + authUser.getId());
 		if ("".equals(authUser.getId()) || vo.getId().equals(authUser.getId()) == false) {
 			return JsonResult.fail("Not matched with session information");
 		}
@@ -350,7 +329,6 @@ public class UserController {
 		if (authUser == null) {
 			return JsonResult.fail("cannot find user");
 		}
-		System.out.println("id >> " + authUser.getId());
 
 		UserVo vo = new UserVo();
 		vo.setId(authUser.getId());
@@ -361,8 +339,6 @@ public class UserController {
 		if (input.get("password") != null && "".equals((String) input.get("password")) == false) {
 			vo.setPassword((String) input.get("password"));
 		}
-		System.out.println(vo);
-
 		Boolean result = userService.updateUserInfo(vo);
 		if (!result) {
 			return JsonResult.fail("failed for update");
@@ -379,7 +355,7 @@ public class UserController {
 
 		return JsonResult.success(true);
 	}
-	
+
 	@Auth
 	@ResponseBody
 	@RequestMapping(value = "/out/{no}", method = RequestMethod.POST)
@@ -387,96 +363,87 @@ public class UserController {
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
 
-		System.out.println("탈퇴 테테스트" + no);
-		
 		// 1. 계정 비활성화
 		userService.updateUserStatus(no);
-		
+
 		// 2. 친구 관계 삭제
 		friendService.deleteFriendAll(no);
-		
+
 		// 3. 그룹에서 탈퇴
 		// 3-0. 유저 권한 조회
 		List<GroupVo> list = groupService.getGrantAll(no);
-		for(GroupVo vo : list) {
-			System.out.println("grant : " + vo.getGrant() + ":" + vo.getNo());
-			
-		
-			if(vo.getGrant().equals("admin")) {		// 3-1. 그룹장인 경우 그룹 관련 모든 그룹 데이터 삭제(스케쥴, 타임라인, 레포) => 요청 그룹, 참여중인 그룹 쿼리에 조건 추가 필요
+		for (GroupVo vo : list) {
+
+			if (vo.getGrant().equals("admin")) { // 3-1. 그룹장인 경우 그룹 관련 모든 그룹 데이터 삭제(스케쥴, 타임라인, 레포) => 요청 그룹, 참여중인 그룹 쿼리에
+													// 조건 추가 필요
 				// 타임라인 삭제
 				timelineService.deleteGroupAll(vo.getNo());
-				
+
 				// 깃 삭제
 				gitService.deleteGroupAll(vo.getNo());
-				
+
 				// 스케쥴 삭제
 				scheduleService.deleteGroupAll(vo.getNo());
-				
+
 				// 그룹 리스트 삭제
 				groupService.deleteGroupListAllAdmin(vo.getNo());
-				
+
 				// 그룹 삭제
 				groupService.deleteGroupAll(vo.getNo());
-				
-				
-			} else {	// 3-2. 일반 유저 또는 요청중인 경우 group_list에서만 삭제
+
+			} else { // 3-2. 일반 유저 또는 요청중인 경우 group_list에서만 삭제
 				// 그룹 리스트 삭제
 				groupService.deleteGroupListAll(vo.getNo(), uservo.getNo());
 			}
 		}
-	
-		
+
 		// 5. 참여중인 채팅방에서 나가기
-		List<ChattingRoomVo> chatRoomList= chattingService.chatRoomList(no);
+		List<ChattingRoomVo> chatRoomList = chattingService.chatRoomList(no);
 		HashSet<Long> userList = new HashSet<Long>();
-		for(ChattingRoomVo vo : chatRoomList){
-			
-			List<ChattingMsgVo> user= chattingService.inviteList(vo.getNo()); // 방번호
-			
-			Map<String,Long> map =new HashMap<String,Long>();
+		for (ChattingRoomVo vo : chatRoomList) {
+
+			List<ChattingMsgVo> user = chattingService.inviteList(vo.getNo()); // 방번호
+
+			Map<String, Long> map = new HashMap<String, Long>();
 			map.put("userNo", no);
 			map.put("chatRoonNo", vo.getNo());
 			chattingService.deleteChatRoom(map);
-			ChattingMsgVo msgVo= new ChattingMsgVo();
+			ChattingMsgVo msgVo = new ChattingMsgVo();
 			msgVo.setChattingNo(vo.getNo());
 			msgVo.setContents("(알수 없음)이 퇴장 하였습니다");
 			chattingService.addAdminMsg(msgVo);
-			webSocket.convertAndSend("/topics/chatting/test"+"/"+vo.getNo(), 
-					chattingService.msgList(vo.getNo()));// 메시지 리스트를 새로 뿌려줌
-			
-			for(ChattingMsgVo vo2 :user ) {
-				userList.add(vo2.getUserNo());// 유저번호 
+			webSocket.convertAndSend("/topics/chatting/test" + "/" + vo.getNo(), chattingService.msgList(vo.getNo()));// 메시지
+																														// 리스트를
+																														// 새로
+																														// 뿌려줌
+
+			for (ChattingMsgVo vo2 : user) {
+				userList.add(vo2.getUserNo());// 유저번호
 
 			}
-		}	
-		
-		for(Long userNo : userList) {
-			List<ChattingRoomVo> list2= chattingService.chatRoomList(userNo);
-			ArrayList<Map<String,Object>> mapList= new ArrayList<Map<String,Object>>();
-			for(ChattingRoomVo vo2 : list2 ) {
-				Map <String,Object> map2= new HashMap<>();
-				map2.put("chatRoomListItem",vo2);
-				
-				if(chattingService.getAdminImage(vo2.getNo())==null) {
-					map2.put("image",
-							"/gitbook/assets/img/users/default.jpg");
-				}else {
-					map2.put("image",
-						chattingService.getAdminImage(vo2.getNo()).getImage());
+		}
+
+		for (Long userNo : userList) {
+			List<ChattingRoomVo> list2 = chattingService.chatRoomList(userNo);
+			ArrayList<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+			for (ChattingRoomVo vo2 : list2) {
+				Map<String, Object> map2 = new HashMap<>();
+				map2.put("chatRoomListItem", vo2);
+
+				if (chattingService.getAdminImage(vo2.getNo()) == null) {
+					map2.put("image", "/gitbook/assets/img/users/default.jpg");
+				} else {
+					map2.put("image", chattingService.getAdminImage(vo2.getNo()).getImage());
 				}
-				map2.put("lastMsg",chattingService.getLastMsg(vo2.getNo()));
-				map2.put("alarmCount", chattingService.getAlarmList(vo2.getNo(),userNo));
-				
+				map2.put("lastMsg", chattingService.getLastMsg(vo2.getNo()));
+				map2.put("alarmCount", chattingService.getAlarmList(vo2.getNo(), userNo));
+
 				mapList.add(map2);
 			}
-			webSocket.convertAndSend("/topics/chatting/resetChatRoom/"+userNo, mapList);
-			
+			webSocket.convertAndSend("/topics/chatting/resetChatRoom/" + userNo, mapList);
+
 		}
-		
-		
-		
-		
-		
+
 		return JsonResult.success(true);
 	}
 

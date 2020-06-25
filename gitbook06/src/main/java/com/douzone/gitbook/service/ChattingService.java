@@ -14,23 +14,19 @@ import com.douzone.gitbook.vo.UserVo;
 @Service
 public class ChattingService {
 
-
 	@Autowired
 	private ChattingRepository chattingRepository;
 
 	public void addchatRoom(ChattingRoomVo vo) {
 		chattingRepository.addchatRoom(vo);
-		
 	}
 
 	public void addChatRoomuser(ChattingRoomVo vo) {
 		chattingRepository.addChatRoomuser(vo);
-		
 	}
 
 	public void addAdminMsg(ChattingMsgVo msgVo) {
 		chattingRepository.addAdminMsg(msgVo);
-		
 	}
 
 	public List<ChattingRoomVo> chatRoomList(Long userNo) {
@@ -38,17 +34,14 @@ public class ChattingService {
 	}
 
 	public ChattingMsgVo getAdminImage(Long chatRoonNo) {
-		
 		return chattingRepository.getAdminImage(chatRoonNo);
 	}
 
 	public ChattingMsgVo getLastMsg(Long chatRoonNo) {
-		
 		return chattingRepository.getLastMsg(chatRoonNo);
 	}
 
 	public List<ChattingMsgVo> inviteList(Long chatRoonNo) {
-		
 		return chattingRepository.inviteList(chatRoonNo);
 	}
 
@@ -57,42 +50,34 @@ public class ChattingService {
 	}
 
 	public void addUserMsg(ChattingMsgVo msgVo) {
-	 chattingRepository.addUserMsg(msgVo);
-		
+		chattingRepository.addUserMsg(msgVo);
 	}
 
 	public void addCheckMsg(ChattingMsgVo msgVo) {
 		chattingRepository.addCheckMsg(msgVo);
-		
 	}
 
 	public String getSendDate(Long no) {
-		
 		return chattingRepository.getSendDate(no);
 	}
 
-	public Long getAlarmList(Long chatRoonNo,Long userNo) {
-	
-		return chattingRepository.getAlarmList(chatRoonNo,userNo);
+	public Long getAlarmList(Long chatRoonNo, Long userNo) {
+		return chattingRepository.getAlarmList(chatRoonNo, userNo);
 	}
 
 	public void updateResetAlarm(Long no, Long chatRoonNo) {
-		 chattingRepository.updateResetAlarm(no,chatRoonNo);
-		
+		chattingRepository.updateResetAlarm(no, chatRoonNo);
 	}
 
 	public void deleteChatRoom(Map<String, Long> map) {
-		 chattingRepository.deleteChatRoom(map);
-		
+		chattingRepository.deleteChatRoom(map);
 	}
 
 	public List<UserVo> getInviteList(Long chatRoonNo) {
-		
 		return chattingRepository.getInviteList(chatRoonNo);
 	}
 
 	public String getChatName(Long chatRoonNo) {
-		
 		return chattingRepository.getChatName(chatRoonNo);
 	}
 }

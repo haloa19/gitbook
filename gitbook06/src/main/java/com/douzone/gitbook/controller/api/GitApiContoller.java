@@ -23,6 +23,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.AlarmService;
 import com.douzone.gitbook.service.GitService;
+import com.douzone.gitbook.service.GroupService;
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.util.LinuxServer;
 import com.douzone.gitbook.vo.AlarmVo;
@@ -55,6 +56,9 @@ public class GitApiContoller {
 
 	@Autowired
 	private ObjectMapper jsonMapper;
+
+	@Autowired
+	private GroupService groupService;
 
 	@ResponseBody
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -206,6 +210,7 @@ public class GitApiContoller {
 				recentAlarm.setRepoName((String) push.get("repoName"));
 				recentAlarm.setUserNo(gitInfo.getUserNo());
 				recentAlarm.setGroupTitle(getUserIdVo.getGroupTitle());
+				recentAlarm.setGroupMasterId(groupService.getGroupMaterId(groupNo));
 
 				if ("public".equals(gitInfo.getVisible()) || memberId.equals(gitInfo.getUserId())) {
 					try {
@@ -248,7 +253,6 @@ public class GitApiContoller {
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
 
-		System.out.println("네임 중복 체크" + uservo.getId());
 		List<GitVo> list = gitService.getMyRepositoryList(uservo.getId());
 		return JsonResult.success(list);
 	}
@@ -257,14 +261,12 @@ public class GitApiContoller {
 	@RequestMapping(value = "/grouplist/{groupno}/{userno}", method = RequestMethod.GET)
 	public JsonResult groupRepositoryList(@PathVariable String id, @PathVariable Long groupno,
 			@PathVariable Long userno) {
-		System.out.println("group git chk : " + id + ":" + groupno.toString() + ":" + userno.toString());
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("groupNo", groupno.toString());
 		map.put("userNo", userno.toString());
 
 		List<GitVo> list = gitService.getGroupRepositoryList(map);
-		System.out.println("fdaf :" + list.size());
 
 		return JsonResult.success(list);
 	}
@@ -285,8 +287,6 @@ public class GitApiContoller {
 	@ResponseBody
 	@RequestMapping("/group/update")
 	public JsonResult groupUpdateVisible(@PathVariable String id, @RequestBody GitVo vo) {
-
-		System.out.println("update:" + vo);
 		gitService.updateVisible(vo);
 
 		Map<String, String> map = new HashMap<String, String>();
@@ -294,7 +294,6 @@ public class GitApiContoller {
 		map.put("userNo", vo.getUserNo().toString());
 
 		List<GitVo> list = gitService.getGroupRepositoryList(map);
-		System.out.println("list:" + list);
 
 		return JsonResult.success(list);
 	}
@@ -304,7 +303,7 @@ public class GitApiContoller {
 	public JsonResult showRootOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName)
 			throws NoSuchAlgorithmException {
 		String userid = userService.getUserId(id);
-		System.out.println("repo test : " + userid);
+
 		// 잘못된 URL 입력
 		if (gitService.checkUserAndRepo(userid, repoName) == false) {
 			return JsonResult.fail("repo not found");
@@ -314,7 +313,7 @@ public class GitApiContoller {
 		if (GitService.checkNewRepo(userid, repoName).contains("fatal: Not a valid object name master")) {
 			return JsonResult.fail("newRepo");
 		}
-		System.out.println("레포지토리 생성 실행");
+
 		return JsonResult.success(GitService.getFileListOnTop(userid, repoName));
 	}
 
@@ -323,10 +322,7 @@ public class GitApiContoller {
 	public JsonResult showInternalOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName,
 			HttpServletRequest request) {
 		String userid = userService.getUserId(id);
-		System.out.println("repo test2 : " + userid);
-
 		String fullPath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
-
 		String pathName = fullPath.substring(fullPath.indexOf(repoName) + repoName.length() + 1);
 
 		if ("/".equals(pathName.substring(pathName.length() - 1, pathName.length()))) {
@@ -345,7 +341,6 @@ public class GitApiContoller {
 	@GetMapping("/group/item/{repoName}")
 	public JsonResult gitListItemGroup(@PathVariable String id, @PathVariable("repoName") String repoName) {
 		String userid = userService.getUserId(id);
-		System.out.println("repo item : " + userid);
 
 		GitVo vo = gitService.getGitItem(userid, repoName);
 		return JsonResult.success(vo);

@@ -24,7 +24,7 @@ public class AlarmRepository {
 	public Boolean markDelete(Map<String, Object> input) {
 		return sqlSession.update("alarm.markDelete", input) >= 1;
 	}
-	
+
 	public Boolean markRead(Map<String, Object> input) {
 		return sqlSession.update("alarm.markRead", input) >= 1;
 	}
@@ -32,7 +32,7 @@ public class AlarmRepository {
 	public AlarmVo findRecentAlarm(AlarmVo vo) {
 		return sqlSession.selectOne("alarm.findRecentAlarm", vo);
 	}
-	
+
 	public void addAlarm(AlarmVo vo) {
 		sqlSession.insert("alarm.addAlarm", vo);
 	}
@@ -44,13 +44,13 @@ public class AlarmRepository {
 	public UserVo getUserIdAndGroupTitle(Map<String, Long> numberMap) {
 		return sqlSession.selectOne("alarm.findUserIdAndGroupTitleByNo", numberMap);
 	}
-	
+
 	public UserVo getGroupTitle(Map<String, Object> push) {
 		return sqlSession.selectOne("alarm.findUserIdAndGroupTitleByNo", push);
 	}
 
 	public List<Map<String, Object>> getGroupUserList(int groupNo) {
-		
+
 		return sqlSession.selectList("alarm.findGroupUserList", groupNo);
 	}
 
@@ -58,14 +58,8 @@ public class AlarmRepository {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("userNo", userNo);
 		map.put("repoName", repoName);
-		
+
 		return sqlSession.selectOne("alarm.getGroupNo", map);
 	}
-
-	
-
-
-
-	
 
 }

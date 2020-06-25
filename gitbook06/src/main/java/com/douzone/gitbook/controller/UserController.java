@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.douzone.gitbook.service.MailService;
 import com.douzone.gitbook.service.UserService;
 import com.douzone.gitbook.util.LinuxServer;
@@ -45,8 +45,6 @@ public class UserController {
 		vo.setBirthday(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day") + " 00:00:00");
 		vo.setGender(request.getParameter("gender"));
 
-		System.out.println(vo);
-
 		if (userService.addUser(vo) == false) {
 			System.out.println("[ERROR] DB에 업로드 실패...");
 			return "user/join";
@@ -79,10 +77,8 @@ public class UserController {
 		vo.setPhone(request.getParameter("phone"));
 		vo.setName(request.getParameter("name"));
 		vo.setBirthday(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day") + " 00:00:00");
-		System.out.println("INPUT >> " + vo.getPhone() + " / " + vo.getName() + " / " + vo.getBirthday());
 		
 		String email = userService.getEmail(vo);
-		System.out.println("OUTPUT >> " + email);
 		
 		if(email == null || "".equals(email)) {
 			model.addAttribute("vo", vo);
@@ -107,7 +103,6 @@ public class UserController {
 			@RequestParam(value = "random", required = true, defaultValue = "") String random, 
 			HttpServletRequest req,
 			Model model) {
-		System.out.println("INPUT >> email: " + email + "  //  random : " + random);
 		// 파라비터가 제대로 안 올 경우
 		if("".equals(email) || "".equals(random)) {
 			model.addAttribute("random", random);
@@ -137,7 +132,6 @@ public class UserController {
 		StringBuilder sb = new StringBuilder();
 		sb.append("귀하의 인증 링크: " + returnedLink);
 		
-		System.out.println("Sending email");
 		mailService.sendAsync(subject, sb.toString(), "bigbossdc200@gmail.com", email, null);
 		
 		// 최종적으로 email 링크와 사이트 링크를 보내기
@@ -166,9 +160,6 @@ public class UserController {
 			return "redirect:/";
 		}
 
-		System.out.println("SESSION >> originalAuthCode: " + originalAuthCode + "  //  originalRandom: " + originalRandom);
-		System.out.println("PARAMETER >> authCode: " + authCode + "  //  random: " + random);
-
 		// session에 있는 2개 값들과 @RequestParam 에 있는 2개 값들과 비교하기
 		if (originalAuthCode.equals(authCode) == false || originalRandom.equals(random) == false) {
 			return "redirect:/";
@@ -185,8 +176,6 @@ public class UserController {
 			@RequestParam(value = "id", required = true, defaultValue = "") String email,
 			@RequestParam(value = "password", required = true, defaultValue = "") String password,
 			HttpSession session, Model model) {
-		
-		System.out.println("email : " + email + "  //  password : " + password);
 		
 		// 비밀번호를 sql에서 업데이트
 		UserVo vo = new UserVo();

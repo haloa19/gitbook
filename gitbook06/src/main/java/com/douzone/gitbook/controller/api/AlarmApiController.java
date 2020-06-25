@@ -30,7 +30,7 @@ public class AlarmApiController {
 
 	@Autowired
 	private GitService gitService;
-	
+
 	@Autowired
 	private GroupService groupService;
 
@@ -49,7 +49,7 @@ public class AlarmApiController {
 				vo.setUserNo(gitInfo.getUserNo());
 				vo.setGroupNo(groupNo);
 				vo.setGroupTitle(groupService.getGroupTitle(groupNo));
-
+				vo.setGroupMasterId(groupService.getGroupMaterId(groupNo));
 			}
 		}
 
@@ -73,7 +73,6 @@ public class AlarmApiController {
 		return JsonResult.success(true);
 	}
 
-	
 	@Auth
 	@ResponseBody
 	@RequestMapping(value = "/markRead", method = RequestMethod.POST)
@@ -82,15 +81,15 @@ public class AlarmApiController {
 		if (authUser.getId().equals((String) input.get("id")) == false) {
 			return JsonResult.fail("not matched user ID");
 		}
-		
+
 		Boolean isMarked = alarmService.markRead(input);
-		if(!isMarked) {
+		if (!isMarked) {
 			return JsonResult.fail("failed for marking as read");
 		}
-		
+
 		return JsonResult.success(true);
 	}
-	
+
 	@MessageMapping("/alarm/send")
 	public void send(AlarmVo msg) {
 //		webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송

@@ -32,7 +32,7 @@ public class AlarmService {
 	public Boolean markDelete(Map<String, Object> input) {
 		return alarmRepository.markDelete(input);
 	}
-	
+
 	public Boolean markRead(Map<String, Object> input) {
 		return alarmRepository.markRead(input);
 	}
@@ -52,7 +52,7 @@ public class AlarmService {
 	public UserVo getUserIdAndGroupTitle(Map<String, Long> numberMap) {
 		return alarmRepository.getUserIdAndGroupTitle(numberMap);
 	}
-	
+
 	public UserVo getGroupTitle(Map<String, Object> push) {
 		return alarmRepository.getGroupTitle(push);
 	}
@@ -61,17 +61,7 @@ public class AlarmService {
 		return alarmRepository.getGroupUserList(groupNo);
 	}
 
-	public Long getGroupNo(long userNo,String repoName) {
-		return alarmRepository.getGroupNo(userNo,repoName);
+	public Long getGroupNo(long userNo, String repoName) {
+		return alarmRepository.getGroupNo(userNo, repoName);
 	}
-
-
-	// test용
-//		public void test() {
-//			//System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 불리긴하는지 함 보자");
-//			String message = "개세이야";
-//			// "/topic/alarm/유저아이디" 로 해당 알림 메시지를 날린다.
-//			webSocket.convertAndSend("/topics/alarm/test", message); //react로 메세지 전송
-//		}
-
 }

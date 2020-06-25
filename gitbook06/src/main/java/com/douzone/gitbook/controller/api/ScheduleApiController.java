@@ -25,7 +25,7 @@ public class ScheduleApiController {
 	@ResponseBody
 	@RequestMapping(value = "/toDoList/{date}", method = RequestMethod.GET)
 	public JsonResult getToDoList(@PathVariable String id, @PathVariable String date) {
-		
+
 		List<ScheduleVo> list = scheduleService.getToDoList(id, date);
 
 		return JsonResult.success(list);
@@ -36,7 +36,6 @@ public class ScheduleApiController {
 	public JsonResult getRepoList(@PathVariable String id, @PathVariable String date) {
 
 		List<ScheduleVo> list = scheduleService.getRepoList(id, date);
-		System.out.println(list);
 		return JsonResult.success(list);
 	}
 
@@ -64,9 +63,7 @@ public class ScheduleApiController {
 	@ResponseBody
 	@RequestMapping(value = "/naviCommitList/{date}", method = RequestMethod.GET)
 	public JsonResult NaviCommitList(@PathVariable String id, @PathVariable String date) {
-		List<ScheduleVo> list = scheduleService.getNaviCommitDay(id,date);
-		System.out.println(date);
-		System.out.println(list);
+		List<ScheduleVo> list = scheduleService.getNaviCommitDay(id, date);
 		return JsonResult.success(list);
 	}
 
@@ -84,11 +81,7 @@ public class ScheduleApiController {
 	public JsonResult deleteToDo(@RequestBody ScheduleVo vo, @PathVariable String id, @PathVariable String date) {
 		scheduleService.deleteToDo(vo);
 		List<ScheduleVo> list = scheduleService.getToDoList(id, date);
-		System.out.println(list);
 		return JsonResult.success(list);
 	}
-	
-	
-	
 
 }

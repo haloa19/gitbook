@@ -82,8 +82,7 @@ public class GroupApiController {
 		map.put("grant", "admin");
 
 		groupService.grant(map);
-		//List<GroupVo> groupList = groupService.getList(userVo);
-		System.out.println("group change " + groupVo.getNo());
+		// List<GroupVo> groupList = groupService.getList(userVo);
 		return JsonResult.success(groupVo.getNo());
 	}
 
@@ -91,7 +90,6 @@ public class GroupApiController {
 	@ResponseBody
 	@RequestMapping(value = "/info", method = RequestMethod.POST)
 	public JsonResult info(@RequestBody Map<String, Object> param) {
-		System.out.println("navi chk :" + param.get("userno") + ":" + param.get("groupno"));
 		GroupVo groupVo = groupService.getInfo(param);
 
 		return JsonResult.success(groupVo);
@@ -136,7 +134,6 @@ public class GroupApiController {
 		numberMap.put("groupNo", Integer.toUnsignedLong((Integer) param.get("groupno")));
 
 		UserVo getUserIdVo = alarmService.getUserIdAndGroupTitle(numberMap);
-		System.out.println(getUserIdVo.getId() + ":" + getUserIdVo.getGroupTitle());
 
 		vo.setAlarmType("group");
 		vo.setAlarmContents(getUserIdVo.getGroupTitle() + " 그룹에 초대되었습니다.");
@@ -177,7 +174,6 @@ public class GroupApiController {
 
 	// 요청온 그룹 참여
 
-
 	@ResponseBody
 	@RequestMapping(value = "/addgroup", method = RequestMethod.POST)
 	public JsonResult addGroup(HttpServletRequest request, @RequestBody Map<String, Object> param) { // auth가 클릭한
@@ -185,16 +181,16 @@ public class GroupApiController {
 		HttpSession httpSession = request.getSession(false);
 		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
 		List<Map<String, Object>> groupUserList = new ArrayList<>();
-	
-		//groupNo Casting
-		int groupNo = ("java.lang.String".equals(param.get("groupno").getClass().getName())) ? Integer.parseInt((String) param.get("groupno")) : (Integer) param.get("groupno");
-		groupUserList = alarmService.getGroupUserList(groupNo);
-    		
-		groupService.addGroup(param); 
-    
-		List<GroupVo> groupList = groupService.getList(uservo);
 
-		
+		// groupNo Casting
+		int groupNo = ("java.lang.String".equals(param.get("groupno").getClass().getName()))
+				? Integer.parseInt((String) param.get("groupno"))
+				: (Integer) param.get("groupno");
+		groupUserList = alarmService.getGroupUserList(groupNo);
+
+		groupService.addGroup(param);
+
+		List<GroupVo> groupList = groupService.getList(uservo);
 
 		for (Map<String, Object> line : groupUserList) {
 
@@ -219,7 +215,6 @@ public class GroupApiController {
 
 		return JsonResult.success(groupList);
 	}
-
 
 	// 요청온 그룹 거절
 	@ResponseBody

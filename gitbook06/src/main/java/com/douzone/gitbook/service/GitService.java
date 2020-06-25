@@ -32,25 +32,23 @@ public class GitService {
 	}
 
 	public void insertGit(GitVo vo) {
-
 		gitRepository.insertGit(vo);
 	}
 
 	public void updateVisible(GitVo vo) {
-
 		gitRepository.updateVisible(vo);
 	}
 
+	// 사용자 폴더 & 깃 레포지토리 폴더 여부 확인하기 (input 에서 레포지토리 명 뒤에 ".git" 붙이지 않는다)
+	// ex) checkUserAndRepo("user03", "test09") <-- .../user03/test09.git/ 여부 확인
+	public Boolean checkUserAndRepo(String userName, String repoName) throws NoSuchAlgorithmException {
+		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		java.security.KeyPairGenerator.getInstance("DH");
+		javax.crypto.KeyAgreement.getInstance("DH");
 
-	   // 사용자 폴더 & 깃 레포지토리 폴더 여부 확인하기 (input 에서 레포지토리 명 뒤에 ".git" 붙이지 않는다)
-	   // ex) checkUserAndRepo("user03", "test09") <-- .../user03/test09.git/ 여부 확인
-	   public Boolean checkUserAndRepo(String userName, String repoName) throws NoSuchAlgorithmException {
-	      Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
-	      java.security.KeyPairGenerator.getInstance("DH");
-	      javax.crypto.KeyAgreement.getInstance("DH");
-
-	      return GitService.getResult("ls " + dir + userName + "/" + repoName + ".git").contains("ls: cannot access") == false;
-	   }
+		return GitService.getResult("ls " + dir + userName + "/" + repoName + ".git")
+				.contains("ls: cannot access") == false;
+	}
 
 	public static String getResult(String command) {
 		try {
@@ -64,7 +62,8 @@ public class GitService {
 	public static String checkNewRepo(String userName, String repoName) {
 		String result = null;
 		try {
-			result = SSHExecutor.just(host, port, user, password, charset, "cd " + dir + userName + "/" + repoName + ".git && git ls-tree --full-tree --name-status master");
+			result = SSHExecutor.just(host, port, user, password, charset,
+					"cd " + dir + userName + "/" + repoName + ".git && git ls-tree --full-tree --name-status master");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -74,9 +73,10 @@ public class GitService {
 	}
 
 	/*
-	 * 한 사용자/레포지토리의 파일/폴더 목록 제일 상단을 보여주기 [조건] RepositoryController에서 checkUserAndRepo(userName,
-	 * repoName) == true 임을 확인했다는 전제 하에 실행한다 !! dat { type: "folder", contents: { '0' : { path: commit:
-	 * date: }, '1' : { path: commit: date: }, ... } }
+	 * 한 사용자/레포지토리의 파일/폴더 목록 제일 상단을 보여주기 [조건] RepositoryController에서
+	 * checkUserAndRepo(userName, repoName) == true 임을 확인했다는 전제 하에 실행한다 !! dat {
+	 * type: "folder", contents: { '0' : { path: commit: date: }, '1' : { path:
+	 * commit: date: }, ... } }
 	 */
 	public static Map<String, Object> getFileListOnTop(String userName, String repoName) {
 		Map<String, Object> result = new HashMap<>();
@@ -86,7 +86,10 @@ public class GitService {
 
 		// contents 에다가 넣을 내용들을 가져온다.
 		// contents 에다가 넣을 내용들을 가져온다.
-		String[] fileList = GitService.getResult("sudo python3 /root/gitserver/script/git-view-list.py " + userName + " " + repoName + " master").split("\n");
+		String[] fileList = GitService
+				.getResult(
+						"sudo python3 /root/gitserver/script/git-view-list.py " + userName + " " + repoName + " master")
+				.split("\n");
 
 		for (int i = 0; i < fileList.length; i++) {
 			// 임시 버퍼 Map을 정의
@@ -119,15 +122,14 @@ public class GitService {
 	}
 
 	public GitVo getGitItem(String id, String repoName) {
-
 		return gitRepository.getGitItem(id, repoName);
 	}
 
 	public void deleteRepository(String id, GitVo vo) {
-
 		try {
 			gitRepository.deleteRepository(vo);
-			SSHExecutor.just(host, port, user, password, charset, "cd " + dir + id + " && sudo rm -rf " + vo.getGitName() + ".git");
+			SSHExecutor.just(host, port, user, password, charset,
+					"cd " + dir + id + " && sudo rm -rf " + vo.getGitName() + ".git");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -141,7 +143,8 @@ public class GitService {
 		// infoLine[1] : 유형(blob/tree)
 		// infoLine[2] : 해시코드
 		// infoLine[3] : 파일 or 폴더 (경로 포함, 빈칸 있으면 잘릴 수도 있음...어차피 안쓰임)
-		String infoLine = GitService.getResult("cd " + dir + userName + "/" + repoName + ".git && git ls-tree --full-tree master " + pathName.replaceAll(" ", "\\\\ "));
+		String infoLine = GitService.getResult("cd " + dir + userName + "/" + repoName
+				+ ".git && git ls-tree --full-tree master " + pathName.replaceAll(" ", "\\\\ "));
 
 		// 2. 조회되지 않은 경우(== 없다는 의미임) --> null을 보낸다
 		if (infoLine == null || "".equals(infoLine)) {
@@ -154,7 +157,8 @@ public class GitService {
 		// 3-1. 파일(blob)인 경우
 		if ("blob".equals(info[1])) {
 			result.put("type", "file");
-			result.put("contents", GitService.getResult("cd " + dir + userName + "/" + repoName + ".git && git cat-file -p " + info[2]));
+			result.put("contents", GitService
+					.getResult("cd " + dir + userName + "/" + repoName + ".git && git cat-file -p " + info[2]));
 		}
 		// 3-2. 폴더(tree)인 경우
 		else if ("tree".equals(info[1])) {
@@ -163,7 +167,8 @@ public class GitService {
 			Map<String, Object> contents = new HashMap<>();
 
 			// contents 에다가 넣을 내용들을 가져온다.
-			String[] fileList = GitService.getResult("sudo python3 /root/gitserver/script/git-view-list.py " + userName + " " + repoName + " master " + pathName).split("\n");
+			String[] fileList = GitService.getResult("sudo python3 /root/gitserver/script/git-view-list.py " + userName
+					+ " " + repoName + " master " + pathName).split("\n");
 
 			for (int i = 0; i < fileList.length; i++) {
 				// 임시 버퍼 Map을 정의
@@ -198,13 +203,12 @@ public class GitService {
 	public Boolean pushProcess(Map<String, Object> push) {
 		return gitRepository.addPushInfo(push);
 	}
-	
+
 	public String getNickName(String id) {
 		return gitRepository.getUserNickName(id);
 	}
 
 	public List<GitVo> getGroupRepositoryList(Map<String, String> map) {
-		
 		return gitRepository.findListGroup(map);
 	}
 
@@ -214,13 +218,12 @@ public class GitService {
 
 	public void deleteGroupAll(Long no) {
 		gitRepository.deleteGroupAll(no);
-		
 	}
 
 	public Object getGroupNo(String repoName, String id, long userNo) {
 		return gitRepository.getGroupNo(repoName, id, userNo);
 	}
-	
+
 	public Long getGroupNo(Map<String, Object> push) {
 		return gitRepository.findGroupNo(push);
 	}
@@ -230,8 +233,7 @@ public class GitService {
 	}
 
 	public GitVo getGitInfoByNo(Long alarmRefNo) {
-		return gitRepository.findGitInfoByNo(alarmRefNo); 
+		return gitRepository.findGitInfoByNo(alarmRefNo);
 	}
-
 
 }

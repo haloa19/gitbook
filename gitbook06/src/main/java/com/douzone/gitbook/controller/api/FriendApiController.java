@@ -25,38 +25,35 @@ public class FriendApiController {
 
 	@Autowired
 	private AlarmService alarmService;
-	
+
 	@Autowired
 	private ObjectMapper jsonMapper;
 
 	@ResponseBody
 	@RequestMapping(value = "/request", method = RequestMethod.POST)
 	public JsonResult reqFollow(@RequestBody Map<String, Object> param) { // auth가 클릭한 userid받아오기
-
-		System.out.println("chk 0608 :" + param.get("userno") + ":" + param.get("friendno"));
 		friendService.requestFriend(param);
 		// friendService.requestFriend2(param);
-		
+
 		// 소켓 매핑
 		AlarmVo vo = new AlarmVo();
-		
-	
+
 		vo.setUserNo(Integer.toUnsignedLong((Integer) param.get("friendno")));
 		vo.setAlarmType("friend");
-		vo.setUserId((String)param.get("friendId"));
-		vo.setAlarmContents(param.get("userNickName")+"님의 친구요청이 있습니다.");
-			
+		vo.setUserId((String) param.get("friendId"));
+		vo.setAlarmContents(param.get("userNickName") + "님의 친구요청이 있습니다.");
+
 		alarmService.addAlarm(vo);
-		
+
 		AlarmVo recentAlarm = alarmService.getRecentAlarm(vo);
-		
+
 		try {
 			String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
-			alarmService.sendAlarm("alarm>>" + alarmJsonStr, ((String)param.get("friendId")));
+			alarmService.sendAlarm("alarm>>" + alarmJsonStr, ((String) param.get("friendId")));
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		
+
 		return JsonResult.success(true);
 	}
 
