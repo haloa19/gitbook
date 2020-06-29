@@ -1,10 +1,13 @@
 package com.douzone.gitbook.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.douzone.gitbook.vo.UserVo;
 
 @Repository
 public class FriendRepository {
@@ -22,6 +25,11 @@ public class FriendRepository {
 
 	public void deleteFriendAll(Long no) {
 		sqlSession.delete("friend.deleteAll", no);
+	}
+
+	public List<UserVo> selectSendList(Map<String, Object> param) {
+		return sqlSession.selectList("friend.sendFollowList", param);
+		
 	}
 
 }
