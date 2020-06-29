@@ -14,6 +14,18 @@
 		delete from friends where user_no = #{no} or friend_no = #{no};
 		]]>
 	</delete>
+	
+	<select id="sendFollowList" parameterType="map" resultType="uservo">
+		<![CDATA[
+		select a.no, a.id, a.password, a.phone, a.name, a.birthday, a.gender, a.join_date as joinDate, b.no as ProfileNo, b.image, b.nickname, b.profile_contents as profileContents
+		from user a join profile b on a.no = b.user_no
+		where a.no in (
+			select c.no
+			from user c join friends d on c.no = d.friend_no
+			where d.user_no = #{userno} and status = '요청'
+		)
+		]]>
+	</select>
 
 
 </mapper>

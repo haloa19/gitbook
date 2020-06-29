@@ -1,5 +1,6 @@
 package com.douzone.gitbook.controller.api;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.douzone.gitbook.dto.JsonResult;
 import com.douzone.gitbook.service.AlarmService;
 import com.douzone.gitbook.service.FriendService;
 import com.douzone.gitbook.vo.AlarmVo;
+import com.douzone.gitbook.vo.UserVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -56,5 +58,19 @@ public class FriendApiController {
 
 		return JsonResult.success(true);
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/send/follow", method = RequestMethod.POST)
+	public JsonResult sendFollow(@RequestBody Map<String, Object> param) {
+		System.out.println("me request " + param.get("userno"));
+		
+		List<UserVo> sendFollowList = friendService.getSendList(param);
+		
+		if(sendFollowList.size() > 0) {
+			System.out.println("me test " + sendFollowList.get(0));
+		}
 
+		return JsonResult.success(sendFollowList);
+	}
 }
