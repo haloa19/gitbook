@@ -1,5 +1,6 @@
 package com.douzone.gitbook.controller;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,16 +79,24 @@ public class UserController {
 		vo.setName(request.getParameter("name"));
 		vo.setBirthday(request.getParameter("year") + "-" + request.getParameter("month") + "-" + request.getParameter("day") + " 00:00:00");
 		
-		String email = userService.getEmail(vo);
+		List<String> result = userService.getEmail(vo);
 		
-		if(email == null || "".equals(email)) {
+		if(result == null || result.size() == 0) {
 			model.addAttribute("vo", vo);
 			return "user/findID";
-		} else {
-			model.addAttribute("email", email);
-			return "user/findIDSuccess";
 		}
 		
+		String email = "";
+		if(result.size() > 1) {
+			for(String r: result) {
+				email += (r + " ");
+			}
+		} else {
+			email += result.get(0);
+		}
+		
+		model.addAttribute("email", email);
+		return "user/findIDSuccess";
 	}
 
 	@RequestMapping("/findPW")

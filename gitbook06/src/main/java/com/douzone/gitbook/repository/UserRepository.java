@@ -65,8 +65,8 @@ public class UserRepository {
 		return sqlSession.insert("user.addUser", vo) == 1 && sqlSession.insert("user.addProfile", vo) == 1;
 	}
 
-	public String findEmail(UserVo vo) {
-		return sqlSession.selectOne("user.findEmail", vo);
+	public List<String> findEmail(UserVo vo) {
+		return sqlSession.selectList("user.findEmail", vo);
 	}
 
 	public Boolean changePasswordResult(UserVo vo) {
