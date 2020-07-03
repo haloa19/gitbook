@@ -57,7 +57,7 @@ public class UserService {
 		return userRepository.addUser(vo);
 	}
 
-	public String getEmail(UserVo vo) {
+	public List<String> getEmail(UserVo vo) {
 		return userRepository.findEmail(vo);
 	}
 
