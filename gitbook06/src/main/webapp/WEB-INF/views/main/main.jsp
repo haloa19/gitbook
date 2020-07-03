@@ -25,7 +25,7 @@
       <meta property="og:url" content="" />
       <meta property="og:description" content="" />
 
-  
+  		<link rel="stylesheet" href="/css/video-react.css" />
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
      
@@ -54,8 +54,8 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
-<%-- 	 <script src='${pageContext.request.contextPath}/assets/js/bundle.js'></script> --%>
-     <script src='http://127.0.0.1:9999/bundle.js'></script> 
+	<%--  <script src='${pageContext.request.contextPath}/assets/js/bundle.js'></script>  --%>
+     <script src='http://127.0.0.1:9999/bundle.js'></script>
        </div> 
 
   </body>

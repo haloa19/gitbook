@@ -26,7 +26,7 @@
 	<insert id="addAdminMsg" parameterType="chattingmsgvo">
 											
 		<![CDATA[		
-				insert into message values(null,1004,#{chattingNo},now(3),#{contents},'yes');
+				insert into message values(null,1004,#{chattingNo},now(3),#{contents},'yes','text');
 			]]>
 			
 	</insert>
@@ -63,7 +63,8 @@
 		  		DATE_FORMAT(send_date,'%Y-%m-%d %H:%i') as sendDate,
 		  		chatting_contents as contents, 
 		  		
-		  		read_msg as readMsg
+		  		read_msg as readMsg,
+		  		type
         from message 
         where chatting_no=#{chatRoonNo}
         and no= (select max(no)
@@ -85,22 +86,30 @@
 	<select id="msgList" parameterType="long"
 		resultType="chattingmsgvo">
 		<![CDATA[
-		select a.no, a.user_no as userNo, a.chatting_no as chattingNo, 
+		select a.no, a.user_no as userNo, a.chatting_no as chattingNo,
 			   DATE_FORMAT(a.send_date,'%Y-%m-%d %H:%i') as sendDate,
                a.chatting_contents as contents,
                b.nickname as userNickname,
-               b.image
-        from message a, profile b
+               b.image,a.type,
+               c.count
+        from 
+			 profile b,message a LEFT JOIN
+             (	select *,count(*) as count
+				from message_alarm
+				where read_msg='no'
+				group by msg_no) c 
+                on c.msg_no=a.no
         where a.user_no=b.user_no
         and a.chatting_no= #{chatRoonNo}
-        order by a.send_date desc
+		order by a.send_date desc
+       
 		]]>
 	</select>
 	
 	<insert id="addUserMsg" parameterType="chattingmsgvo">
 											
 		<![CDATA[		
-				insert into message values(null,#{userNo},#{chattingNo},now(3),#{contents},'yes');
+				insert into message values(null,#{userNo},#{chattingNo},now(3),#{contents},'yes',#{type});
 		]]>
 		<selectKey keyProperty = "no" resultType="long" order="AFTER">
 	         	select last_insert_id()
