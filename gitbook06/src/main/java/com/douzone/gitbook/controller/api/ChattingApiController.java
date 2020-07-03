@@ -174,11 +174,10 @@ public class ChattingApiController {
 	@ResponseBody
 	@RequestMapping(value = "/chatRoomInfo/{chatRoonNo}")
 	public JsonResult chatRoomInfo(@PathVariable Long chatRoonNo, @AuthUser UserVo userVo) {
-
+		chattingService.updateResetAlarm(userVo.getNo(), chatRoonNo);
 		Map<String, Object> map = new HashMap<>();
 		map.put("inviteList", chattingService.inviteList(chatRoonNo));
-		map.put("msgList", chattingService.msgList(chatRoonNo));
-		chattingService.updateResetAlarm(userVo.getNo(), chatRoonNo);
+	
 
 		List<ChattingRoomVo> list = chattingService.chatRoomList(userVo.getNo());
 		ArrayList<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
@@ -196,16 +195,17 @@ public class ChattingApiController {
 
 			mapList.add(map2);
 		}
+		
 		webSocket.convertAndSend("/topics/chatting/resetChatRoom/" + userVo.getNo(), mapList);
-
-//		webSocket.convertAndSend("/topics/chatting/alarm/"+chatRoonNo+"/"+userVo.getNo(),
-//				chattingService.getAlarmList(chatRoonNo,userVo.getNo()));
+			
+		map.put("msgList", chattingService.msgList(chatRoonNo));
+		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, '1');// 메시지
 		return JsonResult.success(map);
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/sendMsg/{userNo}/{chatRoonNo}")
-	public JsonResult chatRoomInfo(@PathVariable Long userNo, @PathVariable Long chatRoonNo,
+	@RequestMapping(value = "/sendMsg/{userNo}/{chatRoonNo}/{type}")
+	public void chatRoomInfo(@PathVariable Long userNo, @PathVariable Long chatRoonNo,@PathVariable String type,
 			@RequestParam(value = "contents", required = true) String contents,
 			@RequestParam(value = "inviteList", required = true) ArrayList<Long> inviteList
 
@@ -216,18 +216,10 @@ public class ChattingApiController {
 		msgVo.setContents(contents);
 		msgVo.setUserNo(userNo);
 		msgVo.setReadMsg("yes");
+		msgVo.setType(type);
 		chattingService.addUserMsg(msgVo);
 		msgVo.setSendDate(chattingService.getSendDate(msgVo.getNo()));
 		chattingService.addCheckMsg(msgVo);// 메시지알람테이블에 등록
-
-//		webSocket.convertAndSend("/topics/chatting/lastMsg/"+chatRoonNo, 
-//				msgVo);
-
-		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, chattingService.msgList(chatRoonNo));// 메시지
-																													// 리스트를
-																													// 새로
-																													// 뿌려줌
-
 		for (Long no : inviteList) {
 			if (no != userNo) {
 				ChattingMsgVo alarmVo = new ChattingMsgVo();
@@ -235,10 +227,23 @@ public class ChattingApiController {
 				alarmVo.setNo(msgVo.getNo());
 				alarmVo.setReadMsg("no");
 				chattingService.addCheckMsg(alarmVo);// 메시지알람테이블에 등록
-//				webSocket.convertAndSend("/topics/chatting/alarm/"+chatRoonNo+"/"+no,
-//						chattingService.getAlarmList(chatRoonNo,no));
+
 
 			}
+		}
+		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, '1');
+		// 메시지 리스트를 새로 뿌려줌
+
+		for (Long no : inviteList) {
+//			if (no != userNo) {
+//				ChattingMsgVo alarmVo = new ChattingMsgVo();
+//				alarmVo.setUserNo(no);
+//				alarmVo.setNo(msgVo.getNo());
+//				alarmVo.setReadMsg("no");
+//				chattingService.addCheckMsg(alarmVo);// 메시지알람테이블에 등록
+//
+//
+//			}
 			List<ChattingRoomVo> list = chattingService.chatRoomList(no);
 			ArrayList<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
 			for (ChattingRoomVo vo : list) {
@@ -258,8 +263,9 @@ public class ChattingApiController {
 			webSocket.convertAndSend("/topics/chatting/resetChatRoom/" + no, mapList);
 
 		}
-
-		return JsonResult.success(chattingService.msgList(chatRoonNo));
+		
+	
+		
 	}
 
 	@ResponseBody
@@ -269,9 +275,26 @@ public class ChattingApiController {
 			@PathVariable Long userNo, @PathVariable Long chatRoonNo) {
 
 		chattingService.updateResetAlarm(userNo, chatRoonNo);
-//		webSocket.convertAndSend("/topics/chatting/alarm/"+chatRoonNo+"/"+userNo,
-//				chattingService.getAlarmList(chatRoonNo,userNo));
+		
+		
+		
+		
+		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, '2');
+		
+	}
+	@ResponseBody
+	@RequestMapping(value = "/resetAlarm2/{userNo}/{chatRoonNo}")
+	public JsonResult resetAlarm2(
 
+			@PathVariable Long userNo, @PathVariable Long chatRoonNo) {
+
+		
+		
+		
+		
+		return JsonResult.success(chattingService.msgList(chatRoonNo));
+		
+		
 	}
 
 	@ResponseBody
@@ -289,7 +312,7 @@ public class ChattingApiController {
 		msgVo.setChattingNo(chatRoonNo);
 		msgVo.setContents(nickName + "(가)이 퇴장 하였습니다");
 		chattingService.addAdminMsg(msgVo);
-		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, chattingService.msgList(chatRoonNo));// 메시지
+		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, '1');// 메시지
 																													// 리스트를
 																													// 새로
 																													// 뿌려줌
@@ -314,7 +337,7 @@ public class ChattingApiController {
 			webSocket.convertAndSend("/topics/chatting/resetChatRoom/" + no, mapList);
 
 		}
-		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, chattingService.msgList(chatRoonNo));// 메시지
+		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo,'1');// 메시지
 																													// 리스트를
 																													// 새로
 																													// 뿌려줌
@@ -418,7 +441,7 @@ public class ChattingApiController {
 			webSocket.convertAndSend("/topics/chatting/resetChatRoom/" + no, mapList);
 		}
 
-		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, chattingService.msgList(chatRoonNo));// 메시지
+		webSocket.convertAndSend("/topics/chatting/test" + "/" + chatRoonNo, '1');// 메시지
 																													// 리스트를
 																													// 새로
 																													// 뿌려줌
