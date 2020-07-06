@@ -137,4 +137,9 @@ public class GroupService {
 		return groupRepository.getGroupMaterId(groupNo);
 	}
 
+	public List<Long> getJoinGroupListNo(Map<String, Object> param) {
+		
+		return groupRepository.joinGroupListNo(param);
+	}
+
 }

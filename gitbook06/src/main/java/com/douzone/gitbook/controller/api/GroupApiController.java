@@ -114,6 +114,22 @@ public class GroupApiController {
 
 		return JsonResult.success(joinGroupList);
 	}
+	
+	// 그룹 참여중인 멤버인지 아닌지 판별
+	@ResponseBody
+	@RequestMapping(value = "/joinlist/check", method = RequestMethod.POST)
+	public JsonResult checkmember(HttpServletRequest request, @RequestBody Map<String, Object> param) {
+		HttpSession httpSession = request.getSession(false);
+		UserVo userVo = (UserVo) httpSession.getAttribute("authUser");
+		List<Long> joinGroupListNo = groupService.getJoinGroupListNo(param);
+		boolean chk = false;
+
+		if(joinGroupListNo.contains(userVo.getNo())) {
+			chk = true;
+		}
+		
+		return JsonResult.success(chk);
+	}
 
 	// 그룹 초대
 	@ResponseBody

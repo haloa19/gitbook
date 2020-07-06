@@ -90,4 +90,9 @@ public class GroupRepository {
 		return sqlSession.selectOne("group.getGroupMaterId", groupNo);
 	}
 
+	public List<Long> joinGroupListNo(Map<String, Object> param) {
+		
+		return sqlSession.selectList("group.joinGroupListNo", param);
+	}
+
 }

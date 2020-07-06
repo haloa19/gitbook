@@ -105,6 +105,14 @@
 		]]>
 	</select>
 	
+	<select id="joinGroupListNo" parameterType="map" resultType="long">
+		<![CDATA[
+		 select user_no 
+		 from group_list 
+		 where group_no = #{groupno};
+		]]>
+	</select>
+	
 	<insert id="addMember" parameterType="map">
 		<![CDATA[
 		insert into group_list values(#{groupno}, #{userno}, 'user_req')
