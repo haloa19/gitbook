@@ -82,8 +82,7 @@ public class GitApiContoller {
 		vo.setGitName(vo.getGitName().trim());
 		gitService.insertGit(vo);
 		try {
-			SSHExecutor.just(host, port, user, password, charset,
-					"cd " + dir + id + " && sudo git-create-repo " + id + " " + vo.getGitName());
+			SSHExecutor.just(host, port, user, password, charset, "cd " + dir + id + " && sudo git-create-repo " + id + " " + vo.getGitName());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -110,8 +109,7 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@GetMapping("/repolist/{repoName}")
-	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName)
-			throws NoSuchAlgorithmException {
+	public JsonResult showRootOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName) throws NoSuchAlgorithmException {
 
 		// 잘못된 URL 입력
 		if (gitService.checkUserAndRepo(id, repoName) == false) {
@@ -128,8 +126,7 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@GetMapping("/repolist/{repoName}/**")
-	public JsonResult showInternalOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName,
-			HttpServletRequest request) {
+	public JsonResult showInternalOnRepo(@PathVariable String id, @PathVariable("repoName") String repoName, HttpServletRequest request) {
 		String fullPath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 
 		String pathName = fullPath.substring(fullPath.indexOf(repoName) + repoName.length() + 1);
@@ -147,6 +144,31 @@ public class GitApiContoller {
 	}
 
 	@ResponseBody
+	@GetMapping("/repograph/{repoName}")
+	public JsonResult repoGraph(@PathVariable String id, @PathVariable("repoName") String repoName) {
+		try {
+			String[] result = SSHExecutor.just(host, port, user, password, charset, "cd " + dir + id + "/" + repoName + ".git && git ls-tree --full-tree --name-status -r master").split("\n");
+			if(result[0].contains("fatal:")) {
+				return JsonResult.success(null);
+			}
+			
+			Map<String, Object> resultMap = new HashMap<>();
+			for (String r : result) {
+				if (!r.contains(".")) {
+					resultMap.put("etc", resultMap.get("etc") == null ? 1 : (Integer) resultMap.get("etc") + 1);
+					continue;
+				}
+				String type = r.substring(r.lastIndexOf(".") + 1).toLowerCase();
+				resultMap.put(type, resultMap.get(type) == null ? 1 : (Integer) resultMap.get(type) + 1);
+			}
+			return JsonResult.success(resultMap);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return JsonResult.fail("failed for calling repo status");
+		}
+	}
+
+	@ResponseBody
 	@RequestMapping(value = "/checkPW")
 	public JsonResult checkEmail(@PathVariable String id, @RequestBody String password) {
 		boolean exist = userService.existUser(password, id);
@@ -157,8 +179,7 @@ public class GitApiContoller {
 	@ResponseBody
 	@RequestMapping(value = "/pushProcess", method = RequestMethod.POST)
 	public JsonResult pushProcess(@RequestBody Map<String, Object> input) {
-		String[] commitMsgList = LinuxServer.getResult("cd /var/www/git/" + input.get("repo")
-				+ " && git log --date=iso8601 --pretty=format:\"%H<<>>%ad<<>>%s\" | grep " + input.get("commit"))
+		String[] commitMsgList = LinuxServer.getResult("cd /var/www/git/" + input.get("repo") + " && git log --date=iso8601 --pretty=format:\"%H<<>>%ad<<>>%s\" | grep " + input.get("commit"))
 				.split("\\<<>>");
 
 		Map<String, Object> push = new HashMap<>();
@@ -259,8 +280,7 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@RequestMapping(value = "/grouplist/{groupno}/{userno}", method = RequestMethod.GET)
-	public JsonResult groupRepositoryList(@PathVariable String id, @PathVariable Long groupno,
-			@PathVariable Long userno) {
+	public JsonResult groupRepositoryList(@PathVariable String id, @PathVariable Long groupno, @PathVariable Long userno) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("groupNo", groupno.toString());
@@ -300,8 +320,7 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@GetMapping("/group/repolist/{repoName}")
-	public JsonResult showRootOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName)
-			throws NoSuchAlgorithmException {
+	public JsonResult showRootOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName) throws NoSuchAlgorithmException {
 		String userid = userService.getUserId(id);
 
 		// 잘못된 URL 입력
@@ -319,8 +338,7 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@GetMapping("/group/repolist/{repoName}/**")
-	public JsonResult showInternalOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName,
-			HttpServletRequest request) {
+	public JsonResult showInternalOnRepoGroup(@PathVariable String id, @PathVariable("repoName") String repoName, HttpServletRequest request) {
 		String userid = userService.getUserId(id);
 		String fullPath = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		String pathName = fullPath.substring(fullPath.indexOf(repoName) + repoName.length() + 1);
