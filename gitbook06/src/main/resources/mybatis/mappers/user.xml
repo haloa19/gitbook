@@ -251,4 +251,13 @@
 		where no = #{no}
 		]]>
 	</select>
+	
+	<select id="getUserStatus" parameterType="string"
+		resultType="string">
+		<![CDATA[
+		select user_status
+			from user 
+		where id = #{userid}
+		]]>
+	</select>
 </mapper>

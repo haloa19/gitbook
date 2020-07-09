@@ -113,4 +113,9 @@ public class UserService {
 		return userRepository.getId(no);
 	}
 
+	public String checkUserStatus(String userid) {
+		return userRepository.getUserStatus(userid);
+		
+	}
+
 }

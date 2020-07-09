@@ -105,6 +105,7 @@ public class TimelineApiController {
 	@RequestMapping(value = "/list")
 	public JsonResult myTimelineList(@PathVariable String id) {
 		List<TimelineVo> list = timelineService.getMyTimelineList(id);
+		System.out.println("bbb " + list.size());
 		return JsonResult.success(list);
 	}
 
