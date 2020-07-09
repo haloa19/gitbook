@@ -40,6 +40,9 @@ public class AlarmApiController {
 	public JsonResult getAlarmList(@AuthUser UserVo authUser) {
 
 		List<AlarmVo> alarmList = alarmService.getAlarmList(authUser.getId());
+		if(alarmList.size() == 0) {
+			return JsonResult.success(alarmList);
+		}
 
 		for (AlarmVo vo : alarmList) {
 			if ("commit".equals(vo.getAlarmType())) {

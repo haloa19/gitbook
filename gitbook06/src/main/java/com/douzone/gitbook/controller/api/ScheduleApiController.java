@@ -34,8 +34,9 @@ public class ScheduleApiController {
 	@ResponseBody
 	@RequestMapping(value = "/repoList/{date}", method = RequestMethod.GET)
 	public JsonResult getRepoList(@PathVariable String id, @PathVariable String date) {
-
+		
 		List<ScheduleVo> list = scheduleService.getRepoList(id, date);
+				
 		return JsonResult.success(list);
 	}
 

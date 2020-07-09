@@ -48,7 +48,17 @@ public class ScheduleService {
 	}
 	
 	public List<ScheduleVo> getRepoList(Long groupNo, String date) {
-		return scheduleRepository.findRepoList(groupNo, date);
+		List<ScheduleVo> list = scheduleRepository.findRepoList(groupNo, date);
+		
+		System.out.println(list);
+		
+		
+//		for(ScheduleVo vo:list) {
+//			
+//		}
+
+		
+		return list;
 	}
 	
 	public void insertGroupToDo(ScheduleVo vo, Long groupNo) {

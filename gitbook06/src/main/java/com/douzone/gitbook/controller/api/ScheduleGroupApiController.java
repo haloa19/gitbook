@@ -26,7 +26,7 @@ public class ScheduleGroupApiController {
 	@RequestMapping(value = "/toDoList/{date}", method = RequestMethod.GET)
 	public JsonResult getToDoList(@PathVariable Long groupNo, @PathVariable Long userNo, @PathVariable String date) {
 		List<ScheduleVo> list = scheduleService.getToDoList(groupNo, userNo, date);
-
+		
 		return JsonResult.success(list);
 	}
 
@@ -34,7 +34,7 @@ public class ScheduleGroupApiController {
 	@RequestMapping(value = "/repoList/{date}", method = RequestMethod.GET)
 	public JsonResult getRepoList(@PathVariable Long groupNo, @PathVariable Long userNo, @PathVariable String date) {
 		List<ScheduleVo> list = scheduleService.getRepoList(groupNo, date);
-
+		
 		return JsonResult.success(list);
 	}
 
@@ -52,7 +52,7 @@ public class ScheduleGroupApiController {
 	@ResponseBody
 	@RequestMapping(value = "/notEmptyGroupToDoList", method = RequestMethod.GET)
 	public JsonResult ToDoList(@PathVariable Long groupNo) {
-
+	
 		List<ScheduleVo> list = scheduleService.getCheckedToDoDay(groupNo);
 
 		return JsonResult.success(list);
@@ -63,7 +63,7 @@ public class ScheduleGroupApiController {
 	public JsonResult CommitList(@PathVariable Long groupNo) {
 
 		List<ScheduleVo> list = scheduleService.getCheckedCommitDay(groupNo);
-
+		System.out.println("ok");
 		return JsonResult.success(list);
 	}
 

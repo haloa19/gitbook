@@ -71,14 +71,20 @@ public class ScheduleRepository {
 
 	public List<ScheduleVo> findRepoList(Long groupNo, String date) {
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		
 		Long userNo = sqlSession.selectOne("schedule.findGroupMasterNo", groupNo);
-
+		
 		map.put("groupNo", groupNo);
+		
 		map.put("userNo", userNo);
+		
 		map.put("date", date);
-
-		return sqlSession.selectList("schedule.findGroupRepoList", map);
+		
+		System.out.println(userNo);
+		List<ScheduleVo> resultList = sqlSession.selectList("schedule.findGroupRepoList", map);
+		
+		
+		return resultList;
 	}
 
 	public void insertGroupToDo(ScheduleVo vo, Long groupNo) {
