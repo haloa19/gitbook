@@ -48,11 +48,14 @@ public class AlarmApiController {
 			if ("commit".equals(vo.getAlarmType())) {
 				GitVo gitInfo = gitService.getGitInfoByNo(vo.getAlarmRefNo());
 
-				Long groupNo = gitInfo.getGroupNo();
-				vo.setUserNo(gitInfo.getUserNo());
-				vo.setGroupNo(groupNo);
-				vo.setGroupTitle(groupService.getGroupTitle(groupNo));
-				vo.setGroupMasterId(groupService.getGroupMaterId(groupNo));
+				if(gitInfo != null) {
+					Long groupNo = gitInfo.getGroupNo();
+					vo.setUserNo(gitInfo.getUserNo());
+					vo.setGroupNo(groupNo);
+					vo.setGroupTitle(groupService.getGroupTitle(groupNo));
+					vo.setGroupMasterId(groupService.getGroupMaterId(groupNo));
+				}
+
 			}
 		}
 

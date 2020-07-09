@@ -23,7 +23,7 @@
 			select c.no
 			from user c join friends d on c.no = d.friend_no
 			where d.user_no = #{userno} and status = '요청'
-		)
+		) and a.user_status = 1
 		]]>
 	</select>
 

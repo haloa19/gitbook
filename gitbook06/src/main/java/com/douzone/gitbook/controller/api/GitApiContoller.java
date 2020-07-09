@@ -295,8 +295,11 @@ public class GitApiContoller {
 
 	@ResponseBody
 	@RequestMapping(value = "/group/delete", method = RequestMethod.POST)
-	public JsonResult groupRepositoryDelete(@PathVariable String id, @RequestBody GitVo vo) {
-
+	public JsonResult groupRepositoryDelete(@PathVariable String id, @RequestBody GitVo vo, HttpServletRequest request) {
+		HttpSession httpSession = request.getSession(false);
+		UserVo uservo = (UserVo) httpSession.getAttribute("authUser");
+		
+		id = uservo.getId();
 		gitService.deleteRepository(id, vo);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("groupNo", vo.getGroupNo().toString());
@@ -305,6 +308,7 @@ public class GitApiContoller {
 		List<GitVo> list = gitService.getGroupRepositoryList(map);
 		return JsonResult.success(list);
 	}
+	
 
 	@ResponseBody
 	@RequestMapping("/group/update")

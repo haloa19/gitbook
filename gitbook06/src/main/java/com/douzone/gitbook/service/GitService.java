@@ -127,7 +127,7 @@ public class GitService {
 
 	public void deleteRepository(String id, GitVo vo) {
 		try {
-			gitRepository.deleteRepository(vo);
+			gitRepository.deleteRepository(vo);	
 			SSHExecutor.just(host, port, user, password, charset,
 					"cd " + dir + id + " && sudo rm -rf " + vo.getGitName() + ".git");
 

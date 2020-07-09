@@ -121,4 +121,9 @@ public class UserRepository {
 		return sqlSession.selectOne("user.getId", no);
 	}
 
+	public String getUserStatus(String userid) {
+		
+		return sqlSession.selectOne("user.getUserStatus", userid);
+	}
+
 }

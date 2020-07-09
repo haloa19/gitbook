@@ -446,5 +446,14 @@ public class UserController {
 
 		return JsonResult.success(true);
 	}
+	
+	@Auth
+	@ResponseBody
+	@RequestMapping(value = "/{userid}/checkstatus", method = RequestMethod.POST)
+	public JsonResult checkstatus(@PathVariable("userid") String userid) {
+		String userStatus = userService.checkUserStatus(userid);
+
+		return JsonResult.success(userStatus);
+	}
 
 }

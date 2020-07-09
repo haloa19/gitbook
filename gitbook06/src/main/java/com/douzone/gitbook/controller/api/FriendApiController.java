@@ -63,13 +63,8 @@ public class FriendApiController {
 	@ResponseBody
 	@RequestMapping(value = "/send/follow", method = RequestMethod.POST)
 	public JsonResult sendFollow(@RequestBody Map<String, Object> param) {
-		System.out.println("me request " + param.get("userno"));
 		
 		List<UserVo> sendFollowList = friendService.getSendList(param);
-		
-		if(sendFollowList.size() > 0) {
-			System.out.println("me test " + sendFollowList.get(0));
-		}
 
 		return JsonResult.success(sendFollowList);
 	}
