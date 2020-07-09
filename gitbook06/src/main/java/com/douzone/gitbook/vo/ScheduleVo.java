@@ -8,8 +8,12 @@ public class ScheduleVo {
 	private String scheduleContents;
 	private Long userNo;
 	private Long groupNo;
+	private Long scheduleRefNo;
 
 	private String id;
+
+	private Long groupUserNo;
+	private String groupUserId;
 
 	public Long getNo() {
 		return no;
@@ -67,9 +71,34 @@ public class ScheduleVo {
 		this.id = id;
 	}
 
+	public Long getGroupUserNo() {
+		return groupUserNo;
+	}
+	
+	public Long getScheduleRefNo() {
+		return scheduleRefNo;
+	}
+
+	public void setScheduleRefNo(Long scheduleRefNo) {
+		this.scheduleRefNo = scheduleRefNo;
+	}
+
+	public void setGroupUserNo(Long groupUserNo) {
+		this.groupUserNo = groupUserNo;
+	}
+	
+	public String getGroupUserId() {
+		return groupUserId;
+	}
+
+	public void setGroupUserId(String groupUserId) {
+		this.groupUserId = groupUserId;
+	}
+
 	@Override
 	public String toString() {
 		return "ScheduleVo [no=" + no + ", checkDate=" + checkDate + ", type=" + type + ", scheduleContents="
-				+ scheduleContents + ", userNo=" + userNo + ", groupNo=" + groupNo + ", id=" + id + "]";
+				+ scheduleContents + ", userNo=" + userNo + ", groupNo=" + groupNo + ", id=" + id + ", groupUserNo="
+				+ groupUserNo + ", groupUserId=" + groupUserId + "]";
 	}
 }

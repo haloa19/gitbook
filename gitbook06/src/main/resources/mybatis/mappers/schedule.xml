@@ -116,10 +116,10 @@
 				a.type, a.user_no as userNo, a.group_no as groupNo, b.id
 			from schedule a, user b
 			where a.user_no = b.no
-				and b.no = ${userNo}
+				and b.no = (select G.user_no from git G where G.no = a.schedule_refno)
 				and a.check_date = #{date}
 				and a.type = 'commit'
-				and a.group_no = #{groupNo}
+				and a.group_no =  #{groupNo}
 				order by a.no desc
 	]]>
 	</select>
@@ -128,7 +128,7 @@
 	<insert id="insertGroupToDo" parameterType="schedulevo">
 	<![CDATA[
 			insert into schedule 
-			values(null, #{checkDate},#{scheduleContents},'todo',#{userNo},#{groupNo})
+			values(null, #{checkDate},#{scheduleContents},'todo',#{userNo},#{groupNo},null)
 	]]>
 	</insert>
 	
@@ -167,9 +167,11 @@
 	<select id="findGroupMasterNo" parameterType="long"
 		resultType="long">
 	<![CDATA[
-		 select a.user_no from git a, `group` b
+				select a.user_no as userNo
+				  from group_list a, `group` b
                 where a.group_no = b.no
                 and a.group_no = #{groupNo}
+                and a.`grant` = 'admin';
 	]]>
 	</select>
 	

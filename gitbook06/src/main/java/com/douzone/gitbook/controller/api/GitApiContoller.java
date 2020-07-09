@@ -190,7 +190,9 @@ public class GitApiContoller {
 		push.put("repoName", ((String) input.get("repo")).split("/")[2].split("\\.")[0]);
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
-
+		
+		System.out.println(push.get("id"));
+		
 		Long groupNo = gitService.getGroupNo(push);
 		push.put("groupNo", groupNo);
 

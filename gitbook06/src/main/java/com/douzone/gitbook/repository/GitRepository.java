@@ -43,7 +43,7 @@ public class GitRepository {
 	public Boolean addPushInfo(Map<String, Object> push) {
 		Long userNo = sqlSession.selectOne("git.findUserNo", push);
 		push.put("userNo", userNo);
-
+		System.out.println("userno :" + push.get("userNo"));
 		Long gitNo = sqlSession.selectOne("git.findGitNoByUserInfo", push);
 		push.put("gitNo", gitNo);
 
