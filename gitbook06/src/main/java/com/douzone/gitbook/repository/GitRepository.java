@@ -80,7 +80,7 @@ public class GitRepository {
 		}
 
 		// 7. 결과 보내기
-		return result_schedule && result_alarm;
+		return true;
 	}
 
 	public List<GitVo> findListGroup(Map<String, String> map) {
