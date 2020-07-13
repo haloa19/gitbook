@@ -81,7 +81,7 @@
 	<insert id="insertToDo" parameterType="schedulevo">
 	<![CDATA[
 			insert into schedule 
-			values(null, #{checkDate},#{scheduleContents},'todo',#{userNo},null)
+			values(null, #{checkDate},#{scheduleContents},'todo',#{userNo},null,null)
 	]]>
 	</insert>
 
