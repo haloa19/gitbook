@@ -5,7 +5,7 @@
 	
 	<insert id="addchatRoom" parameterType="chattingroomvo">
 		<![CDATA[		
-				insert into chatting values(null,#{title});
+				insert into chatting values(null,#{title})
 			]]>
 			<selectKey keyProperty = "no" resultType="long" order="AFTER">
 	         		select last_insert_id()
@@ -15,7 +15,7 @@
 	
 	<insert id="addChatRoomuser" parameterType="chattingroomvo">
 		<![CDATA[		
-				insert into chatting_user values(#{userNo},#{no},#{grant});
+				insert into chatting_user values(#{userNo},#{no},#{grant})
 			]]>
 			<selectKey keyProperty = "no" resultType="long" order="AFTER">
 	         		select last_insert_id()
@@ -26,7 +26,7 @@
 	<insert id="addAdminMsg" parameterType="chattingmsgvo">
 											
 		<![CDATA[		
-				insert into message values(null,1004,#{chattingNo},now(3),#{contents},'yes','text');
+				insert into message values(null,1004,#{chattingNo},now(3),#{contents},'yes','text')
 			]]>
 			
 	</insert>
@@ -40,7 +40,7 @@
         and c.chatting_no=b.no
         and a.user_no=#{userNo}
         group by b.no 
-        order by max(c.no) desc;
+        order by max(c.no) desc
 		]]>
 	</select>
 	
@@ -79,7 +79,7 @@
 		  select a.user_no as userNo, a.grant, b.image, b.nickname as userNickname
         from chatting_user a , profile b
         where a.user_no=b.user_no
-        and a.chatting_no=#{chatRoonNo};
+        and a.chatting_no=#{chatRoonNo}
 		]]>
 	</select>
 	
@@ -109,7 +109,7 @@
 	<insert id="addUserMsg" parameterType="chattingmsgvo">
 											
 		<![CDATA[		
-				insert into message values(null,#{userNo},#{chattingNo},now(3),#{contents},'yes',#{type});
+				insert into message values(null,#{userNo},#{chattingNo},now(3),#{contents},'yes',#{type})
 		]]>
 		<selectKey keyProperty = "no" resultType="long" order="AFTER">
 	         	select last_insert_id()

@@ -45,7 +45,7 @@
 			and a.check_date like '%${date }%'
 			and a.group_no is null
             group by a.check_date
-			order by a.check_date desc;
+			order by a.check_date desc
 	]]>
 	</select>
 
@@ -60,7 +60,7 @@
 			and b.id = #{id}
 			and a.type = 'todo'
 			and a.group_no is null
-			group by a.check_date;
+			group by a.check_date
 	]]>
 	</select>
 
@@ -73,7 +73,7 @@
 			and b.id = #{id}
 			and a.type = 'commit'
 			and a.group_no is null
-			group by a.check_date;
+			group by a.check_date
 	]]>
 	</select>
 
@@ -139,7 +139,7 @@
 		select check_date as checkDate
 			from schedule
 			where group_no = #{groupNo}
-			and type = 'todo';
+			and type = 'todo'
 	]]>
 	</select>
 	
@@ -171,7 +171,7 @@
 				  from group_list a, `group` b
                 where a.group_no = b.no
                 and a.group_no = #{groupNo}
-                and a.`grant` = 'admin';
+                and a.`grant` = 'admin'
 	]]>
 	</select>
 	
