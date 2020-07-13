@@ -197,14 +197,10 @@ public class GitApiContoller {
 		UserVo getUserIdVo = alarmService.getGroupTitle(push);
 		push.put("contents", "[" + push.get("repoName") + ".git]\n" + push.get("commitMsg"));
 		push.put("contents_short", push.get("repoName") + ">>>>>" + push.get("commitMsg"));
-
-		System.out.println("repoName >> " + (String) push.get("repoName"));
-		System.out.println("그룹 넘버 >> " + groupNo);
+		
 		if (groupNo != null) {
 			List<String> groupMemeberIdList = gitService.getGroupMemberIdList(groupNo);
-			System.out.print("그룹 맴버 >> ");
-			System.out.println(groupMemeberIdList);
-
+			
 			for (String memberId : groupMemeberIdList) {
 				// for 문을 돌 때마다 push 안에 맴버 id 넣기 (관리자도 포함)
 				push.put("id", memberId);
