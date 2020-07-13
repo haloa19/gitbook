@@ -4,7 +4,7 @@
 <mapper namespace="timeline">
 	<insert id="insertTimeline" parameterType="timelinevo">
 		<![CDATA[		
-			insert into timeline values(null,#{contents},now(),#{visible},#{groupNo},#{userNo}, 'public');
+			insert into timeline values(null,#{contents},now(),#{visible},#{groupNo},#{userNo}, 'public')
 		]]>
 		<selectKey keyProperty = "no" resultType="long" order="AFTER">
          		select last_insert_id()
@@ -30,7 +30,7 @@
 	
 	<insert id="insertTagList" parameterType="map">
 		<![CDATA[		
-			insert into tag_list values(#{timelineNo},#{tagNo});
+			insert into tag_list values(#{timelineNo},#{tagNo})
 		]]>
 	</insert>
 	
@@ -154,7 +154,7 @@
 	<update id="updateTimeline" parameterType="timelinevo">
 	<![CDATA[		
 			
-			update timeline set timeline_contents=#{contents}, visible=#{visible} where no=#{no};
+			update timeline set timeline_contents=#{contents}, visible=#{visible} where no=#{no}
 		]]>
 	</update>
 	
@@ -205,13 +205,13 @@
 					  from timeline
 		              where user_no != #{userNo} and visible="private"
 						)
-		order by b.reg_date desc;
+		order by b.reg_date desc
 		]]>
 	</select>
 	
 	<delete id="deleteGroupAll" parameterType="long">
 		<![CDATA[		
-				delete from timeline where group_no = #{no};
+				delete from timeline where group_no = #{no}
 			]]>
 	</delete>
 	

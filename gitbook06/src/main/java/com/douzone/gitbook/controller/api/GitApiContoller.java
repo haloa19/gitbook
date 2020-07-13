@@ -181,7 +181,6 @@ public class GitApiContoller {
 	public JsonResult pushProcess(@RequestBody Map<String, Object> input) {
 		String[] commitMsgList = LinuxServer.getResult("cd /var/www/git/" + input.get("repo") + " && git log --date=iso8601 --pretty=format:\"%H<<>>%ad<<>>%s\" | grep " + input.get("commit"))
 				.split("\\<<>>");
-
 		Map<String, Object> push = new HashMap<>();
 
 		push.put("id", (String) input.get("username"));
@@ -191,24 +190,23 @@ public class GitApiContoller {
 		push.put("commitMsg", commitMsgList[2]);
 		push.put("commitDate", commitMsgList[1].split("\\+")[0].split(" ")[0]);
 		
-		System.out.println(push.get("id"));
-		
+		// push을 이용하여 group no 가져오기 (user_no는 repository 단계에서 가져옴)
 		Long groupNo = gitService.getGroupNo(push);
 		push.put("groupNo", groupNo);
 
 		UserVo getUserIdVo = alarmService.getGroupTitle(push);
-
 		push.put("contents", "[" + push.get("repoName") + ".git]\n" + push.get("commitMsg"));
 		push.put("contents_short", push.get("repoName") + ">>>>>" + push.get("commitMsg"));
 
-		// push을 이용하여 group no 가져오기 (user_no는 repository 단게에서 가져옴)
-
-		List<String> groupMemeberIdList = null;
-
+		System.out.println("repoName >> " + (String) push.get("repoName"));
+		System.out.println("그룹 넘버 >> " + groupNo);
 		if (groupNo != null) {
-			groupMemeberIdList = gitService.getGroupMemberIdList(groupNo);
+			List<String> groupMemeberIdList = gitService.getGroupMemberIdList(groupNo);
+			System.out.print("그룹 맴버 >> ");
+			System.out.println(groupMemeberIdList);
 
 			for (String memberId : groupMemeberIdList) {
+				// for 문을 돌 때마다 push 안에 맴버 id 넣기 (관리자도 포함)
 				push.put("id", memberId);
 
 				Boolean result = gitService.pushProcess(push);
@@ -222,20 +220,21 @@ public class GitApiContoller {
 				alarmVo.setAlarmContents((String) push.get("contents"));
 
 				AlarmVo recentAlarm = alarmService.getRecentAlarm(alarmVo);
-
 				if (recentAlarm == null) {
 					continue;
 				}
-
+				
 				GitVo gitInfo = gitService.getGitInfoByNo(recentAlarm.getAlarmRefNo());
-
+				
 				recentAlarm.setGroupNo(groupNo);
 				recentAlarm.setRepoName((String) push.get("repoName"));
 				recentAlarm.setUserNo(gitInfo.getUserNo());
 				recentAlarm.setGroupTitle(getUserIdVo.getGroupTitle());
 				recentAlarm.setGroupMasterId(groupService.getGroupMaterId(groupNo));
 
-				if ("public".equals(gitInfo.getVisible()) || memberId.equals(gitInfo.getUserId())) {
+				// 6.1 해당 repository가 "private" 으로 닫혀있을 경우	-->	해당 repository의 관리자 ID (gitInfo.userId)와 일치할 경우에만	 alarm 보내기
+				// 6.2 해당 repository가 "public" 으로 개방되었을 경우	--> alarm 보내기
+				if (memberId.equals(gitInfo.getUserId()) || "public".equals(gitInfo.getVisible())) {
 					try {
 						String alarmJsonStr = jsonMapper.writeValueAsString(recentAlarm);
 						alarmService.sendAlarm("alarm>>" + alarmJsonStr, memberId);
