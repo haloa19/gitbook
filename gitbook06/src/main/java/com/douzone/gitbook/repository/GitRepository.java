@@ -78,6 +78,7 @@ public class GitRepository {
 		if (((String) push.get("id")).equals((String) push.get("whoPushed"))) {
 			result_timeline = (sqlSession.insert("git.insertTimeline", push) == 1);
 		}
+		
 
 		// 7. 결과 보내기
 		return true;
