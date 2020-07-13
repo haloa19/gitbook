@@ -55,7 +55,7 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
  	 <script src='${pageContext.request.contextPath}/assets/js/bundle.js'></script>
-    <!--    <script src='http://127.0.0.1:9999/bundle.js'></script> -->
+      <!-- <script src='http://127.0.0.1:9999/bundle.js'></script>  -->
        </div> 
 
   </body>
