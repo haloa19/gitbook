@@ -10,7 +10,7 @@
 		from git a, user b 
 		where a.user_no = b.no
 		and b.id = #{id} and a.group_no is NULL
-		order by reg_date desc;
+		order by reg_date desc
 		]]>
 	</select>
 
@@ -48,14 +48,14 @@
 		<![CDATA[
 			update  
 			git set visible='private' 
-			where no=#{no};	
+			where no=#{no}	
 		]]>
 			</when>
 			<otherwise>
 		<![CDATA[
 			update  git 
 			set visible='public'
-			where no=#{no};	
+			where no=#{no}	
 		]]>
 			</otherwise>
 		</choose>
@@ -81,7 +81,7 @@
 
 	<insert id="insertTimeline" parameterType="map">
       <![CDATA[
-         insert into timeline values(null, #{contents}, now(), #{visible}, (select group_no from git where no = #{gitNo}), (select user_no from git where no = #{gitNo}), 'commit')
+         insert into timeline values(null, #{contents}, now(), #{visible}, (select group_no from git where no = #{gitNo}), (select no from user where id = #{id}), 'commit')
       ]]>
    </insert>
 
@@ -97,7 +97,7 @@
 						  from git
 						where user_no != #{userNo} and visible="private"
 						)
-		order by reg_date desc;
+		order by reg_date desc
 		]]>
 	</select>
 
@@ -110,13 +110,13 @@
 		from git a, user b 
 		where a.user_no = b.no
 		and b.id = #{id}
-		order by reg_date desc;
+		order by reg_date desc
 		]]>
 	</select>
 
 	<delete id="deleteGroupAll" parameterType="long">
 		<![CDATA[		
-				delete from git where group_no = #{no};
+				delete from git where group_no = #{no}
 			]]>
 	</delete>
 
@@ -141,7 +141,7 @@
 	
 	<select id="findGroupNo" parameterType="map" resultType="long">
 		<![CDATA[
-			select group_no from git where user_no = #{userNo} and git_name = #{repoName}
+			select group_no from git where user_no = (select U.no from user U where U.id = #{gitOwnerId}) and git_name = #{repoName}
 		]]>
 	</select>
 	
@@ -158,7 +158,7 @@
 			select G.no as no, G.user_no as userNo, G.group_no as groupNo, G.description as description, G.visible as visible, G.git_name as gitName, G.reg_date as regDate, U.id as userId 
 			from git G
 			join user U on (G.user_no = U.no)
-			where G.no = #{alarmRefNo};
+			where G.no = #{alarmRefNo}
 		]]>
 
 	</select>
@@ -168,7 +168,7 @@
 				select no
             from git
             where user_no = (select U.no from user U where U.id=#{gitOwnerId})
-            and git_name = #{repoName};
+            and git_name = #{repoName}
 		]]>
 	</select>
 </mapper>

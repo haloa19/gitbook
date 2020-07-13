@@ -17,7 +17,7 @@
 				select a.no, a.image, a.group_title as groupTitle, a.group_intro as groupIntro, a.reg_date as regDate, b.grant
 				from gitbook.group a join group_list b on a.no = b.group_no
 				where b.user_no = #{no} and (b.grant = 'user' or b.grant = 'admin')
-				) g2 on g1.group_no = g2.no;
+				) g2 on g1.group_no = g2.no
 		]]>
 	</select>
 	
@@ -60,7 +60,7 @@
 			select count(*) as memberNum
 			from group_list
 			where group_no = #{groupno} and group_list.grant != 'user_req'
-		    ) g4;
+		    ) g4
 		]]>
 	</select>
 
@@ -88,7 +88,7 @@
 						from friends
 						where user_no = #{userno} and status = '친구'))
 		) a
-		order by nickname;
+		order by nickname
 		]]>
 	</select>
 	
@@ -101,7 +101,7 @@
 			from group_list
 			where group_no = #{groupno} and group_list.grant = 'user'
 		    )
-		order by b.nickname;
+		order by b.nickname
 		]]>
 	</select>
 	
@@ -109,7 +109,7 @@
 		<![CDATA[
 		 select user_no 
 		 from group_list 
-		 where group_no = #{groupno};
+		 where group_no = #{groupno}
 		]]>
 	</select>
 	
@@ -133,55 +133,55 @@
 				select a.no, a.image, a.group_title as groupTitle, a.group_intro as groupIntro, a.reg_date as regDate, b.grant
 				from gitbook.group a join group_list b on a.no = b.group_no
 				where b.user_no = #{no} and b.grant = 'user_req'
-				) g2 on g1.group_no = g2.no;
+				) g2 on g1.group_no = g2.no
 		]]>
 	</select>
 	
 	<update id="addGroup" parameterType="map">
 		<![CDATA[
-		update group_list set group_list.grant = 'user' where group_no = #{groupno} and user_no = #{userno};
+		update group_list set group_list.grant = 'user' where group_no = #{groupno} and user_no = #{userno}
 		]]>
 	</update>
 	
 	<delete id="rejectGroup" parameterType="map">
 		<![CDATA[
-		delete from group_list where group_no = #{groupno} and user_no = #{userno};
+		delete from group_list where group_no = #{groupno} and user_no = #{userno}
 		]]>
 	</delete>
 	
 	<update id="update" parameterType="map">
 		<![CDATA[
-		 update gitbook.group set group_title = #{groupTitle}, group_intro = #{groupIntro}, image = #{imgurl}  where no = #{groupno};
+		 update gitbook.group set group_title = #{groupTitle}, group_intro = #{groupIntro}, image = #{imgurl}  where no = #{groupno}
 		]]>
 	</update>
 	
 	<select id="grantAll" parameterType="long" resultType="groupvo">
 		<![CDATA[
-			select group_no as no, group_list.grant from group_list where user_no = #{no};
+			select group_no as no, group_list.grant from group_list where user_no = #{no}
 		]]>
 	</select>
 	
 	<delete id="deleteGroupListAllAdmin" parameterType="long">
 		<![CDATA[
-		delete from group_list where group_no = #{no};
+		delete from group_list where group_no = #{no}
 		]]>
 	</delete>
 	
 	<delete id="deleteGroupListAll" parameterType="map">
 		<![CDATA[
-		delete from group_list where group_no = #{groupno} and user_no = #{userno};
+		delete from group_list where group_no = #{groupno} and user_no = #{userno}
 		]]>
 	</delete>
 	
 	<delete id="deleteGroupAll" parameterType="long">
 		<![CDATA[
-		delete from gitbook.group where no = #{no};
+		delete from gitbook.group where no = #{no}
 		]]>
 	</delete>
 
 	<select id="findGroupTitle" parameterType="long" resultType="string">
 		<![CDATA[
-				select group_title as groupTitle from `group` where no = #{groupNo};
+				select group_title as groupTitle from `group` where no = #{groupNo}
 		]]>
 	</select>
 	
