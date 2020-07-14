@@ -37,7 +37,7 @@ import me.saro.commons.ssh.SSHExecutor;
 @Controller("RepositoryApiController")
 @RequestMapping("/Repository/{id:(?!assets).*}")
 public class GitApiContoller {
-	private final static String host = "192.168.1.15";
+	private final static String host = "192.168.0.19";
 	private final static int port = 22;
 	private final static String user = "gitbook";
 	private final static String password = "gitbook";

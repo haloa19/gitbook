@@ -136,7 +136,7 @@ public class UserController {
 		
 				
 		// 이메일을 보내기
-		String returnedLink = "http://192.168.1.15:8080" + req.getContextPath() + "/user/findPWChange?email=" + email + "&random=" + random + "&authCode=" + authCode;
+		String returnedLink = "http://192.168.0.19:8080" + req.getContextPath() + "/user/findPWChange?email=" + email + "&random=" + random + "&authCode=" + authCode;
 		String subject = "비밀번호 변경을 위한 인증 링크 입니다.";
 		StringBuilder sb = new StringBuilder();
 		sb.append("귀하의 인증 링크: " + returnedLink);

@@ -6,7 +6,7 @@ import me.saro.commons.ssh.SSHExecutor;
 
 public class LinuxServer {
 
-	private static final String HOST = "192.168.1.15";
+	private static final String HOST = "192.168.0.19";
 	private static final int PORT = 22;
 	private static final String USER = "gitbook";
 	private static final String PASSWORD = "gitbook";

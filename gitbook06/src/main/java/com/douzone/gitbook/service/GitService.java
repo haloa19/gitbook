@@ -17,7 +17,7 @@ import me.saro.commons.ssh.SSHExecutor;
 
 @Service
 public class GitService {
-	private final static String host = "192.168.1.15";
+	private final static String host = "192.168.0.19";
 	private final static int port = 22;
 	private final static String user = "gitbook";
 	private final static String password = "gitbook";
